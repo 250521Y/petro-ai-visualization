@@ -1,0 +1,269 @@
+{
+  "id": "edu08-w4-log-lithology",
+  "sceneId": "w4",
+  "title": "岩性识别｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "ts"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "伽马归一值、电阻率归一值与密度归一值，如何共同影响岩性类别？",
+      "judge": [
+        {
+          "label": "工程环节",
+          "value": "测井",
+          "desc": "岩性识别把多曲线响应与已有岩心或解释标签联系起来。"
+        },
+        {
+          "label": "实际方法",
+          "value": "训练集标准化＋三特征kNN分类",
+          "desc": "用三个属性的标准化距离寻找相似训练样本，以邻居投票输出类别。"
+        },
+        {
+          "label": "数据来源",
+          "value": "教学合成 / 虚构",
+          "desc": "完整评价口径见案例演示"
+        },
+        {
+          "label": "动手目标",
+          "value": "证据可追踪",
+          "desc": "沿伽马方向拖动工况点，查看邻居类别和留出井混淆矩阵。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "理解工程对象",
+          "html": "<details class=\"teaching-glossary\"><summary>名词定义 · 图解与生活类比</summary><p><b>名词定义：</b>岩性识别把多曲线响应与已有岩心或解释标签联系起来。</p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 190\" role=\"img\" aria-label=\"岩性识别输入到输出概念图\"><rect x=\"10\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#edf7f1\"/><rect x=\"320\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#eaf1fc\"/><rect x=\"630\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#fff2e1\"/><g font-family=\"Microsoft YaHei,system-ui,sans-serif\" font-size=\"19\" fill=\"#293b3b\"><text x=\"30\" y=\"62\">伽马归一值</text><text x=\"30\" y=\"94\">电阻率归一值</text><text x=\"30\" y=\"126\">密度归一值</text><text x=\"340\" y=\"80\">学习规律 / 显式知识</text><text x=\"340\" y=\"114\">保留中间依据</text><text x=\"650\" y=\"94\">岩性类别</text><text x=\"290\" y=\"92\">→</text><text x=\"598\" y=\"92\">→</text><text x=\"20\" y=\"176\" font-size=\"14\" fill=\"#627575\">概念关系示意，非当前计算结果；完整方法与评价口径请进入案例演示。</text></g></svg><p><b>生活类比：</b>像按多项外观特征找最相似的石头。</p></details>"
+        },
+        {
+          "no": 2,
+          "en": "WHAT",
+          "title": "What · 使用什么方法",
+          "html": "<p>用三个属性的标准化距离寻找相似训练样本，以邻居投票输出类别。</p><p><b>实际实现：</b>训练集标准化＋三特征kNN分类</p>"
+        },
+        {
+          "no": 3,
+          "en": "WHY",
+          "title": "Why · 为什么需要它",
+          "html": "<p>标准化最近邻能融合量纲不同的特征，并显示判断来自哪些已知样本。</p>"
+        },
+        {
+          "no": 4,
+          "en": "HOW",
+          "title": "How · 如何发挥作用",
+          "html": "<p>先按对象组留出54条测试；训练组确定尺度，查询点在三维特征中寻找k个邻居，混淆矩阵展示未见组的错误。</p><p><b>动手验证：</b>沿伽马方向拖动工况点，查看邻居类别和留出井混淆矩阵。</p>"
+        },
+        {
+          "no": 5,
+          "en": "LIMITS",
+          "title": "数据与结果边界",
+          "html": "<p>全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "训练集标准化＋三特征kNN分类的六步路径",
+      "lead": [
+        "伽马归一值、电阻率归一值与密度归一值，如何共同影响岩性类别？",
+        "每步配图标明输入、产出与观察重点；案例演示提供同步变化的运行证据。"
+      ],
+      "steps": [
+        {
+          "name": "整理带标签样本",
+          "role": "数据",
+          "do": "建立162条训练、54条测试，测试组不进入近邻库。",
+          "effect": "类别定义来自教学标签，不把预测类别回填为真值。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "local": "workflow/step-01.svg",
+            "alt": "岩性识别 整理带标签样本指导图",
+            "input": "伽马归一值等观测",
+            "output": "训练与测试组",
+            "observe": "类别定义来自教学标签，不把预测类别回填为真值。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsqnmgKfor4bliKsg5pW055CG5bim5qCH562+5qC35pys5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMSAg5bKp5oCn6K+G5YirIMK3IOaVtOeQhuW4puagh+etvuagt+acrDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5Ly96ams5b2S5LiA5YC8562J6KeC5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7kvL3pqazlvZLkuIDlgLw8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+55S16Zi7546H5b2S5LiA5YC8PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuWvhuW6puW9kuS4gOWAvDwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaVtOeQhuW4puagh+etvuagt+acrDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuS8vemprOW9kuS4gOWAvDwvdGV4dD48cmVjdCB4PSIwIiB5PSIyNiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjU3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nlLXpmLvnjoflvZLkuIDlgLw8L3RleHQ+PHJlY3QgeD0iMCIgeT0iNjMiIHdpZHRoPSIxMTIiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5a+G5bqm5b2S5LiA5YC8PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjEwMCIgd2lkdGg9IjE0MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iI2I0NjU0NyIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6K6t57uD5LiO5rWL6K+V57uEPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48cmVjdCB4PSIwIiB5PSIyMCIgd2lkdGg9IjY4IiBoZWlnaHQ9IjcyIiByeD0iNyIgZmlsbD0iI2UxZjFlOCIvPjx0ZXh0IHg9IjgiIHk9IjQ5IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMjkzYjNiIj7orq3nu4M8L3RleHQ+PHRleHQgeD0iMTgiIHk9Ijc2IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjM3NzYyIj7mi5/lkIg8L3RleHQ+PHJlY3QgeD0iNzciIHk9IjIwIiB3aWR0aD0iNjgiIGhlaWdodD0iNzIiIHJ4PSI3IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iODUiIHk9IjQ5IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMjkzYjNiIj7moKHlh4YgLyDosIPlj4I8L3RleHQ+PHRleHQgeD0iOTUiIHk9Ijc2IiBmb250LXNpemU9IjE0IiBmaWxsPSIjNDI2N2E4Ij7nlZnlh7o8L3RleHQ+PHJlY3QgeD0iMTU0IiB5PSIyMCIgd2lkdGg9IjY4IiBoZWlnaHQ9IjcyIiByeD0iNyIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjE2MiIgeT0iNDkiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMyOTNiM2IiPueLrOeri+ivhOS7tzwvdGV4dD48dGV4dCB4PSIxNzIiIHk9Ijc2IiBmb250LXNpemU9IjE0IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7k8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "标准化多项属性",
+          "role": "特征",
+          "do": "仅用训练均值与标准差缩放属性。",
+          "effect": "散点图仅显示前两维，距离仍使用三维。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "local": "workflow/step-02.svg",
+            "alt": "岩性识别 标准化多项属性指导图",
+            "input": "训练三特征",
+            "output": "统一尺度的特征空间",
+            "observe": "散点图仅显示前两维，距离仍使用三维。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsqnmgKfor4bliKsg5qCH5YeG5YyW5aSa6aG55bGe5oCn5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMiAg5bKp5oCn6K+G5YirIMK3IOagh+WHhuWMluWkmumhueWxnuaApzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6K6t57uD5LiJ54m55b6BPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7kvL3pqazlvZLkuIDlgLw8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+55S16Zi7546H5b2S5LiA5YC8PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuWvhuW6puW9kuS4gOWAvDwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuagh+WHhuWMluWkmumhueWxnuaApzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHJlY3QgeD0iMCIgeT0iMjAiIHdpZHRoPSI2OCIgaGVpZ2h0PSI3MiIgcng9IjciIGZpbGw9IiNlMWYxZTgiLz48dGV4dCB4PSI4IiB5PSI0OSIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzI5M2IzYiI+6K6t57uDPC90ZXh0Pjx0ZXh0IHg9IjE4IiB5PSI3NiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzIzNzc2MiI+5ouf5ZCIPC90ZXh0PjxyZWN0IHg9Ijc3IiB5PSIyMCIgd2lkdGg9IjY4IiBoZWlnaHQ9IjcyIiByeD0iNyIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9Ijg1IiB5PSI0OSIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzI5M2IzYiI+5qCh5YeGIC8g6LCD5Y+CPC90ZXh0Pjx0ZXh0IHg9Ijk1IiB5PSI3NiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzQyNjdhOCI+55WZ5Ye6PC90ZXh0PjxyZWN0IHg9IjE1NCIgeT0iMjAiIHdpZHRoPSI2OCIgaGVpZ2h0PSI3MiIgcng9IjciIGZpbGw9IiNmZmYwZGYiLz48dGV4dCB4PSIxNjIiIHk9IjQ5IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMjkzYjNiIj7ni6znq4vor4Tku7c8L3RleHQ+PHRleHQgeD0iMTcyIiB5PSI3NiIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2I0NjU0NyI+5qC45a+5PC90ZXh0PjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+57uf5LiA5bC65bqm55qE54m55b6B56m66Ze0PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48Y2lyY2xlIGN4PSIxNSIgY3k9IjEwIiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNTgiIGN5PSI0NyIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9Ijg0IiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTQ0IiBjeT0iMTYiIHI9IjYiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxODciIGN5PSI1MyIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjE1IiBjeT0iOTAiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSI1OCIgY3k9IjIyIiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTAxIiBjeT0iNTkiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxNDQiIGN5PSI5NiIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE4NyIgY3k9IjI4IiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTUiIGN5PSI2NSIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjU4IiBjeT0iMTAyIiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTAxIiBjeT0iMzQiIHI9IjYiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxNDQiIGN5PSI3MSIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjE4NyIgY3k9IjEwOCIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE1IiBjeT0iNDAiIHI9IjYiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI1OCIgY3k9Ijc3IiByPSI2IiBmaWxsPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMTAxIiBjeT0iMTE0IiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTE2IiBjeT0iNjAiIHI9IjM0IiBmaWxsPSJub25lIiBzdHJva2U9IiM3NjU0OTciIHN0cm9rZS1kYXNoYXJyYXk9IjQgMyIvPjxjaXJjbGUgY3g9IjExNiIgY3k9IjYwIiByPSI3IiBmaWxsPSIjZmZjZjY5Ii8+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "检索最近邻",
+          "role": "方法",
+          "do": "计算三维标准化欧氏距离并保留最近的k条。",
+          "effect": "紫色圈指出邻居；k变化时需重新投票。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "local": "workflow/step-03.svg",
+            "alt": "岩性识别 检索最近邻指导图",
+            "input": "当前点与训练库",
+            "output": "距离排序与k个邻居",
+            "observe": "紫色圈指出邻居；k变化时需重新投票。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsqnmgKfor4bliKsg5qOA57Si5pyA6L+R6YK75oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMyAg5bKp5oCn6K+G5YirIMK3IOajgOe0ouacgOi/kemCuzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5b2T5YmN54K55LiO6K6t57uD5bqTPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjIwIiB3aWR0aD0iNjgiIGhlaWdodD0iNzIiIHJ4PSI3IiBmaWxsPSIjZTFmMWU4Ii8+PHRleHQgeD0iOCIgeT0iNDkiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMyOTNiM2IiPuiuree7gzwvdGV4dD48dGV4dCB4PSIxOCIgeT0iNzYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyMzc3NjIiPuaLn+WQiDwvdGV4dD48cmVjdCB4PSI3NyIgeT0iMjAiIHdpZHRoPSI2OCIgaGVpZ2h0PSI3MiIgcng9IjciIGZpbGw9IiNlOWYxZmYiLz48dGV4dCB4PSI4NSIgeT0iNDkiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMyOTNiM2IiPuagoeWHhiAvIOiwg+WPgjwvdGV4dD48dGV4dCB4PSI5NSIgeT0iNzYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM0MjY3YTgiPueVmeWHujwvdGV4dD48cmVjdCB4PSIxNTQiIHk9IjIwIiB3aWR0aD0iNjgiIGhlaWdodD0iNzIiIHJ4PSI3IiBmaWxsPSIjZmZmMGRmIi8+PHRleHQgeD0iMTYyIiB5PSI0OSIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzI5M2IzYiI+54us56uL6K+E5Lu3PC90ZXh0Pjx0ZXh0IHg9IjE3MiIgeT0iNzYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNiNDY1NDciPuaguOWvuTwvdGV4dD48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuajgOe0ouacgOi/kemCuzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PGNpcmNsZSBjeD0iMTUiIGN5PSIxMCIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjU4IiBjeT0iNDciIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxMDEiIGN5PSI4NCIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE0NCIgY3k9IjE2IiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTg3IiBjeT0iNTMiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjkwIiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iNTgiIGN5PSIyMiIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9IjU5IiByPSI2IiBmaWxsPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMTQ0IiBjeT0iOTYiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxODciIGN5PSIyOCIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjE1IiBjeT0iNjUiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSI1OCIgY3k9IjEwMiIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9IjM0IiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTQ0IiBjeT0iNzEiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxODciIGN5PSIxMDgiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjQwIiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNTgiIGN5PSI3NyIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9IjExNCIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjExNiIgY3k9IjYwIiByPSIzNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzY1NDk3IiBzdHJva2UtZGFzaGFycmF5PSI0IDMiLz48Y2lyY2xlIGN4PSIxMTYiIGN5PSI2MCIgcj0iNyIgZmlsbD0iI2ZmY2Y2OSIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6Led56a75o6S5bqP5LiOa+S4qumCu+WxhTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjMiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTE8L3RleHQ+PHJlY3QgeD0iNjAiIHk9IjkiIHdpZHRoPSI2MCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjYwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoEyPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iNDYiIHdpZHRoPSIxMDUiIGhlaWdodD0iMjAiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMzwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjgzIiB3aWR0aD0iMzcuNSIgaGVpZ2h0PSIyMCIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik0xMTAgMFYxMTUiIHN0cm9rZT0iIzk5YWVhYSIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "生成类别投票",
+          "role": "推断",
+          "do": "按类别统计票数，票数最多的类别作为当前候选。",
+          "effect": "票比不是校准概率；平票按既定顺序处理。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "local": "workflow/step-04.svg",
+            "alt": "岩性识别 生成类别投票指导图",
+            "input": "k个邻居的标签",
+            "output": "候选类别与票比",
+            "observe": "票比不是校准概率；平票按既定顺序处理。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsqnmgKfor4bliKsg55Sf5oiQ57G75Yir5oqV56Wo5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNCAg5bKp5oCn6K+G5YirIMK3IOeUn+aIkOexu+WIq+aKleelqDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+a+S4qumCu+WxheeahOagh+etvjwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0NywxNDUpIj48Y2lyY2xlIGN4PSIxNSIgY3k9IjEwIiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNTgiIGN5PSI0NyIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9Ijg0IiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTQ0IiBjeT0iMTYiIHI9IjYiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxODciIGN5PSI1MyIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjE1IiBjeT0iOTAiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSI1OCIgY3k9IjIyIiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTAxIiBjeT0iNTkiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxNDQiIGN5PSI5NiIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE4NyIgY3k9IjI4IiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTUiIGN5PSI2NSIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjU4IiBjeT0iMTAyIiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTAxIiBjeT0iMzQiIHI9IjYiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxNDQiIGN5PSI3MSIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjE4NyIgY3k9IjEwOCIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE1IiBjeT0iNDAiIHI9IjYiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI1OCIgY3k9Ijc3IiByPSI2IiBmaWxsPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMTAxIiBjeT0iMTE0IiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTE2IiBjeT0iNjAiIHI9IjM0IiBmaWxsPSJub25lIiBzdHJva2U9IiM3NjU0OTciIHN0cm9rZS1kYXNoYXJyYXk9IjQgMyIvPjxjaXJjbGUgY3g9IjExNiIgY3k9IjYwIiByPSI3IiBmaWxsPSIjZmZjZjY5Ii8+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7nlJ/miJDnsbvliKvmipXnpag8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWAmemAieexu+WIq+S4juelqOavlDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHJlY3QgeD0iMjAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSI0MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjEwMiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjE2MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjQyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iMTAyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxNjIiIHk9IjY0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIyMCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSI0MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxMDIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMTQwIiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjE2MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "检查混淆矩阵",
+          "role": "对照",
+          "do": "逐条预测54个留出样本，按真实类和预测类累计矩阵。",
+          "effect": "同时比较单类基线，避免只看总体准确率。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "local": "workflow/step-05.svg",
+            "alt": "岩性识别 检查混淆矩阵指导图",
+            "input": "独立测试预测",
+            "output": "逐类误分与准确率",
+            "observe": "同时比较单类基线，避免只看总体准确率。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsqnmgKfor4bliKsg5qOA5p+l5re35reG55+p6Zi15oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNSAg5bKp5oCn6K+G5YirIMK3IOajgOafpea3t+a3huefqemYtTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+54us56uL5rWL6K+V6aKE5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuajgOafpea3t+a3huefqemYtTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHJlY3QgeD0iMjAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSI0MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjEwMiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjE2MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjQyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iMTAyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxNjIiIHk9IjY0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIyMCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSI0MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxMDIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMTQwIiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjE2MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7pgJDnsbvor6/liIbkuI7lh4bnoa7njoc8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "改变属性或k",
+          "role": "复核",
+          "do": "改变一项属性或k，观察近邻、票比和类别边界。",
+          "effect": "类别边界附近应查看相似样本并人工复核。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "local": "workflow/step-06.svg",
+            "alt": "岩性识别 改变属性或k指导图",
+            "input": "当前输入与邻居数",
+            "output": "边界变化与复核",
+            "observe": "类别边界附近应查看相似样本并人工复核。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsqnmgKfor4bliKsg5pS55Y+Y5bGe5oCn5oiWa+aMh+WvvOWbviI+PGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSxzeXN0ZW0tdWksc2Fucy1zZXJpZiI+PHJlY3Qgd2lkdGg9Ijk2MCIgaGVpZ2h0PSIzNDAiIHJ4PSIxMiIgZmlsbD0iI2ZmZiIvPjx0ZXh0IHg9IjI0IiB5PSIzMSIgZm9udC1zaXplPSIxOSIgZmlsbD0iIzI5M2IzYiI+MDYgIOWyqeaAp+ivhuWIqyDCtyDmlLnlj5jlsZ7mgKfmiJZrPC90ZXh0PjxyZWN0IHg9IjE4IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjBmOGYzIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiMyMzc3NjIiPuWHhuWkh+i+k+WFpTwvdGV4dD48dGV4dCB4PSIzNCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7lvZPliY3ovpPlhaXkuI7pgrvlsYXmlbA8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDcsMTQ1KSI+PHJlY3QgeD0iMjAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSI0MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjEwMiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjE2MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjQyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iMTAyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxNjIiIHk9IjY0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIyMCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSI0MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxMDIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMTQwIiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjE2MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mlLnlj5jlsZ7mgKfmiJZrPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7ovrnnlYzlj5jljJbkuI7lpI3moLg8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        }
+      ],
+      "metrics": {
+        "title": "同时检查方法与评价口径",
+        "html": "<p>先按对象组留出54条测试；训练组确定尺度，查询点在三维特征中寻找k个邻居，混淆矩阵展示未见组的错误。</p>"
+      },
+      "fails": [
+        {
+          "name": "合成机制与真实部署差异",
+          "why": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1350,
+      "intro": "伽马归一值、电阻率归一值与密度归一值，如何共同影响岩性类别？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-w4-log-lithology",
+    "title": "岩性识别",
+    "method": "训练集标准化＋三特征kNN分类",
+    "what": "用三个属性的标准化距离寻找相似训练样本，以邻居投票输出类别。",
+    "why": "标准化最近邻能融合量纲不同的特征，并显示判断来自哪些已知样本。",
+    "how": "先按对象组留出54条测试；训练组确定尺度，查询点在三维特征中寻找k个邻居，混淆矩阵展示未见组的错误。",
+    "limit": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+    "trial": "沿伽马方向拖动工况点，查看邻居类别和留出井混淆矩阵。",
+    "inputs": [
+      "伽马归一值",
+      "电阻率归一值",
+      "密度归一值"
+    ],
+    "output": "岩性类别",
+    "type": "classification",
+    "before": "逐条对照多属性样本，类别交界的判断依据难保留。",
+    "benefit": "一次联合多项属性，给出近邻、投票和逐类误分，便于把注意力放在边界样本。",
+    "controls": [
+      "k",
+      "a"
+    ],
+    "views": [
+      {
+        "name": "特征空间与近邻",
+        "selector": "#main-chart"
+      },
+      {
+        "name": "当前类别投票",
+        "selector": "#analysis-chart"
+      },
+      {
+        "name": "留出混淆矩阵",
+        "selector": "#evaluation-chart"
+      }
+    ],
+    "steps": [
+      {
+        "name": "整理带标签样本",
+        "do": "建立162条训练、54条测试，测试组不进入近邻库。",
+        "effect": "类别定义来自教学标签，不把预测类别回填为真值。"
+      },
+      {
+        "name": "标准化多项属性",
+        "do": "仅用训练均值与标准差缩放属性。",
+        "effect": "散点图仅显示前两维，距离仍使用三维。"
+      },
+      {
+        "name": "检索最近邻",
+        "do": "计算三维标准化欧氏距离并保留最近的k条。",
+        "effect": "紫色圈指出邻居；k变化时需重新投票。"
+      },
+      {
+        "name": "生成类别投票",
+        "do": "按类别统计票数，票数最多的类别作为当前候选。",
+        "effect": "票比不是校准概率；平票按既定顺序处理。"
+      },
+      {
+        "name": "检查混淆矩阵",
+        "do": "逐条预测54个留出样本，按真实类和预测类累计矩阵。",
+        "effect": "同时比较单类基线，避免只看总体准确率。"
+      },
+      {
+        "name": "改变属性或k",
+        "do": "改变一项属性或k，观察近邻、票比和类别边界。",
+        "effect": "类别边界附近应查看相似样本并人工复核。"
+      }
+    ]
+  }
+}

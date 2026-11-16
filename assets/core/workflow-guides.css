@@ -1,0 +1,14 @@
+/* Step-specific reading guides, shared by the portal and standalone packages. */
+.workflow-guide{margin:16px 0 10px;padding:15px;background:#f7fafb;border:1px solid #dce5e8;border-radius:12px;min-width:0;color:#293b3b}
+.pipeline>.pstep{grid-template-columns:46px minmax(0,1fr)}.pstep .pc{min-width:0}
+.wg-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.wg-head b{font-size:15px;color:#1c6252}.wg-head>span{font-size:12px;color:#64777d}
+.wg-image-scroll{overflow-x:auto;border-radius:8px;background:#fff;max-width:100%}
+.wg-image-scroll:focus-visible{outline:2px solid #4267a8;outline-offset:3px}
+.wg-image-scroll>img{display:block;width:100%;height:auto;max-width:1100px;margin:0 auto;background:#fff;border:0;border-radius:8px}
+.wg-reading{display:grid;grid-template-columns:1fr 1fr 1.35fr;gap:12px;margin-top:12px}
+.wg-reading p{display:flex;flex-direction:column;gap:4px;margin:0!important;font-size:14px!important;line-height:1.7!important;min-width:0}
+.wg-reading b{font-size:12px;color:#4267a8}.wg-reading span{color:#435b5f;overflow-wrap:anywhere}
+.workflow-guide .wg-note{font-size:11px!important;line-height:1.6!important;color:#69797e;margin:10px 0 0!important}
+.workflow-guide[data-guide-step]{margin-bottom:22px}.workflow-guide+.formula{margin-top:12px}
+@media(max-width:700px){.workflow-guide{padding:10px;margin:12px 0}.pipeline>.pstep{grid-template-columns:38px minmax(0,1fr)}.wg-reading{grid-template-columns:1fr;gap:8px}.wg-reading p{display:grid;grid-template-columns:58px minmax(0,1fr);gap:8px;font-size:13px!important}.wg-reading b{padding-top:2px}.wg-head>span{font-size:11px}.pstep .pc{padding:12px 10px}.wg-image-scroll>img{min-width:720px;border-radius:5px}}

@@ -1,0 +1,269 @@
+{
+  "id": "edu08-wo2-fishing-tool-selection",
+  "sceneId": "wo2",
+  "title": "落物打捞工具智能选型｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "kg"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "落物类型、可抓取位置与井眼限制，如何共同影响工具候选与依据？",
+      "judge": [
+        {
+          "label": "工程环节",
+          "value": "修井",
+          "desc": "打捞工具匹配需要核对落物形态、内外抓取条件与通径限制。"
+        },
+        {
+          "label": "实际方法",
+          "value": "显式知识规则筛选＋属性相似度检索",
+          "desc": "将落物形态、可抓取位置和通径条件组织为可见规则，先筛适用再检索相似候选。"
+        },
+        {
+          "label": "数据来源",
+          "value": "教学合成 / 虚构",
+          "desc": "完整评价口径见案例演示"
+        },
+        {
+          "label": "动手目标",
+          "value": "证据可追踪",
+          "desc": "改变落物形态与井眼限制，检查候选被保留或排除的原因。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "理解工程对象",
+          "html": "<details class=\"teaching-glossary\"><summary>名词定义 · 图解与生活类比</summary><p><b>名词定义：</b>打捞工具匹配需要核对落物形态、内外抓取条件与通径限制。</p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 190\" role=\"img\" aria-label=\"落物打捞工具智能选型输入到输出概念图\"><rect x=\"10\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#edf7f1\"/><rect x=\"320\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#eaf1fc\"/><rect x=\"630\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#fff2e1\"/><g font-family=\"Microsoft YaHei,system-ui,sans-serif\" font-size=\"19\" fill=\"#293b3b\"><text x=\"30\" y=\"62\">落物类型</text><text x=\"30\" y=\"94\">可抓取位置</text><text x=\"30\" y=\"126\">井眼限制</text><text x=\"340\" y=\"80\">学习规律 / 显式知识</text><text x=\"340\" y=\"114\">保留中间依据</text><text x=\"650\" y=\"94\">工具候选与依据</text><text x=\"290\" y=\"92\">→</text><text x=\"598\" y=\"92\">→</text><text x=\"20\" y=\"176\" font-size=\"14\" fill=\"#627575\">概念关系示意，非当前计算结果；完整方法与评价口径请进入案例演示。</text></g></svg><p><b>生活类比：</b>像先检查螺丝规格，再找合适扳手。</p></details>"
+        },
+        {
+          "no": 2,
+          "en": "WHAT",
+          "title": "What · 使用什么方法",
+          "html": "<p>将落物形态、可抓取位置和通径条件组织为可见规则，先筛适用再检索相似候选。</p><p><b>实际实现：</b>显式知识规则筛选＋属性相似度检索</p>"
+        },
+        {
+          "no": 3,
+          "en": "WHY",
+          "title": "Why · 为什么需要它",
+          "html": "<p>显式知识规则先筛适用性，再用属性相似度检索案例，便于解释排除原因。</p>"
+        },
+        {
+          "no": 4,
+          "en": "HOW",
+          "title": "How · 如何发挥作用",
+          "html": "<p>建立4种抽象工具，逐条验证三项硬条件；不满足的候选给出排除原因，剩余候选按属性距离排序。</p><p><b>动手验证：</b>改变落物形态与井眼限制，检查候选被保留或排除的原因。</p>"
+        },
+        {
+          "no": 5,
+          "en": "LIMITS",
+          "title": "数据与结果边界",
+          "html": "<p>全部数据与工况为教学合成或虚构。显式知识规则不代表真实工具标准。本例不直接生成现场设计、控制或处置指令。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "显式知识规则筛选＋属性相似度检索的六步路径",
+      "lead": [
+        "落物类型、可抓取位置与井眼限制，如何共同影响工具候选与依据？",
+        "每步配图标明输入、产出与观察重点；案例演示提供同步变化的运行证据。"
+      ],
+      "steps": [
+        {
+          "name": "建立落物画像",
+          "role": "数据",
+          "do": "选择杆状、管状或碎屑及可抓取位置，输入教学通径。",
+          "effect": "资料不足时不应默认满足工具条件。",
+          "trap": "全部数据与工况为教学合成或虚构。显式知识规则不代表真实工具标准。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "local": "workflow/step-01.svg",
+            "alt": "落物打捞工具智能选型 建立落物画像指导图",
+            "input": "落物类型等观测",
+            "output": "当前三项工况",
+            "observe": "资料不足时不应默认满足工具条件。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLokL3nianmiZPmjZ7lt6Xlhbfmmbrog73pgInlnosg5bu656uL6JC954mp55S75YOP5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMSAg6JC954mp5omT5o2e5bel5YW35pm66IO96YCJ5Z6LIMK3IOW7uueri+iQveeJqeeUu+WDjzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6JC954mp57G75Z6L562J6KeC5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7okL3niannsbvlnos8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5Y+v5oqT5Y+W5L2N572uPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuS6leecvOmZkOWItjwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuW7uueri+iQveeJqeeUu+WDjzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuiQveeJqeexu+WeizwvdGV4dD48cmVjdCB4PSIwIiB5PSIyNiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjU3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7lj6/mipPlj5bkvY3nva48L3RleHQ+PHJlY3QgeD0iMCIgeT0iNjMiIHdpZHRoPSIxMTIiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5LqV55y86ZmQ5Yi2PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjEwMCIgd2lkdGg9IjE0MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iI2I0NjU0NyIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5b2T5YmN5LiJ6aG55bel5Ya1PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSIyMiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5LqV5Y+3IEExMjwvdGV4dD48cmVjdCB4PSIwIiB5PSI0MSIgd2lkdGg9IjIyOCIgaGVpZ2h0PSIzMiIgcng9IjQiIGZpbGw9IiNlOWYxZmYiLz48dGV4dCB4PSIxMCIgeT0iNjMiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPua3seW6piAyMTAw4oCTMjEzMDwvdGV4dD48cmVjdCB4PSIwIiB5PSI4MiIgd2lkdGg9IjIyOCIgaGVpZ2h0PSIzMiIgcng9IjQiIGZpbGw9IiNmZmYwZGYiLz48dGV4dCB4PSIxMCIgeT0iMTA0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7or4Hmja4g5b6F5aSN5qC4PC90ZXh0PjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "组织工具知识",
+          "role": "特征",
+          "do": "为每种工具明确适用形态、抓取位置和通径要求。",
+          "effect": "知识项是教学设定，不是实际工具规格。",
+          "trap": "全部数据与工况为教学合成或虚构。显式知识规则不代表真实工具标准。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "local": "workflow/step-02.svg",
+            "alt": "落物打捞工具智能选型 组织工具知识指导图",
+            "input": "4种抽象工具",
+            "output": "可见的条件表",
+            "observe": "知识项是教学设定，不是实际工具规格。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLokL3nianmiZPmjZ7lt6Xlhbfmmbrog73pgInlnosg57uE57uH5bel5YW355+l6K+G5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMiAg6JC954mp5omT5o2e5bel5YW35pm66IO96YCJ5Z6LIMK3IOe7hOe7h+W3peWFt+efpeivhjwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+NOenjeaKveixoeW3peWFtzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0NywxNDUpIj48dGV4dCB4PSIwIiB5PSIyMCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+6JC954mp57G75Z6LPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjI2IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMCIgeT0iNTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuWPr+aKk+WPluS9jee9rjwvdGV4dD48cmVjdCB4PSIwIiB5PSI2MyIgd2lkdGg9IjExMiIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iIzQyNjdhOCIvPjx0ZXh0IHg9IjAiIHk9Ijk0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7kupXnnLzpmZDliLY8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMTAwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjYjQ2NTQ3Ii8+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7nu4Tnu4flt6Xlhbfnn6Xor4Y8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7kupXlj7cgQTEyPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjQxIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5rex5bqmIDIxMDDigJMyMTMwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjgyIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuivgeaNriDlvoXlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7lj6/op4HnmoTmnaHku7booag8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "检查适用性规则",
+          "role": "方法",
+          "do": "逐项检查形态、位置和通径，任一不满足则排除。",
+          "effect": "高相似度不能抵消硬条件不满足。",
+          "trap": "全部数据与工况为教学合成或虚构。显式知识规则不代表真实工具标准。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "local": "workflow/step-03.svg",
+            "alt": "落物打捞工具智能选型 检查适用性规则指导图",
+            "input": "工况与工具条件",
+            "output": "通过与排除原因",
+            "observe": "高相似度不能抵消硬条件不满足。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLokL3nianmiZPmjZ7lt6Xlhbfmmbrog73pgInlnosg5qOA5p+l6YCC55So5oCn6KeE5YiZ5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMyAg6JC954mp5omT5o2e5bel5YW35pm66IO96YCJ5Z6LIMK3IOajgOafpemAgueUqOaAp+inhOWImTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5bel5Ya15LiO5bel5YW35p2h5Lu2PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7kupXlj7cgQTEyPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjQxIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5rex5bqmIDIxMDDigJMyMTMwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjgyIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuivgeaNriDlvoXlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mo4Dmn6XpgILnlKjmgKfop4TliJk8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPumAmui/h+S4juaOkumZpOWOn+WboDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PGNpcmNsZSBjeD0iMTUiIGN5PSIxMCIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjU4IiBjeT0iNDciIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxMDEiIGN5PSI4NCIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE0NCIgY3k9IjE2IiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTg3IiBjeT0iNTMiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjkwIiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iNTgiIGN5PSIyMiIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9IjU5IiByPSI2IiBmaWxsPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMTQ0IiBjeT0iOTYiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxODciIGN5PSIyOCIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjE1IiBjeT0iNjUiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSI1OCIgY3k9IjEwMiIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9IjM0IiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTQ0IiBjeT0iNzEiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxODciIGN5PSIxMDgiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjQwIiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNTgiIGN5PSI3NyIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9IjExNCIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjExNiIgY3k9IjYwIiByPSIzNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzY1NDk3IiBzdHJva2UtZGFzaGFycmF5PSI0IDMiLz48Y2lyY2xlIGN4PSIxMTYiIGN5PSI2MCIgcj0iNyIgZmlsbD0iI2ZmY2Y2OSIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "检索相似候选",
+          "role": "推断",
+          "do": "仅对可用候选按归一属性距离计算相似度并排序。",
+          "effect": "分数表示属性接近，不表示成功概率。",
+          "trap": "全部数据与工况为教学合成或虚构。显式知识规则不代表真实工具标准。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "local": "workflow/step-04.svg",
+            "alt": "落物打捞工具智能选型 检索相似候选指导图",
+            "input": "适用工具与工况",
+            "output": "属性相似度排序",
+            "observe": "分数表示属性接近，不表示成功概率。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLokL3nianmiZPmjZ7lt6Xlhbfmmbrog73pgInlnosg5qOA57Si55u45Ly85YCZ6YCJ5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNCAg6JC954mp5omT5o2e5bel5YW35pm66IO96YCJ5Z6LIMK3IOajgOe0ouebuOS8vOWAmemAiTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6YCC55So5bel5YW35LiO5bel5Ya1PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuajgOe0ouebuOS8vOWAmemAiTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PGNpcmNsZSBjeD0iMTUiIGN5PSIxMCIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjU4IiBjeT0iNDciIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxMDEiIGN5PSI4NCIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE0NCIgY3k9IjE2IiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTg3IiBjeT0iNTMiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjkwIiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iNTgiIGN5PSIyMiIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9IjU5IiByPSI2IiBmaWxsPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMTQ0IiBjeT0iOTYiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxODciIGN5PSIyOCIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjE1IiBjeT0iNjUiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSI1OCIgY3k9IjEwMiIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9IjM0IiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTQ0IiBjeT0iNzEiIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxODciIGN5PSIxMDgiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjQwIiByPSI2IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNTgiIGN5PSI3NyIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjEwMSIgY3k9IjExNCIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjExNiIgY3k9IjYwIiByPSIzNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzY1NDk3IiBzdHJva2UtZGFzaGFycmF5PSI0IDMiLz48Y2lyY2xlIGN4PSIxMTYiIGN5PSI2MCIgcj0iNyIgZmlsbD0iI2ZmY2Y2OSIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5bGe5oCn55u45Ly85bqm5o6S5bqPPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48dGV4dCB4PSIwIiB5PSIyMyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMTwvdGV4dD48cmVjdCB4PSI2MCIgeT0iOSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMCIgeT0iNjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTI8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI0NiIgd2lkdGg9IjEwNSIgaGVpZ2h0PSIyMCIgZmlsbD0iIzQyNjdhOCIvPjx0ZXh0IHg9IjAiIHk9Ijk3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoEzPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iODMiIHdpZHRoPSIzNy41IiBoZWlnaHQ9IjIwIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTExMCAwVjExNSIgc3Ryb2tlPSIjOTlhZWFhIi8+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "解释当前候选",
+          "role": "对照",
+          "do": "列出保留理由、排除理由和无适用候选的空状态。",
+          "effect": "所有候选被排除时必须保留无解。",
+          "trap": "全部数据与工况为教学合成或虚构。显式知识规则不代表真实工具标准。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "local": "workflow/step-05.svg",
+            "alt": "落物打捞工具智能选型 解释当前候选指导图",
+            "input": "排序与规则记录",
+            "output": "首选与备选依据",
+            "observe": "所有候选被排除时必须保留无解。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLokL3nianmiZPmjZ7lt6Xlhbfmmbrog73pgInlnosg6Kej6YeK5b2T5YmN5YCZ6YCJ5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNSAg6JC954mp5omT5o2e5bel5YW35pm66IO96YCJ5Z6LIMK3IOino+mHiuW9k+WJjeWAmemAiTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5o6S5bqP5LiO6KeE5YiZ6K6w5b2VPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxjaXJjbGUgY3g9IjE1IiBjeT0iMTAiIHI9IjYiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI1OCIgY3k9IjQ3IiByPSI2IiBmaWxsPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMTAxIiBjeT0iODQiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNDQiIGN5PSIxNiIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjE4NyIgY3k9IjUzIiByPSI2IiBmaWxsPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMTUiIGN5PSI5MCIgcj0iNiIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjU4IiBjeT0iMjIiIHI9IjYiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMDEiIGN5PSI1OSIgcj0iNiIgZmlsbD0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjE0NCIgY3k9Ijk2IiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTg3IiBjeT0iMjgiIHI9IjYiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjY1IiByPSI2IiBmaWxsPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iNTgiIGN5PSIxMDIiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxMDEiIGN5PSIzNCIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjE0NCIgY3k9IjcxIiByPSI2IiBmaWxsPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMTg3IiBjeT0iMTA4IiByPSI2IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTUiIGN5PSI0MCIgcj0iNiIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjU4IiBjeT0iNzciIHI9IjYiIGZpbGw9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIxMDEiIGN5PSIxMTQiIHI9IjYiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxMTYiIGN5PSI2MCIgcj0iMzQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzc2NTQ5NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PGNpcmNsZSBjeD0iMTE2IiBjeT0iNjAiIHI9IjciIGZpbGw9IiNmZmNmNjkiLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuino+mHiuW9k+WJjeWAmemAiTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjMiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTE8L3RleHQ+PHJlY3QgeD0iNjAiIHk9IjkiIHdpZHRoPSI2MCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjYwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoEyPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iNDYiIHdpZHRoPSIxMDUiIGhlaWdodD0iMjAiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMzwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjgzIiB3aWR0aD0iMzcuNSIgaGVpZ2h0PSIyMCIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik0xMTAgMFYxMTUiIHN0cm9rZT0iIzk5YWVhYSIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6aaW6YCJ5LiO5aSH6YCJ5L6d5o2uPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "改变井况复核",
+          "role": "复核",
+          "do": "改变通径或抓取位置，检查筛选结果与排序。",
+          "effect": "输出只用于教学理解，不产生现场打捞指令。",
+          "trap": "全部数据与工况为教学合成或虚构。显式知识规则不代表真实工具标准。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "local": "workflow/step-06.svg",
+            "alt": "落物打捞工具智能选型 改变井况复核指导图",
+            "input": "落物与井眼限制",
+            "output": "推荐稳定性",
+            "observe": "输出只用于教学理解，不产生现场打捞指令。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLokL3nianmiZPmjZ7lt6Xlhbfmmbrog73pgInlnosg5pS55Y+Y5LqV5Ya15aSN5qC45oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNiAg6JC954mp5omT5o2e5bel5YW35pm66IO96YCJ5Z6LIMK3IOaUueWPmOS6leWGteWkjeaguDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6JC954mp5LiO5LqV55y86ZmQ5Yi2PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaUueWPmOS6leWGteWkjeaguDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiPuKckyDmn6XnnIvni6znq4vor6/lt648L3RleHQ+PHRleHQgeD0iMiIgeT0iNjEiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiPuKckyDmlLnlj5jkuIDpobnlj4LmlbA8L3RleHQ+PHRleHQgeD0iMiIgeT0iMTAwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjYjQ2NTQ3Ij7inJMg5L+d55WZ5Lq65bel5aSN5qC4PC90ZXh0PjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5o6o6I2Q56iz5a6a5oCnPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        }
+      ],
+      "metrics": {
+        "title": "同时检查方法与评价口径",
+        "html": "<p>建立4种抽象工具，逐条验证三项硬条件；不满足的候选给出排除原因，剩余候选按属性距离排序。</p>"
+      },
+      "fails": [
+        {
+          "name": "合成机制与真实部署差异",
+          "why": "全部数据与工况为教学合成或虚构。显式知识规则不代表真实工具标准。本例不直接生成现场设计、控制或处置指令。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1350,
+      "intro": "落物类型、可抓取位置与井眼限制，如何共同影响工具候选与依据？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-wo2-fishing-tool-selection",
+    "title": "落物打捞工具智能选型",
+    "method": "显式知识规则筛选＋属性相似度检索",
+    "what": "将落物形态、可抓取位置和通径条件组织为可见规则，先筛适用再检索相似候选。",
+    "why": "显式知识规则先筛适用性，再用属性相似度检索案例，便于解释排除原因。",
+    "how": "建立4种抽象工具，逐条验证三项硬条件；不满足的候选给出排除原因，剩余候选按属性距离排序。",
+    "limit": "全部数据与工况为教学合成或虚构。显式知识规则不代表真实工具标准。本例不直接生成现场设计、控制或处置指令。",
+    "trial": "改变落物形态与井眼限制，检查候选被保留或排除的原因。",
+    "inputs": [
+      "落物类型",
+      "可抓取位置",
+      "井眼限制"
+    ],
+    "output": "工具候选与依据",
+    "type": "retrieval",
+    "before": "凭经验逐一检查方案，排除理由和偏好取舍不易留存。",
+    "benefit": "把硬约束和软评分拆开，候选、依据与空状态能一起复核。",
+    "controls": [
+      "object",
+      "clearance"
+    ],
+    "views": [
+      {
+        "name": "适用工具与排序",
+        "selector": "#main-chart"
+      },
+      {
+        "name": "知识规则排除依据",
+        "selector": "#analysis-chart"
+      },
+      {
+        "name": "当前工况与空状态",
+        "selector": "#evaluation-chart"
+      }
+    ],
+    "steps": [
+      {
+        "name": "建立落物画像",
+        "do": "选择杆状、管状或碎屑及可抓取位置，输入教学通径。",
+        "effect": "资料不足时不应默认满足工具条件。"
+      },
+      {
+        "name": "组织工具知识",
+        "do": "为每种工具明确适用形态、抓取位置和通径要求。",
+        "effect": "知识项是教学设定，不是实际工具规格。"
+      },
+      {
+        "name": "检查适用性规则",
+        "do": "逐项检查形态、位置和通径，任一不满足则排除。",
+        "effect": "高相似度不能抵消硬条件不满足。"
+      },
+      {
+        "name": "检索相似候选",
+        "do": "仅对可用候选按归一属性距离计算相似度并排序。",
+        "effect": "分数表示属性接近，不表示成功概率。"
+      },
+      {
+        "name": "解释当前候选",
+        "do": "列出保留理由、排除理由和无适用候选的空状态。",
+        "effect": "所有候选被排除时必须保留无解。"
+      },
+      {
+        "name": "改变井况复核",
+        "do": "改变通径或抓取位置，检查筛选结果与排序。",
+        "effect": "输出只用于教学理解，不产生现场打捞指令。"
+      }
+    ]
+  }
+}

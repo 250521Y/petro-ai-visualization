@@ -1,0 +1,268 @@
+{
+  "id": "edu08-m5-logging-report",
+  "sceneId": "m5",
+  "title": "录井报告自动生成｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "nlp"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "井号与深度字段、岩性与气测字段与异常与证据字段，如何共同影响可追溯报告初稿？",
+      "judge": [
+        {
+          "label": "工程环节",
+          "value": "录井",
+          "desc": "录井报告需要把结构化记录与文本观察组织成可核对的初稿。"
+        },
+        {
+          "label": "实际方法",
+          "value": "字段词典实体抽取＋模板生成与一致性规则",
+          "desc": "用显式词典与正则抽取井号、深度、岩性等字段，再生成带来源的固定格式初稿。"
+        },
+        {
+          "label": "数据来源",
+          "value": "教学合成 / 虚构",
+          "desc": "完整评价口径见案例演示"
+        },
+        {
+          "label": "动手目标",
+          "value": "证据可追踪",
+          "desc": "切换完整与缺项记录，查看缺失字段提示及句子来源。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "理解工程对象",
+          "html": "<details class=\"teaching-glossary\"><summary>名词定义 · 图解与生活类比</summary><p><b>名词定义：</b>录井报告需要把结构化记录与文本观察组织成可核对的初稿。</p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 190\" role=\"img\" aria-label=\"录井报告自动生成输入到输出概念图\"><rect x=\"10\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#edf7f1\"/><rect x=\"320\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#eaf1fc\"/><rect x=\"630\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#fff2e1\"/><g font-family=\"Microsoft YaHei,system-ui,sans-serif\" font-size=\"19\" fill=\"#293b3b\"><text x=\"30\" y=\"62\">井号与深度字段</text><text x=\"30\" y=\"94\">岩性与气测字段</text><text x=\"30\" y=\"126\">异常与证据字段</text><text x=\"340\" y=\"80\">学习规律 / 显式知识</text><text x=\"340\" y=\"114\">保留中间依据</text><text x=\"650\" y=\"94\">可追溯报告初稿</text><text x=\"290\" y=\"92\">→</text><text x=\"598\" y=\"92\">→</text><text x=\"20\" y=\"176\" font-size=\"14\" fill=\"#627575\">概念关系示意，非当前计算结果；完整方法与评价口径请进入案例演示。</text></g></svg><p><b>生活类比：</b>像把记录卡片填进固定格式的实验报告。</p></details>"
+        },
+        {
+          "no": 2,
+          "en": "WHAT",
+          "title": "What · 使用什么方法",
+          "html": "<p>用显式词典与正则抽取井号、深度、岩性等字段，再生成带来源的固定格式初稿。</p><p><b>实际实现：</b>字段词典实体抽取＋模板生成与一致性规则</p>"
+        },
+        {
+          "no": 3,
+          "en": "WHY",
+          "title": "Why · 为什么需要它",
+          "html": "<p>实体抽取与模板生成能减少重复录入，并把每句话追溯到原始字段。</p>"
+        },
+        {
+          "no": 4,
+          "en": "HOW",
+          "title": "How · 如何发挥作用",
+          "html": "<p>解析原始记录得到7个字段，检查缺项与深度冲突；模板只引用已抽取字段，缺项显示待补，句子给出来源。</p><p><b>动手验证：</b>切换完整与缺项记录，查看缺失字段提示及句子来源。</p>"
+        },
+        {
+          "no": 5,
+          "en": "LIMITS",
+          "title": "数据与结果边界",
+          "html": "<p>全部数据与工况为教学合成或虚构。输出仅为待审核初稿。本例不直接生成现场设计、控制或处置指令。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "字段词典实体抽取＋模板生成与一致性规则的六步路径",
+      "lead": [
+        "井号与深度字段、岩性与气测字段与异常与证据字段，如何共同影响可追溯报告初稿？",
+        "每步配图标明输入、产出与观察重点；案例演示提供同步变化的运行证据。"
+      ],
+      "steps": [
+        {
+          "name": "读取原始记录",
+          "role": "数据",
+          "do": "选择完整、缺项或冲突记录，保留原始内容。",
+          "effect": "原文不可被自动生成内容覆盖。",
+          "trap": "全部数据与工况为教学合成或虚构。输出仅为待审核初稿。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "local": "workflow/step-01.svg",
+            "alt": "录井报告自动生成 读取原始记录指导图",
+            "input": "井号与深度字段等观测",
+            "output": "可审阅原文",
+            "observe": "原文不可被自动生成内容覆盖。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlvZXkupXmiqXlkYroh6rliqjnlJ/miJAg6K+75Y+W5Y6f5aeL6K6w5b2V5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMSAg5b2V5LqV5oql5ZGK6Ieq5Yqo55Sf5oiQIMK3IOivu+WPluWOn+Wni+iusOW9lTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5LqV5Y+35LiO5rex5bqm5a2X5q61562J6KeC5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7kupXlj7cgQTEyPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjQxIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5rex5bqmIDIxMDDigJMyMTMwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjgyIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuivgeaNriDlvoXlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7or7vlj5bljp/lp4vorrDlvZU8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7kupXlj7cgQTEyPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjQxIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5rex5bqmIDIxMDDigJMyMTMwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjgyIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuivgeaNriDlvoXlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7lj6/lrqHpmIXljp/mloc8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7kupXlj7cgQTEyPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjQxIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5rex5bqmIDIxMDDigJMyMTMwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjgyIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuivgeaNriDlvoXlpI3moLg8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "抽取实体字段",
+          "role": "特征",
+          "do": "按显式字段词典与正则提取井号、顶底深、岩性、气测、异常、证据。",
+          "effect": "这是透明NLP抽取基线，不是大语言模型。",
+          "trap": "全部数据与工况为教学合成或虚构。输出仅为待审核初稿。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "local": "workflow/step-02.svg",
+            "alt": "录井报告自动生成 抽取实体字段指导图",
+            "input": "词典与原始文本",
+            "output": "7类字段与取值",
+            "observe": "这是透明NLP抽取基线，不是大语言模型。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlvZXkupXmiqXlkYroh6rliqjnlJ/miJAg5oq95Y+W5a6e5L2T5a2X5q615oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMiAg5b2V5LqV5oql5ZGK6Ieq5Yqo55Sf5oiQIMK3IOaKveWPluWunuS9k+Wtl+autTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6K+N5YW45LiO5Y6f5aeL5paH5pysPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7kupXlj7cgQTEyPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjQxIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5rex5bqmIDIxMDDigJMyMTMwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjgyIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuivgeaNriDlvoXlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mir3lj5blrp7kvZPlrZfmrrU8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7kupXlj7cgQTEyPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjQxIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5rex5bqmIDIxMDDigJMyMTMwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjgyIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuivgeaNriDlvoXlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj4357G75a2X5q615LiO5Y+W5YC8PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "检查完整与一致",
+          "role": "方法",
+          "do": "检查必要字段及底深不小于顶深等一致性要求。",
+          "effect": "缺失字段保持待补，不猜测填入。",
+          "trap": "全部数据与工况为教学合成或虚构。输出仅为待审核初稿。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "local": "workflow/step-03.svg",
+            "alt": "录井报告自动生成 检查完整与一致指导图",
+            "input": "抽取字段",
+            "output": "缺项和冲突标记",
+            "observe": "缺失字段保持待补，不猜测填入。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlvZXkupXmiqXlkYroh6rliqjnlJ/miJAg5qOA5p+l5a6M5pW05LiO5LiA6Ie05oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMyAg5b2V5LqV5oql5ZGK6Ieq5Yqo55Sf5oiQIMK3IOajgOafpeWujOaVtOS4juS4gOiHtDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5oq95Y+W5a2X5q61PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7kupXlj7cgQTEyPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjQxIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5rex5bqmIDIxMDDigJMyMTMwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjgyIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuivgeaNriDlvoXlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mo4Dmn6XlrozmlbTkuI7kuIDoh7Q8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPue8uumhueWSjOWGsueqgeagh+iusDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjIyOCIgaGVpZ2h0PSIzMiIgcng9IjQiIGZpbGw9IiNlOWYxZmYiLz48dGV4dCB4PSIxMCIgeT0iMjIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuS6leWPtyBBMTI8L3RleHQ+PHJlY3QgeD0iMCIgeT0iNDEiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjYzIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7mt7HluqYgMjEwMOKAkzIxMzA8L3RleHQ+PHJlY3QgeD0iMCIgeT0iODIiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZmZmMGRmIi8+PHRleHQgeD0iMTAiIHk9IjEwNCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+6K+B5o2uIOW+heWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "按模板生成初稿",
+          "role": "推断",
+          "do": "把有来源的字段填入模板，缺项处保留占位提示。",
+          "effect": "自动成句不表示事实已通过审核。",
+          "trap": "全部数据与工况为教学合成或虚构。输出仅为待审核初稿。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "local": "workflow/step-04.svg",
+            "alt": "录井报告自动生成 按模板生成初稿指导图",
+            "input": "已核对字段",
+            "output": "3句报告草稿",
+            "observe": "自动成句不表示事实已通过审核。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlvZXkupXmiqXlkYroh6rliqjnlJ/miJAg5oyJ5qih5p2/55Sf5oiQ5Yid56i/5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNCAg5b2V5LqV5oql5ZGK6Ieq5Yqo55Sf5oiQIMK3IOaMieaooeadv+eUn+aIkOWIneeovzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5bey5qC45a+55a2X5q61PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaMieaooeadv+eUn+aIkOWIneeovzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjIyOCIgaGVpZ2h0PSIzMiIgcng9IjQiIGZpbGw9IiNlOWYxZmYiLz48dGV4dCB4PSIxMCIgeT0iMjIiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuS6leWPtyBBMTI8L3RleHQ+PHJlY3QgeD0iMCIgeT0iNDEiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjYzIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7mt7HluqYgMjEwMOKAkzIxMzA8L3RleHQ+PHJlY3QgeD0iMCIgeT0iODIiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZmZmMGRmIi8+PHRleHQgeD0iMTAiIHk9IjEwNCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+6K+B5o2uIOW+heWkjeaguDwvdGV4dD48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPjPlj6XmiqXlkYrojYnnqL88L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "追溯每句来源",
+          "role": "对照",
+          "do": "逐句标明字段来源，核对气测、深度与异常记录。",
+          "effect": "不要把记录观察提升为未经验证的地质结论。",
+          "trap": "全部数据与工况为教学合成或虚构。输出仅为待审核初稿。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "local": "workflow/step-05.svg",
+            "alt": "录井报告自动生成 追溯每句来源指导图",
+            "input": "报告句子和字段",
+            "output": "可核对证据链",
+            "observe": "不要把记录观察提升为未经验证的地质结论。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlvZXkupXmiqXlkYroh6rliqjnlJ/miJAg6L+95rqv5q+P5Y+l5p2l5rqQ5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNSAg5b2V5LqV5oql5ZGK6Ieq5Yqo55Sf5oiQIMK3IOi/vea6r+avj+WPpeadpea6kDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5oql5ZGK5Y+l5a2Q5ZKM5a2X5q61PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7kupXlj7cgQTEyPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjQxIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5rex5bqmIDIxMDDigJMyMTMwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjgyIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuivgeaNriDlvoXlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7ov73muq/mr4/lj6XmnaXmupA8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWPr+aguOWvueivgeaNrumTvjwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHRleHQgeD0iMiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiPuKckyDmn6XnnIvni6znq4vor6/lt648L3RleHQ+PHRleHQgeD0iMiIgeT0iNjEiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiPuKckyDmlLnlj5jkuIDpobnlj4LmlbA8L3RleHQ+PHRleHQgeD0iMiIgeT0iMTAwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjYjQ2NTQ3Ij7inJMg5L+d55WZ5Lq65bel5aSN5qC4PC90ZXh0PjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "切换记录并复核",
+          "role": "复核",
+          "do": "比较三类原文，检查缺项和冲突能否阻止直接定稿。",
+          "effect": "本例所有井号和气测记录均为教学虚构。",
+          "trap": "全部数据与工况为教学合成或虚构。输出仅为待审核初稿。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "local": "workflow/step-06.svg",
+            "alt": "录井报告自动生成 切换记录并复核指导图",
+            "input": "完整、缺项、冲突样本",
+            "output": "补正清单",
+            "observe": "本例所有井号和气测记录均为教学虚构。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlvZXkupXmiqXlkYroh6rliqjnlJ/miJAg5YiH5o2i6K6w5b2V5bm25aSN5qC45oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNiAg5b2V5LqV5oql5ZGK6Ieq5Yqo55Sf5oiQIMK3IOWIh+aNouiusOW9leW5tuWkjeaguDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5a6M5pW044CB57y66aG544CB5Yay56qB5qC35pysPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWIh+aNouiusOW9leW5tuWkjeaguDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiPuKckyDmn6XnnIvni6znq4vor6/lt648L3RleHQ+PHRleHQgeD0iMiIgeT0iNjEiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiPuKckyDmlLnlj5jkuIDpobnlj4LmlbA8L3RleHQ+PHRleHQgeD0iMiIgeT0iMTAwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjYjQ2NTQ3Ij7inJMg5L+d55WZ5Lq65bel5aSN5qC4PC90ZXh0PjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6KGl5q2j5riF5Y2VPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        }
+      ],
+      "metrics": {
+        "title": "同时检查方法与评价口径",
+        "html": "<p>解析原始记录得到7个字段，检查缺项与深度冲突；模板只引用已抽取字段，缺项显示待补，句子给出来源。</p>"
+      },
+      "fails": [
+        {
+          "name": "合成机制与真实部署差异",
+          "why": "全部数据与工况为教学合成或虚构。输出仅为待审核初稿。本例不直接生成现场设计、控制或处置指令。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1350,
+      "intro": "井号与深度字段、岩性与气测字段与异常与证据字段，如何共同影响可追溯报告初稿？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-m5-logging-report",
+    "title": "录井报告自动生成",
+    "method": "字段词典实体抽取＋模板生成与一致性规则",
+    "what": "用显式词典与正则抽取井号、深度、岩性等字段，再生成带来源的固定格式初稿。",
+    "why": "实体抽取与模板生成能减少重复录入，并把每句话追溯到原始字段。",
+    "how": "解析原始记录得到7个字段，检查缺项与深度冲突；模板只引用已抽取字段，缺项显示待补，句子给出来源。",
+    "limit": "全部数据与工况为教学合成或虚构。输出仅为待审核初稿。本例不直接生成现场设计、控制或处置指令。",
+    "trial": "切换完整与缺项记录，查看缺失字段提示及句子来源。",
+    "inputs": [
+      "井号与深度字段",
+      "岩性与气测字段",
+      "异常与证据字段"
+    ],
+    "output": "可追溯报告初稿",
+    "type": "text",
+    "before": "重复录入或逐份翻找文本，字段和关键词依据容易散失。",
+    "benefit": "抽取、模板或检索复用已有信息，字段来源、词项贡献及缺项保持可见。",
+    "controls": [
+      "record"
+    ],
+    "views": [
+      {
+        "name": "原文、字段与初稿",
+        "selector": "#main-chart"
+      },
+      {
+        "name": "字段完整性",
+        "selector": "#analysis-chart"
+      },
+      {
+        "name": "句子来源和复核",
+        "selector": "#evaluation-chart"
+      }
+    ],
+    "steps": [
+      {
+        "name": "读取原始记录",
+        "do": "选择完整、缺项或冲突记录，保留原始内容。",
+        "effect": "原文不可被自动生成内容覆盖。"
+      },
+      {
+        "name": "抽取实体字段",
+        "do": "按显式字段词典与正则提取井号、顶底深、岩性、气测、异常、证据。",
+        "effect": "这是透明NLP抽取基线，不是大语言模型。"
+      },
+      {
+        "name": "检查完整与一致",
+        "do": "检查必要字段及底深不小于顶深等一致性要求。",
+        "effect": "缺失字段保持待补，不猜测填入。"
+      },
+      {
+        "name": "按模板生成初稿",
+        "do": "把有来源的字段填入模板，缺项处保留占位提示。",
+        "effect": "自动成句不表示事实已通过审核。"
+      },
+      {
+        "name": "追溯每句来源",
+        "do": "逐句标明字段来源，核对气测、深度与异常记录。",
+        "effect": "不要把记录观察提升为未经验证的地质结论。"
+      },
+      {
+        "name": "切换记录并复核",
+        "do": "比较三类原文，检查缺项和冲突能否阻止直接定稿。",
+        "effect": "本例所有井号和气测记录均为教学虚构。"
+      }
+    ]
+  }
+}

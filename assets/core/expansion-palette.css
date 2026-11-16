@@ -1,0 +1,62 @@
+/* EXPANSION_PALETTE: warm neutral surfaces, coherent data semantics. */
+:root{--paper:#fffdf8;--paper-2:#f6f8fc;--paper-3:#edf7f1;--ink:#293b3b;--muted:#5e6e73;--ink-2:#52656b;--ink-3:#64777d;--jade:#237762;--jade-light:#e7f5ed;--jade-l:#e7f5ed;--clay:#b46547;--clay-l:#fff0df;--blue:#4267a8;--purple:#765497;--line:#dde4e4;--sky:#e9f1ff;--apricot:#fff0df;--lilac:#f2ecff;--sun:#fff6ce;--coral:#b46547;--warn:#956000;--warn-bg:#fff3d3}body{background:#fffdf8;color:#293b3b}body::before{background:none}.hero{background:#fffdf8}.hero-note{background:#fff0df;border-left-color:#dcad65}.vision-hero-art{background:#eaf2ff;border-color:#d1def4}.vision-stat-row{background:#f7faff;border-color:#d1def4}.vision-stat-row>div:nth-child(2) strong{color:#4267a8}.vision-stat-row>div:nth-child(3) strong{color:#765497}.section.featured-work{background:#fafbfe;border-block:1px solid #e5e9f0}.work-tile{background:#fff;border-color:#e0e5ea;box-shadow:0 4px 18px #44536b08}.work-tile.work-highlight{background:#fff;border-color:#afc9bd}.work-tile:nth-child(5n+1)>svg{background:#edf7ef}.work-tile:nth-child(5n+2)>svg{background:#eaf2ff}.work-tile:nth-child(5n+3)>svg{background:#f2ecff}.work-tile:nth-child(5n+4)>svg{background:#fff0e3}.work-tile:nth-child(5n)>svg{background:#fff6d8}.work-tile:nth-child(5n+2){border-top:3px solid #a9c4ef}.work-tile:nth-child(5n+3){border-top:3px solid #cbb6e4}.work-tile:nth-child(5n+4){border-top:3px solid #e6b495}.work-tile:nth-child(5n){border-top:3px solid #e6cf80}.course-route>a:nth-child(1){background:#edf7ef}.course-route>a:nth-child(2){background:#eef4ff;border-color:#d5e1f2}.course-route>a:nth-child(3){background:#fff3e4;border-color:#ecd8bc}.matrix td:not(.zero)>a{background:#eaf2ff;color:#34598d}.matrix td>a:hover{background:#d0e2ff}.matrix tr:nth-child(3n) td:not(.zero)>a{background:#edf7ef;color:#237762}.mcard[data-m=ts]{background:#fff4e8}.mcard[data-m=cv]{background:#edf7ef}.mcard[data-m=nlp]{background:#f3edfc}.mcard[data-m=opt]{background:#eef4ff}.mcard[data-m=kg]{background:#fff8db}.chain .step:nth-child(4n+2) .stage-icon{color:#4267a8}.chain .step:nth-child(4n+3) .stage-icon{color:#765497}.chain .step:nth-child(4n) .stage-icon{color:#a86b33}.ftr{background:#f3f5fa}.card{border-color:#dfe5e4;box-shadow:0 3px 16px #32445307}.learning-mission{background:#fff4e4;border-color:#ead9bd}.mission-path span{background:#fff;border-color:#dddcd4}.subnav{background:#fffdf8f5}.subnav button:not(.active){background:#fff;border-color:#dce4e3}.studio-results,.new-results{background:#f7faff;border-color:#d9e3f1}.studio-results .metric:nth-child(2n),.new-results .metric:nth-child(2n){background:#fff8eb;border-color:#eadfc8}.studio-results .metric:nth-child(2n) strong,.new-results .metric:nth-child(2n) strong{color:#9a5b3f}.scene-evidence{background:#edf4ff;border-color:#d7e3f5}.scene-explanation{background:#edf7ef}.scene-surface{background:#f9fcfa}.guided-trial{background:#f4effc;border-color:#dfd2ee}.note.warn{background:#fff4da;border-color:#c18a2e;color:#775313}.note.bad{background:#fff0eb;border-color:#c2664d;color:#8b4336}.scene-help-link.secondary{background:#eaf2ff;color:#34598d!important}.step-panel{background:#fff}.step-story figure:nth-child(2n){background:#f3f6fd}.step-story figure:nth-child(2n+1){background:#fff8ed}.exp-story figure:nth-child(2n){background:#f1f5ff}.exp-story figure:nth-child(2n+1){background:#fff7e9}.glossary-demo{background:#f3f6fd;border-color:#d9e2f3}.glossary-analogy{border-color:#d9ad6a}.forecast-overview{background:#fff;border-color:#d8e1ee}.extra-image-pair{background:#f8faff}.pump-stage{background:#fffaf0}.color-key{display:flex;flex-wrap:wrap;gap:14px;padding:14px 0;color:#5e6e73;font-size:11px}.color-key span{display:flex;align-items:center;gap:6px}.color-key i{width:10px;height:10px;border-radius:50%;display:inline-block}.scene-score-legend i{background:linear-gradient(90deg,#d9e8fa,#237762)}
+.extra-inline-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px;border:1px solid #dce3e9;border-top:0;border-radius:0 0 12px 12px;background:#fff8eb}.extra-inline-tools button{font-size:12px}.extra-inline-tools label{font-size:12px;color:#5e6e73;display:flex;gap:8px;align-items:center}.extra-inline-tools input{accent-color:#237762;max-width:180px}.extra-viewport{min-width:0}
+:root{--c-cv:#237762;--c-ts:#b46547;--c-nlp:#765497;--c-opt:#4267a8;--c-kg:#8d742c;--bg-ts:#fff0df;--bg-nlp:#f2ecff;--bg-opt:#e9f1ff;--bg-kg:#fff6ce}
+
+/* Reading comfort: white page canvas, larger copy and controls. */
+:root{--paper:#fff}
+body{background:#fff;font-size:16px;line-height:1.8}
+body::after{display:none}
+.hero,.section.featured-work,.ftr,.tabs{background:#fff}
+.subnav{background:#fffffff5}
+.hero-lead,.hero p,.sec-head p,.work-heading p,.work-tile>p,
+.dh-sub,.lede-block p,.sec4 p,.case-lead p,.pending p,.gstep p,
+.card p,.teaching-outcome p,.mission-io p,.guided-trial p,
+.scene-explanation p,.scene-evidence p,.explain{font-size:16px;line-height:1.85}
+body .learning-mission .mission-io p{font-size:16px;line-height:1.85}
+.hero-note p,.vision-hero-caption p,.step-story p,.exp-story p,
+.note,.studio-results .note,.forecast-overview .forecast-result,
+#scene-live-caption,#extra-live-note{font-size:14px;line-height:1.85}
+.brand-txt b{font-size:18px}
+.brand-txt>span{font-size:10px}
+.hdr .nav a,.hdr .nav-add,.btn,.btn.sm,.chip,.tab,.subnav button,
+.scene-help-link,.use-recommended,.pillrow button{font-size:15px}
+.tab .num,.subnav button i{font-size:11px}
+.sec-head h2,.work-heading h2{font-size:30px}
+.work-tile h3{font-size:22px}
+.dh-title{font-size:clamp(27px,2.8vw,36px)}
+.sec4 h3,.case-lead h3,.studio-results h3,.page h3{font-size:19px}
+.page h2,.teaching-glossary h3{font-size:23px}
+.teaching-glossary .glossary-triptych h4{font-size:16px}
+.teaching-glossary .glossary-triptych p{font-size:16px;line-height:1.85}
+.teaching-glossary .exp-knowledge p{font-size:16px;line-height:1.85}
+.teaching-glossary .exp-knowledge h4{font-size:16px}
+.teaching-glossary>details{padding:14px 0;border-top:1px solid var(--line,#dde4e4)}
+.teaching-glossary>details>summary{cursor:pointer;color:var(--jade,#237762);font-weight:600}
+.teaching-glossary>details>summary,details>summary{font-size:16px}
+.concept-widget .concept-choice+label,.concept-widget .concept-reading{font-size:14px}
+.concept-widget .concept-disclaimer{font-size:12px}
+.control label,.new-params label,.scene-settings,.scene-toolbar button,
+.preset button,.steps button,.extra-inline-tools button,.extra-inline-tools label{font-size:14px}
+.field h4,.mcard .nm,.sr-point,.mrow .nm,.pstep .pdo,.rel-item{font-size:15px}
+.field p,.mcard .ds,.pstep .peff,.judge .jd,.cl-s,.cl-head,.callout,
+.small,small,.caption,.figcap,.legend,.diag-legend,.forecast-legend,
+.rank-row span,.scene-score-legend,.scene-score-legend small{font-size:13px}
+.judge .jv,.cl-t,.pstep h4,.sys-table .nm,.sys-table .id{font-size:15px}
+.metric small,.metric em,.studio-results .metric small{font-size:13px}
+.metric strong,.studio-results .metric strong,.new-results .metric strong{font-size:28px}
+.work-kicker,.work-bottom small,.work-bottom>span,.vision-stat-row span,
+.vision-hero-caption>span,.hero-badge,.badge,.tag,.mtag,.dtag,
+.badge-ready,.badge-wip,.badge-draft,.mission-path span{font-size:12px}
+table,.dtable,.sys-table,.contract{font-size:14px}
+th,.dtable th,.sys-table th,.contract th,table.matrix thead th,
+table.matrix tbody th,table.matrix td a{font-size:13px}
+.footer{font-size:12px}
+@media(max-width:760px){
+  .hero-lead,.hero p{font-size:16px}
+  .sec-head h2,.work-heading h2{font-size:26px}
+  .hdr .nav .nav-keep,.hdr .nav-add{font-size:14px;padding:7px}
+  .hdr .nav{gap:1px}
+  .subnav button{font-size:14px}
+  .tab{font-size:14px;padding-inline:12px}
+}

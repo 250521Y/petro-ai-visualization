@@ -1,0 +1,270 @@
+{
+  "id": "edu08-t2-corrosion-assessment",
+  "sceneId": "t2",
+  "title": "管道腐蚀智能评估｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "cv",
+    "ts"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "缺陷深度比例、缺陷长度指数与腐蚀增长指数，如何共同影响剩余强度教学值？",
+      "judge": [
+        {
+          "label": "工程环节",
+          "value": "运输",
+          "desc": "腐蚀评估要把两次检测到的缺陷正确匹配，并关注缺陷深度与增长。"
+        },
+        {
+          "label": "实际方法",
+          "value": "训练集标准化＋二次特征岭回归",
+          "desc": "用带L2正则的多特征回归学习合成样本中的响应关系。"
+        },
+        {
+          "label": "数据来源",
+          "value": "教学合成 / 虚构",
+          "desc": "完整评价口径见案例演示"
+        },
+        {
+          "label": "动手目标",
+          "value": "证据可追踪",
+          "desc": "增加缺陷深度，检查强度下降与留出管段误差。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "理解工程对象",
+          "html": "<details class=\"teaching-glossary\"><summary>名词定义 · 图解与生活类比</summary><p><b>名词定义：</b>腐蚀评估要把两次检测到的缺陷正确匹配，并关注缺陷深度与增长。</p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 190\" role=\"img\" aria-label=\"管道腐蚀智能评估输入到输出概念图\"><rect x=\"10\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#edf7f1\"/><rect x=\"320\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#eaf1fc\"/><rect x=\"630\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#fff2e1\"/><g font-family=\"Microsoft YaHei,system-ui,sans-serif\" font-size=\"19\" fill=\"#293b3b\"><text x=\"30\" y=\"62\">缺陷深度比例</text><text x=\"30\" y=\"94\">缺陷长度指数</text><text x=\"30\" y=\"126\">腐蚀增长指数</text><text x=\"340\" y=\"80\">学习规律 / 显式知识</text><text x=\"340\" y=\"114\">保留中间依据</text><text x=\"650\" y=\"94\">剩余强度教学值</text><text x=\"290\" y=\"92\">→</text><text x=\"598\" y=\"92\">→</text><text x=\"20\" y=\"176\" font-size=\"14\" fill=\"#627575\">概念关系示意，非当前计算结果；完整方法与评价口径请进入案例演示。</text></g></svg><p><b>生活类比：</b>像根据锈蚀深浅和范围估计金属片还剩多少承载能力。</p></details>"
+        },
+        {
+          "no": 2,
+          "en": "WHAT",
+          "title": "What · 使用什么方法",
+          "html": "<p>用带L2正则的多特征回归学习合成样本中的响应关系。</p><p><b>实际实现：</b>训练集标准化＋二次特征岭回归</p>"
+        },
+        {
+          "no": 3,
+          "en": "WHY",
+          "title": "Why · 为什么需要它",
+          "html": "<p>回归代理可探索缺陷组合与剩余强度的关系，筛出需详细校核的位置。</p>"
+        },
+        {
+          "no": 4,
+          "en": "HOW",
+          "title": "How · 如何发挥作用",
+          "html": "<p>先按合成对象分组，再只用训练组拟合标准化和回归系数；当前输入经同一变换得到响应，留出组负责计算误差。</p><p><b>动手验证：</b>增加缺陷深度，检查强度下降与留出管段误差。</p>"
+        },
+        {
+          "no": 5,
+          "en": "LIMITS",
+          "title": "数据与结果边界",
+          "html": "<p>全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "训练集标准化＋二次特征岭回归的六步路径",
+      "lead": [
+        "缺陷深度比例、缺陷长度指数与腐蚀增长指数，如何共同影响剩余强度教学值？",
+        "每步配图标明输入、产出与观察重点；案例演示提供同步变化的运行证据。"
+      ],
+      "steps": [
+        {
+          "name": "定义对象与数据",
+          "role": "数据",
+          "do": "按对象划分84条训练、24条校准、36条测试；参考生成器与预测器分开。",
+          "effect": "同一井或设备的记录不能同时出现在训练与测试。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "local": "workflow/step-01.svg",
+            "alt": "管道腐蚀智能评估 定义对象与数据指导图",
+            "input": "缺陷深度比例等观测",
+            "output": "按组分开的样本",
+            "observe": "同一井或设备的记录不能同时出现在训练与测试。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLnrqHpgZPohZDomoDmmbrog73or4TkvLAg5a6a5LmJ5a+56LGh5LiO5pWw5o2u5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMSAg566h6YGT6IWQ6JqA5pm66IO96K+E5LywIMK3IOWumuS5ieWvueixoeS4juaVsOaNrjwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+57y66Zm35rex5bqm5q+U5L6L562J6KeC5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nvLrpmbfmt7Hluqbmr5Tkvos8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+57y66Zm36ZW/5bqm5oyH5pWwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuiFkOiagOWinumVv+aMh+aVsDwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWumuS5ieWvueixoeS4juaVsOaNrjwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPue8uumZt+a3seW6puavlOS+izwvdGV4dD48cmVjdCB4PSIwIiB5PSIyNiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjU3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nvLrpmbfplb/luqbmjIfmlbA8L3RleHQ+PHJlY3QgeD0iMCIgeT0iNjMiIHdpZHRoPSIxMTIiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+6IWQ6JqA5aKe6ZW/5oyH5pWwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjEwMCIgd2lkdGg9IjE0MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iI2I0NjU0NyIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5oyJ57uE5YiG5byA55qE5qC35pysPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48cmVjdCB4PSIwIiB5PSIyMCIgd2lkdGg9IjY4IiBoZWlnaHQ9IjcyIiByeD0iNyIgZmlsbD0iI2UxZjFlOCIvPjx0ZXh0IHg9IjgiIHk9IjQ5IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMjkzYjNiIj7orq3nu4M8L3RleHQ+PHRleHQgeD0iMTgiIHk9Ijc2IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjM3NzYyIj7mi5/lkIg8L3RleHQ+PHJlY3QgeD0iNzciIHk9IjIwIiB3aWR0aD0iNjgiIGhlaWdodD0iNzIiIHJ4PSI3IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iODUiIHk9IjQ5IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMjkzYjNiIj7moKHlh4YgLyDosIPlj4I8L3RleHQ+PHRleHQgeD0iOTUiIHk9Ijc2IiBmb250LXNpemU9IjE0IiBmaWxsPSIjNDI2N2E4Ij7nlZnlh7o8L3RleHQ+PHJlY3QgeD0iMTU0IiB5PSIyMCIgd2lkdGg9IjY4IiBoZWlnaHQ9IjcyIiByeD0iNyIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjE2MiIgeT0iNDkiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMyOTNiM2IiPueLrOeri+ivhOS7tzwvdGV4dD48dGV4dCB4PSIxNzIiIHk9Ijc2IiBmb250LXNpemU9IjE0IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7k8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "构建特征与尺度",
+          "role": "特征",
+          "do": "从训练组估计尺度，构造一次项、交互项与平方项。",
+          "effect": "区分输入响应与预测目标，避免把参考答案用作特征。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "local": "workflow/step-02.svg",
+            "alt": "管道腐蚀智能评估 构建特征与尺度指导图",
+            "input": "三项输入与训练组",
+            "output": "标准化二次特征",
+            "observe": "区分输入响应与预测目标，避免把参考答案用作特征。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLnrqHpgZPohZDomoDmmbrog73or4TkvLAg5p6E5bu654m55b6B5LiO5bC65bqm5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMiAg566h6YGT6IWQ6JqA5pm66IO96K+E5LywIMK3IOaehOW7uueJueW+geS4juWwuuW6pjwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5LiJ6aG56L6T5YWl5LiO6K6t57uD57uEPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nvLrpmbfmt7Hluqbmr5Tkvos8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+57y66Zm36ZW/5bqm5oyH5pWwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuiFkOiagOWinumVv+aMh+aVsDwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaehOW7uueJueW+geS4juWwuuW6pjwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHJlY3QgeD0iMCIgeT0iMjAiIHdpZHRoPSI2OCIgaGVpZ2h0PSI3MiIgcng9IjciIGZpbGw9IiNlMWYxZTgiLz48dGV4dCB4PSI4IiB5PSI0OSIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzI5M2IzYiI+6K6t57uDPC90ZXh0Pjx0ZXh0IHg9IjE4IiB5PSI3NiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzIzNzc2MiI+5ouf5ZCIPC90ZXh0PjxyZWN0IHg9Ijc3IiB5PSIyMCIgd2lkdGg9IjY4IiBoZWlnaHQ9IjcyIiByeD0iNyIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9Ijg1IiB5PSI0OSIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzI5M2IzYiI+5qCh5YeGIC8g6LCD5Y+CPC90ZXh0Pjx0ZXh0IHg9Ijk1IiB5PSI3NiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzQyNjdhOCI+55WZ5Ye6PC90ZXh0PjxyZWN0IHg9IjE1NCIgeT0iMjAiIHdpZHRoPSI2OCIgaGVpZ2h0PSI3MiIgcng9IjciIGZpbGw9IiNmZmYwZGYiLz48dGV4dCB4PSIxNjIiIHk9IjQ5IiBmb250LXNpemU9IjEyIiBmaWxsPSIjMjkzYjNiIj7ni6znq4vor4Tku7c8L3RleHQ+PHRleHQgeD0iMTcyIiB5PSI3NiIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2I0NjU0NyI+5qC45a+5PC90ZXh0PjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5qCH5YeG5YyW5LqM5qyh54m55b6BPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48Y2lyY2xlIGN4PSIyNCIgY3k9IjE4IiByPSIxMyIgZmlsbD0iIzIzNzc2MiIvPjxwYXRoIGQ9Ik0zOCAxOEwxMjUgNjBMMjA3IDE4IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjYwIiByPSIxMyIgZmlsbD0iIzQyNjdhOCIvPjxwYXRoIGQ9Ik0zOCA2MEwxMjUgNjBMMjA3IDYwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjEwMiIgcj0iMTMiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMzggMTAyTDEyNSA2MEwyMDcgMTAyIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxMjUiIGN5PSI2MCIgcj0iMjQiIGZpbGw9IiNlOWYxZmYiIHN0cm9rZT0iIzQyNjdhOCIvPjx0ZXh0IHg9IjEwOCIgeT0iNjUiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuWtpuS5oDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "拟合正则回归",
+          "role": "方法",
+          "do": "最小化训练平方误差与非截距L2惩罚，得到可查询代理。",
+          "effect": "正则项控制复杂度；测试误差不参与拟合。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "local": "workflow/step-03.svg",
+            "alt": "管道腐蚀智能评估 拟合正则回归指导图",
+            "input": "训练特征和参考",
+            "output": "回归系数",
+            "observe": "正则项控制复杂度；测试误差不参与拟合。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLnrqHpgZPohZDomoDmmbrog73or4TkvLAg5ouf5ZCI5q2j5YiZ5Zue5b2S5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMyAg566h6YGT6IWQ6JqA5pm66IO96K+E5LywIMK3IOaLn+WQiOato+WImeWbnuW9kjwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6K6t57uD54m55b6B5ZKM5Y+C6ICDPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjIwIiB3aWR0aD0iNjgiIGhlaWdodD0iNzIiIHJ4PSI3IiBmaWxsPSIjZTFmMWU4Ii8+PHRleHQgeD0iOCIgeT0iNDkiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMyOTNiM2IiPuiuree7gzwvdGV4dD48dGV4dCB4PSIxOCIgeT0iNzYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyMzc3NjIiPuaLn+WQiDwvdGV4dD48cmVjdCB4PSI3NyIgeT0iMjAiIHdpZHRoPSI2OCIgaGVpZ2h0PSI3MiIgcng9IjciIGZpbGw9IiNlOWYxZmYiLz48dGV4dCB4PSI4NSIgeT0iNDkiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMyOTNiM2IiPuagoeWHhiAvIOiwg+WPgjwvdGV4dD48dGV4dCB4PSI5NSIgeT0iNzYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM0MjY3YTgiPueVmeWHujwvdGV4dD48cmVjdCB4PSIxNTQiIHk9IjIwIiB3aWR0aD0iNjgiIGhlaWdodD0iNzIiIHJ4PSI3IiBmaWxsPSIjZmZmMGRmIi8+PHRleHQgeD0iMTYyIiB5PSI0OSIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzI5M2IzYiI+54us56uL6K+E5Lu3PC90ZXh0Pjx0ZXh0IHg9IjE3MiIgeT0iNzYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNiNDY1NDciPuaguOWvuTwvdGV4dD48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaLn+WQiOato+WImeWbnuW9kjwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PGNpcmNsZSBjeD0iMjQiIGN5PSIxOCIgcj0iMTMiIGZpbGw9IiMyMzc3NjIiLz48cGF0aCBkPSJNMzggMThMMTI1IDYwTDIwNyAxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjQiIGN5PSI2MCIgcj0iMTMiIGZpbGw9IiM0MjY3YTgiLz48cGF0aCBkPSJNMzggNjBMMTI1IDYwTDIwNyA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMjQiIGN5PSIxMDIiIHI9IjEzIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTM4IDEwMkwxMjUgNjBMMjA3IDEwMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTI1IiBjeT0iNjAiIHI9IjI0IiBmaWxsPSIjZTlmMWZmIiBzdHJva2U9IiM0MjY3YTgiLz48dGV4dCB4PSIxMDgiIHk9IjY1IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7lrabkuaA8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7lm57lvZLns7vmlbA8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjxwYXRoIGQ9Ik0xMiA4VjExNUgyMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I2YzZjNCIvPjxwYXRoIGQ9Ik0yMCAxMDBRODAgMzIgMjIwIDI1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjxwYXRoIGQ9Ik0yMCAxMDVRODAgNDEgMjIwIDI5IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+PGNpcmNsZSBjeD0iMTMwIiBjeT0iNDUiIHI9IjciIGZpbGw9IiNmZmNmNjkiIHN0cm9rZT0iIzZiNTQyNyIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "查询当前工况",
+          "role": "推断",
+          "do": "固定后两项并扫描第一项，比较学习曲线与仅供核对的合成参考。",
+          "effect": "金色点是当前工况，切片变化不代表因果效应。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "local": "workflow/step-04.svg",
+            "alt": "管道腐蚀智能评估 查询当前工况指导图",
+            "input": "当前三个输入",
+            "output": "预测与切片曲线",
+            "observe": "金色点是当前工况，切片变化不代表因果效应。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLnrqHpgZPohZDomoDmmbrog73or4TkvLAg5p+l6K+i5b2T5YmN5bel5Ya15oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNCAg566h6YGT6IWQ6JqA5pm66IO96K+E5LywIMK3IOafpeivouW9k+WJjeW3peWGtTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5b2T5YmN5LiJ5Liq6L6T5YWlPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxjaXJjbGUgY3g9IjI0IiBjeT0iMTgiIHI9IjEzIiBmaWxsPSIjMjM3NzYyIi8+PHBhdGggZD0iTTM4IDE4TDEyNSA2MEwyMDcgMTgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjI0IiBjeT0iNjAiIHI9IjEzIiBmaWxsPSIjNDI2N2E4Ii8+PHBhdGggZD0iTTM4IDYwTDEyNSA2MEwyMDcgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjI0IiBjeT0iMTAyIiByPSIxMyIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik0zOCAxMDJMMTI1IDYwTDIwNyAxMDIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEyNSIgY3k9IjYwIiByPSIyNCIgZmlsbD0iI2U5ZjFmZiIgc3Ryb2tlPSIjNDI2N2E4Ii8+PHRleHQgeD0iMTA4IiB5PSI2NSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+5a2m5LmgPC90ZXh0PjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5p+l6K+i5b2T5YmN5bel5Ya1PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48cGF0aCBkPSJNMTIgOFYxMTVIMjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNmM2YzQiLz48cGF0aCBkPSJNMjAgMTAwUTgwIDMyIDIyMCAyNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMjAgMTA1UTgwIDQxIDIyMCAyOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNCIvPjxjaXJjbGUgY3g9IjEzMCIgY3k9IjQ1IiByPSI3IiBmaWxsPSIjZmZjZjY5IiBzdHJva2U9IiM2YjU0MjciLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPumihOa1i+S4juWIh+eJh+absue6vzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHJlY3QgeD0iMjAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSI0MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjEwMiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjE2MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjQyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iMTAyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxNjIiIHk9IjY0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIyMCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSI0MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxMDIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMTQwIiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjE2MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "与基线同集比较",
+          "role": "对照",
+          "do": "在36条测试样本上同时计算模型与训练均值基线的误差。",
+          "effect": "同一测试集比较；低训练误差不能代替泛化评价。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "local": "workflow/step-05.svg",
+            "alt": "管道腐蚀智能评估 与基线同集比较指导图",
+            "input": "留出组预测与参考",
+            "output": "RMSE和残差",
+            "observe": "同一测试集比较；低训练误差不能代替泛化评价。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLnrqHpgZPohZDomoDmmbrog73or4TkvLAg5LiO5Z+657q/5ZCM6ZuG5q+U6L6D5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNSAg566h6YGT6IWQ6JqA5pm66IO96K+E5LywIMK3IOS4juWfuue6v+WQjOmbhuavlOi+gzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+55WZ5Ye657uE6aKE5rWL5LiO5Y+C6ICDPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0xMiA4VjExNUgyMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I2YzZjNCIvPjxwYXRoIGQ9Ik0yMCAxMDBRODAgMzIgMjIwIDI1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjxwYXRoIGQ9Ik0yMCAxMDVRODAgNDEgMjIwIDI5IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+PGNpcmNsZSBjeD0iMTMwIiBjeT0iNDUiIHI9IjciIGZpbGw9IiNmZmNmNjkiIHN0cm9rZT0iIzZiNTQyNyIvPjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5LiO5Z+657q/5ZCM6ZuG5q+U6L6DPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48cmVjdCB4PSIyMCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjQyIiB5PSIyNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjxyZWN0IHg9IjgwIiB5PSIwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTAyIiB5PSIyNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMTQwIiB5PSIwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTYyIiB5PSIyNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMjAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iNDIiIHk9IjY0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSIxMDIiIHk9IjY0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PHJlY3QgeD0iMTQwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjE2MiIgeT0iNjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjIwIiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjQyIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjgwIiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjEwMiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iMTYyIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPlJNU0Xlkozmrovlt648L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "改变工况并复核",
+          "role": "复核",
+          "do": "一次改变一个条件，检查当前预测、误差和适用范围。",
+          "effect": "训练覆盖之外的输入属于外推。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "local": "workflow/step-06.svg",
+            "alt": "管道腐蚀智能评估 改变工况并复核指导图",
+            "input": "当前参数与评价",
+            "output": "范围提示与复核结论",
+            "observe": "训练覆盖之外的输入属于外推。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLnrqHpgZPohZDomoDmmbrog73or4TkvLAg5pS55Y+Y5bel5Ya15bm25aSN5qC45oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNiAg566h6YGT6IWQ6JqA5pm66IO96K+E5LywIMK3IOaUueWPmOW3peWGteW5tuWkjeaguDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5b2T5YmN5Y+C5pWw5LiO6K+E5Lu3PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxyZWN0IHg9IjIwIiB5PSIwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iNDIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxMDIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxNjIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIyMCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSI0MiIgeT0iNjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjgwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjEwMiIgeT0iNjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTYyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMjAiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iNDIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTAyIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSIxNjIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5pS55Y+Y5bel5Ya15bm25aSN5qC4PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7ojIPlm7Tmj5DnpLrkuI7lpI3moLjnu5Porro8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        }
+      ],
+      "metrics": {
+        "title": "同时检查方法与评价口径",
+        "html": "<p>先按合成对象分组，再只用训练组拟合标准化和回归系数；当前输入经同一变换得到响应，留出组负责计算误差。</p>"
+      },
+      "fails": [
+        {
+          "name": "合成机制与真实部署差异",
+          "why": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1350,
+      "intro": "缺陷深度比例、缺陷长度指数与腐蚀增长指数，如何共同影响剩余强度教学值？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-t2-corrosion-assessment",
+    "title": "管道腐蚀智能评估",
+    "method": "训练集标准化＋二次特征岭回归",
+    "what": "用带L2正则的多特征回归学习合成样本中的响应关系。",
+    "why": "回归代理可探索缺陷组合与剩余强度的关系，筛出需详细校核的位置。",
+    "how": "先按合成对象分组，再只用训练组拟合标准化和回归系数；当前输入经同一变换得到响应，留出组负责计算误差。",
+    "limit": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+    "trial": "增加缺陷深度，检查强度下降与留出管段误差。",
+    "inputs": [
+      "缺陷深度比例",
+      "缺陷长度指数",
+      "腐蚀增长指数"
+    ],
+    "output": "剩余强度教学值",
+    "type": "regression",
+    "before": "逐次依靠少量经验点外推，难同时利用多个观测。",
+    "benefit": "复用训练映射即可查询新工况；响应曲线和残差让估计与误差同时可见。",
+    "controls": [
+      "lambda",
+      "a"
+    ],
+    "views": [
+      {
+        "name": "响应映射",
+        "selector": "#main-chart"
+      },
+      {
+        "name": "留出预测误差",
+        "selector": "#analysis-chart"
+      },
+      {
+        "name": "当前输入的作用",
+        "selector": "#evaluation-chart"
+      }
+    ],
+    "steps": [
+      {
+        "name": "定义对象与数据",
+        "do": "按对象划分84条训练、24条校准、36条测试；参考生成器与预测器分开。",
+        "effect": "同一井或设备的记录不能同时出现在训练与测试。"
+      },
+      {
+        "name": "构建特征与尺度",
+        "do": "从训练组估计尺度，构造一次项、交互项与平方项。",
+        "effect": "区分输入响应与预测目标，避免把参考答案用作特征。"
+      },
+      {
+        "name": "拟合正则回归",
+        "do": "最小化训练平方误差与非截距L2惩罚，得到可查询代理。",
+        "effect": "正则项控制复杂度；测试误差不参与拟合。"
+      },
+      {
+        "name": "查询当前工况",
+        "do": "固定后两项并扫描第一项，比较学习曲线与仅供核对的合成参考。",
+        "effect": "金色点是当前工况，切片变化不代表因果效应。"
+      },
+      {
+        "name": "与基线同集比较",
+        "do": "在36条测试样本上同时计算模型与训练均值基线的误差。",
+        "effect": "同一测试集比较；低训练误差不能代替泛化评价。"
+      },
+      {
+        "name": "改变工况并复核",
+        "do": "一次改变一个条件，检查当前预测、误差和适用范围。",
+        "effect": "训练覆盖之外的输入属于外推。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,269 @@
+{
+  "id": "edu08-s5-seismic-denoising",
+  "sceneId": "s5",
+  "title": "地震资料噪声压制｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "cv"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "相邻采样值、中心采样值与邻域变化，如何共同影响去噪波形？",
+      "judge": [
+        {
+          "label": "工程环节",
+          "value": "物探",
+          "desc": "去噪要削弱随机干扰，同时保留有效反射的相位与振幅。"
+        },
+        {
+          "label": "实际方法",
+          "value": "成对样本岭回归＋五点FIR学习滤波",
+          "desc": "从含噪和干净合成信号对中学习五个相邻采样值的线性权重。"
+        },
+        {
+          "label": "数据来源",
+          "value": "教学合成 / 虚构",
+          "desc": "完整评价口径见案例演示"
+        },
+        {
+          "label": "动手目标",
+          "value": "证据可追踪",
+          "desc": "增加噪声，再加大正则项，比较学习滤波与移动平均的误差。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "理解工程对象",
+          "html": "<details class=\"teaching-glossary\"><summary>名词定义 · 图解与生活类比</summary><p><b>名词定义：</b>去噪要削弱随机干扰，同时保留有效反射的相位与振幅。</p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 190\" role=\"img\" aria-label=\"地震资料噪声压制输入到输出概念图\"><rect x=\"10\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#edf7f1\"/><rect x=\"320\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#eaf1fc\"/><rect x=\"630\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#fff2e1\"/><g font-family=\"Microsoft YaHei,system-ui,sans-serif\" font-size=\"19\" fill=\"#293b3b\"><text x=\"30\" y=\"62\">相邻采样值</text><text x=\"30\" y=\"94\">中心采样值</text><text x=\"30\" y=\"126\">邻域变化</text><text x=\"340\" y=\"80\">学习规律 / 显式知识</text><text x=\"340\" y=\"114\">保留中间依据</text><text x=\"650\" y=\"94\">去噪波形</text><text x=\"290\" y=\"92\">→</text><text x=\"598\" y=\"92\">→</text><text x=\"20\" y=\"176\" font-size=\"14\" fill=\"#627575\">概念关系示意，非当前计算结果；完整方法与评价口径请进入案例演示。</text></g></svg><p><b>生活类比：</b>像隔着杂音听旋律，既要安静也不能把音符抹掉。</p></details>"
+        },
+        {
+          "no": 2,
+          "en": "WHAT",
+          "title": "What · 使用什么方法",
+          "html": "<p>从含噪和干净合成信号对中学习五个相邻采样值的线性权重。</p><p><b>实际实现：</b>成对样本岭回归＋五点FIR学习滤波</p>"
+        },
+        {
+          "no": 3,
+          "en": "WHY",
+          "title": "Why · 为什么需要它",
+          "html": "<p>从成对的含噪与干净样本学习有限窗口滤波权重，可显示信号保真与降噪的取舍。</p>"
+        },
+        {
+          "no": 4,
+          "en": "HOW",
+          "title": "How · 如何发挥作用",
+          "html": "<p>6条道拟合滤波器、2条道留出；推断只输入含噪窗口，与同窗口移动平均及未处理波形比较误差。</p><p><b>动手验证：</b>增加噪声，再加大正则项，比较学习滤波与移动平均的误差。</p>"
+        },
+        {
+          "no": 5,
+          "en": "LIMITS",
+          "title": "数据与结果边界",
+          "html": "<p>全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "成对样本岭回归＋五点FIR学习滤波的六步路径",
+      "lead": [
+        "相邻采样值、中心采样值与邻域变化，如何共同影响去噪波形？",
+        "每步配图标明输入、产出与观察重点；案例演示提供同步变化的运行证据。"
+      ],
+      "steps": [
+        {
+          "name": "准备成对训练道",
+          "role": "数据",
+          "do": "合成干净波形叠加随机噪声，完整道留出。",
+          "effect": "真实干净标签通常难获取；合成域差异需单独验证。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "local": "workflow/step-01.svg",
+            "alt": "地震资料噪声压制 准备成对训练道指导图",
+            "input": "相邻采样值等观测",
+            "output": "6训练道和2测试道",
+            "observe": "真实干净标签通常难获取；合成域差异需单独验证。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlnLDpnIfotYTmlpnlmarlo7DljovliLYg5YeG5aSH5oiQ5a+56K6t57uD6YGT5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMSAg5Zyw6ZyH6LWE5paZ5Zmq5aOw5Y6L5Yi2IMK3IOWHhuWkh+aIkOWvueiuree7g+mBkzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+55u46YK76YeH5qC35YC8562J6KeC5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7lh4blpIfmiJDlr7norq3nu4PpgZM8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj426K6t57uD6YGT5ZKMMua1i+ivlemBkzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuebuOmCu+mHh+agt+WAvDwvdGV4dD48cmVjdCB4PSIwIiB5PSIyNiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjU3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7kuK3lv4Pph4fmoLflgLw8L3RleHQ+PHJlY3QgeD0iMCIgeT0iNjMiIHdpZHRoPSIxMTIiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+6YK75Z+f5Y+Y5YyWPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjEwMCIgd2lkdGg9IjE0MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iI2I0NjU0NyIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "组成五点窗口",
+          "role": "特征",
+          "do": "取中心前后各2点构成特征，干净中心振幅作为训练目标。",
+          "effect": "边缘2点不参与测试误差，避免不一致窗口。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "local": "workflow/step-02.svg",
+            "alt": "地震资料噪声压制 组成五点窗口指导图",
+            "input": "含噪相邻采样值",
+            "output": "744条训练窗口",
+            "observe": "边缘2点不参与测试误差，避免不一致窗口。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlnLDpnIfotYTmlpnlmarlo7DljovliLYg57uE5oiQ5LqU54K556qX5Y+j5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMiAg5Zyw6ZyH6LWE5paZ5Zmq5aOw5Y6L5Yi2IMK3IOe7hOaIkOS6lOeCueeql+WPozwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5ZCr5Zmq55u46YK76YeH5qC35YC8PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7nu4TmiJDkupTngrnnqpflj6M8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nm7jpgrvph4fmoLflgLw8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5Lit5b+D6YeH5qC35YC8PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPumCu+Wfn+WPmOWMljwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPjc0NOadoeiuree7g+eql+WPozwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjMiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTE8L3RleHQ+PHJlY3QgeD0iNjAiIHk9IjkiIHdpZHRoPSI2MCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjYwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoEyPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iNDYiIHdpZHRoPSIxMDUiIGhlaWdodD0iMjAiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMzwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjgzIiB3aWR0aD0iMzcuNSIgaGVpZ2h0PSIyMCIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik0xMTAgMFYxMTUiIHN0cm9rZT0iIzk5YWVhYSIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "学习滤波权重",
+          "role": "方法",
+          "do": "用岭回归拟合线性滤波器，正则项仅惩罚非截距系数。",
+          "effect": "移动平均使用固定等权，学习滤波由样本决定权重。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "local": "workflow/step-03.svg",
+            "alt": "地震资料噪声压制 学习滤波权重指导图",
+            "input": "含噪窗口与目标",
+            "output": "FIR权重与截距",
+            "observe": "移动平均使用固定等权，学习滤波由样本决定权重。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlnLDpnIfotYTmlpnlmarlo7DljovliLYg5a2m5Lmg5ruk5rOi5p2D6YeN5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMyAg5Zyw6ZyH6LWE5paZ5Zmq5aOw5Y6L5Yi2IMK3IOWtpuS5oOa7pOazouadg+mHjTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5ZCr5Zmq56qX5Y+j5LiO55uu5qCHPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nm7jpgrvph4fmoLflgLw8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5Lit5b+D6YeH5qC35YC8PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPumCu+Wfn+WPmOWMljwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWtpuS5oOa7pOazouadg+mHjTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjMiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTE8L3RleHQ+PHJlY3QgeD0iNjAiIHk9IjkiIHdpZHRoPSI2MCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjYwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoEyPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iNDYiIHdpZHRoPSIxMDUiIGhlaWdodD0iMjAiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMzwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjgzIiB3aWR0aD0iMzcuNSIgaGVpZ2h0PSIyMCIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik0xMTAgMFYxMTUiIHN0cm9rZT0iIzk5YWVhYSIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+RklS5p2D6YeN5LiO5oiq6LedPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48cGF0aCBkPSJNMCAyMEw0NSAyNUw3MCAxMUwxMDAgMjZMMTUwIDE4TDE3NSAyOEwyMjUgMTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgNThMNDUgNjNMNzAgNDlMMTAwIDY0TDE1MCA1NkwxNzUgNjZMMjI1IDUyIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0wIDk2TDQ1IDEwMUw3MCA4N0wxMDAgMTAyTDE1MCA5NEwxNzUgMTA0TDIyNSA5MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNzAgMFYxMjBNMTUwIDBWMTIwIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS1kYXNoYXJyYXk9IjQgMyIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "重建留出波形",
+          "role": "推断",
+          "do": "仅从测试含噪窗口预测干净振幅，叠加参考曲线便于核对。",
+          "effect": "振幅降低不一定正确，需看相位与信号保真。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "local": "workflow/step-04.svg",
+            "alt": "地震资料噪声压制 重建留出波形指导图",
+            "input": "独立道的含噪窗口",
+            "output": "学习去噪波形",
+            "observe": "振幅降低不一定正确，需看相位与信号保真。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlnLDpnIfotYTmlpnlmarlo7DljovliLYg6YeN5bu655WZ5Ye65rOi5b2i5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNCAg5Zyw6ZyH6LWE5paZ5Zmq5aOw5Y6L5Yi2IMK3IOmHjeW7uueVmeWHuuazouW9ojwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+54us56uL6YGT55qE5ZCr5Zmq56qX5Y+jPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPumHjeW7uueVmeWHuuazouW9ojwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHBhdGggZD0iTTAgMjBMNDUgMjVMNzAgMTFMMTAwIDI2TDE1MCAxOEwxNzUgMjhMMjI1IDE0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0wIDU4TDQ1IDYzTDcwIDQ5TDEwMCA2NEwxNTAgNTZMMTc1IDY2TDIyNSA1MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA5Nkw0NSAxMDFMNzAgODdMMTAwIDEwMkwxNTAgOTRMMTc1IDEwNEwyMjUgOTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTcwIDBWMTIwTTE1MCAwVjEyMCIgc3Ryb2tlPSIjYjQ2NTQ3IiBzdHJva2UtZGFzaGFycmF5PSI0IDMiLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWtpuS5oOWOu+WZquazouW9ojwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHJlY3QgeD0iMjAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSI0MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjEwMiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjE2MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjQyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iMTAyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxNjIiIHk9IjY0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIyMCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSI0MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxMDIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMTQwIiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjE2MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "比较同窗基线",
+          "role": "对照",
+          "do": "在相同测试位置比较学习滤波、五点平均和未处理误差。",
+          "effect": "不要把不同测试区间的误差放在一起比较。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "local": "workflow/step-05.svg",
+            "alt": "地震资料噪声压制 比较同窗基线指导图",
+            "input": "学习、平均与含噪",
+            "output": "三种同集RMSE",
+            "observe": "不要把不同测试区间的误差放在一起比较。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlnLDpnIfotYTmlpnlmarlo7DljovliLYg5q+U6L6D5ZCM56qX5Z+657q/5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNSAg5Zyw6ZyH6LWE5paZ5Zmq5aOw5Y6L5Yi2IMK3IOavlOi+g+WQjOeql+Wfuue6vzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5a2m5Lmg44CB5bmz5Z2H5LiO5ZCr5ZmqPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mr5TovoPlkIznqpfln7rnur88L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjxyZWN0IHg9IjIwIiB5PSIwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iNDIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxMDIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxNjIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIyMCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSI0MiIgeT0iNjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjgwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjEwMiIgeT0iNjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTYyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMjAiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iNDIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTAyIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSIxNjIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5LiJ56eN5ZCM6ZuGUk1TRTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHRleHQgeD0iMiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiPuKckyDmn6XnnIvni6znq4vor6/lt648L3RleHQ+PHRleHQgeD0iMiIgeT0iNjEiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiPuKckyDmlLnlj5jkuIDpobnlj4LmlbA8L3RleHQ+PHRleHQgeD0iMiIgeT0iMTAwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjYjQ2NTQ3Ij7inJMg5L+d55WZ5Lq65bel5aSN5qC4PC90ZXh0PjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "改变噪声与正则",
+          "role": "复核",
+          "do": "观察权重、波形与误差，解释过强平滑和残留噪声。",
+          "effect": "该方法是学习线性滤波，不声称为深度去噪网络。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "local": "workflow/step-06.svg",
+            "alt": "地震资料噪声压制 改变噪声与正则指导图",
+            "input": "噪声幅度和λ",
+            "output": "滤波响应变化",
+            "observe": "该方法是学习线性滤波，不声称为深度去噪网络。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlnLDpnIfotYTmlpnlmarlo7DljovliLYg5pS55Y+Y5Zmq5aOw5LiO5q2j5YiZ5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNiAg5Zyw6ZyH6LWE5paZ5Zmq5aOw5Y6L5Yi2IMK3IOaUueWPmOWZquWjsOS4juato+WImTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5Zmq5aOw5bmF5bqm5ZKMzrs8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDcsMTQ1KSI+PHJlY3QgeD0iMjAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSI0MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjEwMiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjE2MiIgeT0iMjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjQyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iMTAyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxNjIiIHk9IjY0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIyMCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSI0MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxMDIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMTQwIiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjE2MiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mlLnlj5jlmarlo7DkuI7mraPliJk8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPua7pOazouWTjeW6lOWPmOWMljwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHRleHQgeD0iMiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiPuKckyDmn6XnnIvni6znq4vor6/lt648L3RleHQ+PHRleHQgeD0iMiIgeT0iNjEiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiPuKckyDmlLnlj5jkuIDpobnlj4LmlbA8L3RleHQ+PHRleHQgeD0iMiIgeT0iMTAwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjYjQ2NTQ3Ij7inJMg5L+d55WZ5Lq65bel5aSN5qC4PC90ZXh0PjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        }
+      ],
+      "metrics": {
+        "title": "同时检查方法与评价口径",
+        "html": "<p>6条道拟合滤波器、2条道留出；推断只输入含噪窗口，与同窗口移动平均及未处理波形比较误差。</p>"
+      },
+      "fails": [
+        {
+          "name": "合成机制与真实部署差异",
+          "why": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1350,
+      "intro": "相邻采样值、中心采样值与邻域变化，如何共同影响去噪波形？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-s5-seismic-denoising",
+    "title": "地震资料噪声压制",
+    "method": "成对样本岭回归＋五点FIR学习滤波",
+    "what": "从含噪和干净合成信号对中学习五个相邻采样值的线性权重。",
+    "why": "从成对的含噪与干净样本学习有限窗口滤波权重，可显示信号保真与降噪的取舍。",
+    "how": "6条道拟合滤波器、2条道留出；推断只输入含噪窗口，与同窗口移动平均及未处理波形比较误差。",
+    "limit": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+    "trial": "增加噪声，再加大正则项，比较学习滤波与移动平均的误差。",
+    "inputs": [
+      "相邻采样值",
+      "中心采样值",
+      "邻域变化"
+    ],
+    "output": "去噪波形",
+    "type": "denoise",
+    "before": "固定平滑核难兼顾噪声压制与信号保真。",
+    "benefit": "从成对样本学习滤波权重，用同窗基线直接比较振幅与误差。",
+    "controls": [
+      "lambda",
+      "noise"
+    ],
+    "views": [
+      {
+        "name": "含噪、去噪与干净参考",
+        "selector": "#main-chart"
+      },
+      {
+        "name": "同窗基线误差",
+        "selector": "#analysis-chart"
+      },
+      {
+        "name": "学到的滤波权重",
+        "selector": "#evaluation-chart"
+      }
+    ],
+    "steps": [
+      {
+        "name": "准备成对训练道",
+        "do": "合成干净波形叠加随机噪声，完整道留出。",
+        "effect": "真实干净标签通常难获取；合成域差异需单独验证。"
+      },
+      {
+        "name": "组成五点窗口",
+        "do": "取中心前后各2点构成特征，干净中心振幅作为训练目标。",
+        "effect": "边缘2点不参与测试误差，避免不一致窗口。"
+      },
+      {
+        "name": "学习滤波权重",
+        "do": "用岭回归拟合线性滤波器，正则项仅惩罚非截距系数。",
+        "effect": "移动平均使用固定等权，学习滤波由样本决定权重。"
+      },
+      {
+        "name": "重建留出波形",
+        "do": "仅从测试含噪窗口预测干净振幅，叠加参考曲线便于核对。",
+        "effect": "振幅降低不一定正确，需看相位与信号保真。"
+      },
+      {
+        "name": "比较同窗基线",
+        "do": "在相同测试位置比较学习滤波、五点平均和未处理误差。",
+        "effect": "不要把不同测试区间的误差放在一起比较。"
+      },
+      {
+        "name": "改变噪声与正则",
+        "do": "观察权重、波形与误差，解释过强平滑和残留噪声。",
+        "effect": "该方法是学习线性滤波，不声称为深度去噪网络。"
+      }
+    ]
+  }
+}

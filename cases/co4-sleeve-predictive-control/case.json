@@ -1,0 +1,269 @@
+{
+  "id": "edu08-co4-sleeve-predictive-control",
+  "sceneId": "co4",
+  "title": "智能完井滑套控制策略｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "opt"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "当前含水状态、滑套开度控制量与层间扰动，如何共同影响下一步含水状态？",
+      "judge": [
+        {
+          "label": "工程环节",
+          "value": "完井",
+          "desc": "智能滑套通过改变层段开度影响产液与含水；需要在简化动态模型内比较策略。"
+        },
+        {
+          "label": "实际方法",
+          "value": "学习状态转移代理＋两步模型预测控制",
+          "desc": "线性回归学习下一状态，用两步动作枚举实现有限时域反馈控制。"
+        },
+        {
+          "label": "数据来源",
+          "value": "教学合成 / 虚构",
+          "desc": "完整评价口径见案例演示"
+        },
+        {
+          "label": "动手目标",
+          "value": "证据可追踪",
+          "desc": "提高水侵扰动，比较预测策略与固定反馈策略的状态轨迹。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "理解工程对象",
+          "html": "<details class=\"teaching-glossary\"><summary>名词定义 · 图解与生活类比</summary><p><b>名词定义：</b>智能滑套通过改变层段开度影响产液与含水；需要在简化动态模型内比较策略。</p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 190\" role=\"img\" aria-label=\"智能完井滑套控制策略输入到输出概念图\"><rect x=\"10\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#edf7f1\"/><rect x=\"320\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#eaf1fc\"/><rect x=\"630\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#fff2e1\"/><g font-family=\"Microsoft YaHei,system-ui,sans-serif\" font-size=\"19\" fill=\"#293b3b\"><text x=\"30\" y=\"62\">当前含水状态</text><text x=\"30\" y=\"94\">滑套开度控制量</text><text x=\"30\" y=\"126\">层间扰动</text><text x=\"340\" y=\"80\">学习规律 / 显式知识</text><text x=\"340\" y=\"114\">保留中间依据</text><text x=\"650\" y=\"94\">下一步含水状态</text><text x=\"290\" y=\"92\">→</text><text x=\"598\" y=\"92\">→</text><text x=\"20\" y=\"176\" font-size=\"14\" fill=\"#627575\">概念关系示意，非当前计算结果；完整方法与评价口径请进入案例演示。</text></g></svg><p><b>生活类比：</b>像控制冷热水阀，既考虑流量也控制温度。</p></details>"
+        },
+        {
+          "no": 2,
+          "en": "WHAT",
+          "title": "What · 使用什么方法",
+          "html": "<p>线性回归学习下一状态，用两步动作枚举实现有限时域反馈控制。</p><p><b>实际实现：</b>学习状态转移代理＋两步模型预测控制</p>"
+        },
+        {
+          "no": 3,
+          "en": "WHY",
+          "title": "Why · 为什么需要它",
+          "html": "<p>学习状态转移并做有限步搜索，可把短期收益与含水约束放到同一图中。</p>"
+        },
+        {
+          "no": 4,
+          "en": "HOW",
+          "title": "How · 如何发挥作用",
+          "html": "<p>135条训练转移学习动力响应，45条独立转移核对；每步搜索49个动作序列，只执行首动作，然后读取新状态重新搜索。</p><p><b>动手验证：</b>提高水侵扰动，比较预测策略与固定反馈策略的状态轨迹。</p>"
+        },
+        {
+          "no": 5,
+          "en": "LIMITS",
+          "title": "数据与结果边界",
+          "html": "<p>全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "学习状态转移代理＋两步模型预测控制的六步路径",
+      "lead": [
+        "当前含水状态、滑套开度控制量与层间扰动，如何共同影响下一步含水状态？",
+        "每步配图标明输入、产出与观察重点；案例演示提供同步变化的运行证据。"
+      ],
+      "steps": [
+        {
+          "name": "生成状态转移样本",
+          "role": "数据",
+          "do": "135条转移训练、45条独立转移测试，不用评价轨迹反向拟合。",
+          "effect": "所有状态与动作都是归一教学量。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "local": "workflow/step-01.svg",
+            "alt": "智能完井滑套控制策略 生成状态转移样本指导图",
+            "input": "当前含水状态等观测",
+            "output": "训练与测试转移",
+            "observe": "所有状态与动作都是归一教学量。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLmmbrog73lrozkupXmu5HlpZfmjqfliLbnrZbnlaUg55Sf5oiQ54q25oCB6L2s56e75qC35pys5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMSAg5pm66IO95a6M5LqV5ruR5aWX5o6n5Yi2562W55WlIMK3IOeUn+aIkOeKtuaAgei9rOenu+agt+acrDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5b2T5YmN5ZCr5rC054q25oCB562J6KeC5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7lvZPliY3lkKvmsLTnirbmgIE8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5ruR5aWX5byA5bqm5o6n5Yi26YePPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuWxgumXtOaJsOWKqDwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPueUn+aIkOeKtuaAgei9rOenu+agt+acrDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuW9k+WJjeWQq+awtOeKtuaAgTwvdGV4dD48cmVjdCB4PSIwIiB5PSIyNiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjU3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7mu5HlpZflvIDluqbmjqfliLbph488L3RleHQ+PHJlY3QgeD0iMCIgeT0iNjMiIHdpZHRoPSIxMTIiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5bGC6Ze05omw5YqoPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjEwMCIgd2lkdGg9IjE0MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iI2I0NjU0NyIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6K6t57uD5LiO5rWL6K+V6L2s56e7PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48Y2lyY2xlIGN4PSIyNCIgY3k9IjE4IiByPSIxMyIgZmlsbD0iIzIzNzc2MiIvPjxwYXRoIGQ9Ik0zOCAxOEwxMjUgNjBMMjA3IDE4IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjYwIiByPSIxMyIgZmlsbD0iIzQyNjdhOCIvPjxwYXRoIGQ9Ik0zOCA2MEwxMjUgNjBMMjA3IDYwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjEwMiIgcj0iMTMiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMzggMTAyTDEyNSA2MEwyMDcgMTAyIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxMjUiIGN5PSI2MCIgcj0iMjQiIGZpbGw9IiNlOWYxZmYiIHN0cm9rZT0iIzQyNjdhOCIvPjx0ZXh0IHg9IjEwOCIgeT0iNjUiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuWtpuS5oDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "学习下一状态",
+          "role": "特征",
+          "do": "用当前状态、动作和扰动预测下一状态。",
+          "effect": "合成系统推进轨迹，代理负责预测，两者分别实现。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "local": "workflow/step-02.svg",
+            "alt": "智能完井滑套控制策略 学习下一状态指导图",
+            "input": "训练转移数据",
+            "output": "线性转移代理",
+            "observe": "合成系统推进轨迹，代理负责预测，两者分别实现。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLmmbrog73lrozkupXmu5HlpZfmjqfliLbnrZbnlaUg5a2m5Lmg5LiL5LiA54q25oCB5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMiAg5pm66IO95a6M5LqV5ruR5aWX5o6n5Yi2562W55WlIMK3IOWtpuS5oOS4i+S4gOeKtuaAgTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6K6t57uD6L2s56e75pWw5o2uPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7lvZPliY3lkKvmsLTnirbmgIE8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5ruR5aWX5byA5bqm5o6n5Yi26YePPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuWxgumXtOaJsOWKqDwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWtpuS5oOS4i+S4gOeKtuaAgTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PGNpcmNsZSBjeD0iMjQiIGN5PSIxOCIgcj0iMTMiIGZpbGw9IiMyMzc3NjIiLz48cGF0aCBkPSJNMzggMThMMTI1IDYwTDIwNyAxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjQiIGN5PSI2MCIgcj0iMTMiIGZpbGw9IiM0MjY3YTgiLz48cGF0aCBkPSJNMzggNjBMMTI1IDYwTDIwNyA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMjQiIGN5PSIxMDIiIHI9IjEzIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTM4IDEwMkwxMjUgNjBMMjA3IDEwMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTI1IiBjeT0iNjAiIHI9IjI0IiBmaWxsPSIjZTlmMWZmIiBzdHJva2U9IiM0MjY3YTgiLz48dGV4dCB4PSIxMDgiIHk9IjY1IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7lrabkuaA8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7nur/mgKfovaznp7vku6PnkIY8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTAwIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjEiIGN5PSIxMDkuNjY4MzgxMDc5NzE1OTciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjExOS4zNDcwNDIyODk0MDI4MiIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjM5IiBjeT0iMTAyLjA0NjIzMjAzODM5NTEiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI0OCIgY3k9IjExMS43NzYxMzUzOTI2MzI2NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjU3IiBjeT0iOTQuNTQ2ODQyNjQ3MzU2NCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjY2IiBjeT0iMTA0LjM2ODMxODE5MjIzMDg3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSI4Ny4yNTAzNjk3NjQ5NjQ0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iODQiIGN5PSI5Ny4yMDI2MTgxODgyOTg2NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjkzIiBjeT0iODAuMjM0NDY3NjgzNzQ3ODIiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMDIiIGN5PSI5MC4zNTUwNzY4NTM2ODgwOCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjExMSIgY3k9IjczLjU3MzMzMDQyMTMzNjA0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTIwIiBjeT0iODMuODk3ODExODE1ODE1NzciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMjkiIGN5PSI2Ny4zMzY3NzY2ODY5MDY2OSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEzOCIgY3k9Ijc3Ljg5ODEyNzQzMTE5NTg5IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTQ3IiBjeT0iNjEuNTg5Mzg4ODA4MjM3NzciIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNTYiIGN5PSI3Mi40MTc2ODQ3MjE5NjAzNyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjU2LjM4OTcxNjIzODk2MjA0NSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE3NCIgY3k9IjY3LjUxMTc0MDkxMTUyNjIiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxODMiIGN5PSI1MS43ODk1NTM0NjkxNTUyNyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE5MiIgY3k9IjYzLjIyODQ2NzkzODIwMjYyIiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMjAxIiBjeT0iNDcuODMzMzAxMjQ0Nzc0Njk1IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTggMFYxMThIMjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNmM2YzQiLz48cGF0aCBkPSJNMTQyIDBWMTIwIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS1kYXNoYXJyYXk9IjQgNCIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "构造两步候选",
+          "role": "方法",
+          "do": "枚举7×7种动作组合，按代理预测未来两步状态。",
+          "effect": "预测范围有限，不能等同全局最优控制。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "local": "workflow/step-03.svg",
+            "alt": "智能完井滑套控制策略 构造两步候选指导图",
+            "input": "当前状态和7种动作",
+            "output": "49条两步动作序列",
+            "observe": "预测范围有限，不能等同全局最优控制。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLmmbrog73lrozkupXmu5HlpZfmjqfliLbnrZbnlaUg5p6E6YCg5Lik5q2l5YCZ6YCJ5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMyAg5pm66IO95a6M5LqV5ruR5aWX5o6n5Yi2562W55WlIMK3IOaehOmAoOS4pOatpeWAmemAiTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5b2T5YmN54q25oCB5ZKMN+enjeWKqOS9nDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0NywxNDUpIj48Y2lyY2xlIGN4PSIyNCIgY3k9IjE4IiByPSIxMyIgZmlsbD0iIzIzNzc2MiIvPjxwYXRoIGQ9Ik0zOCAxOEwxMjUgNjBMMjA3IDE4IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjYwIiByPSIxMyIgZmlsbD0iIzQyNjdhOCIvPjxwYXRoIGQ9Ik0zOCA2MEwxMjUgNjBMMjA3IDYwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjEwMiIgcj0iMTMiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMzggMTAyTDEyNSA2MEwyMDcgMTAyIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxMjUiIGN5PSI2MCIgcj0iMjQiIGZpbGw9IiNlOWYxZmYiIHN0cm9rZT0iIzQyNjdhOCIvPjx0ZXh0IHg9IjEwOCIgeT0iNjUiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuWtpuS5oDwvdGV4dD48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaehOmAoOS4pOatpeWAmemAiTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMDAiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIyMSIgY3k9IjEwOS42NjgzODEwNzk3MTU5NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMTE5LjM0NzA0MjI4OTQwMjgyIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMzkiIGN5PSIxMDIuMDQ2MjMyMDM4Mzk1MSIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjQ4IiBjeT0iMTExLjc3NjEzNTM5MjYzMjY3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNTciIGN5PSI5NC41NDY4NDI2NDczNTY0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNjYiIGN5PSIxMDQuMzY4MzE4MTkyMjMwODciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI3NSIgY3k9Ijg3LjI1MDM2OTc2NDk2NDQiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI4NCIgY3k9Ijk3LjIwMjYxODE4ODI5ODY3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iOTMiIGN5PSI4MC4yMzQ0Njc2ODM3NDc4MiIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjEwMiIgY3k9IjkwLjM1NTA3Njg1MzY4ODA4IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTExIiBjeT0iNzMuNTczMzMwNDIxMzM2MDQiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMjAiIGN5PSI4My44OTc4MTE4MTU4MTU3NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjEyOSIgY3k9IjY3LjMzNjc3NjY4NjkwNjY5IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTM4IiBjeT0iNzcuODk4MTI3NDMxMTk1ODkiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNDciIGN5PSI2MS41ODkzODg4MDgyMzc3NyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE1NiIgY3k9IjcyLjQxNzY4NDcyMTk2MDM3IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTY1IiBjeT0iNTYuMzg5NzE2MjM4OTYyMDQ1IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTc0IiBjeT0iNjcuNTExNzQwOTExNTI2MiIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE4MyIgY3k9IjUxLjc4OTU1MzQ2OTE1NTI3IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTkyIiBjeT0iNjMuMjI4NDY3OTM4MjAyNjIiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIyMDEiIGN5PSI0Ny44MzMzMDEyNDQ3NzQ2OTUiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNOCAwVjExOEgyMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I2YzZjNCIvPjxwYXRoIGQ9Ik0xNDIgMFYxMjAiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLWRhc2hhcnJheT0iNCA0Ii8+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj40OeadoeS4pOatpeWKqOS9nOW6j+WIlzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHBhdGggZD0iTTEyIDhWMTE1SDIzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjZjNmM0Ii8+PHBhdGggZD0iTTIwIDEwMFE4MCAzMiAyMjAgMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTIwIDEwNVE4MCA0MSAyMjAgMjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz48Y2lyY2xlIGN4PSIxMzAiIGN5PSI0NSIgcj0iNyIgZmlsbD0iI2ZmY2Y2OSIgc3Ryb2tlPSIjNmI1NDI3Ii8+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "筛约束并执行首步",
+          "role": "推断",
+          "do": "筛教学状态约束，最小化状态偏差与动作惩罚；只执行第一步。",
+          "effect": "无可行候选时采用零调整并保留状态。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "local": "workflow/step-04.svg",
+            "alt": "智能完井滑套控制策略 筛约束并执行首步指导图",
+            "input": "未来状态与动作代价",
+            "output": "当前实际执行动作",
+            "observe": "无可行候选时采用零调整并保留状态。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLmmbrog73lrozkupXmu5HlpZfmjqfliLbnrZbnlaUg562b57qm5p2f5bm25omn6KGM6aaW5q2l5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNCAg5pm66IO95a6M5LqV5ruR5aWX5o6n5Yi2562W55WlIMK3IOetm+e6puadn+W5tuaJp+ihjOmmluatpTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5pyq5p2l54q25oCB5LiO5Yqo5L2c5Luj5Lu3PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTAwIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjEiIGN5PSIxMDkuNjY4MzgxMDc5NzE1OTciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjExOS4zNDcwNDIyODk0MDI4MiIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjM5IiBjeT0iMTAyLjA0NjIzMjAzODM5NTEiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI0OCIgY3k9IjExMS43NzYxMzUzOTI2MzI2NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjU3IiBjeT0iOTQuNTQ2ODQyNjQ3MzU2NCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjY2IiBjeT0iMTA0LjM2ODMxODE5MjIzMDg3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSI4Ny4yNTAzNjk3NjQ5NjQ0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iODQiIGN5PSI5Ny4yMDI2MTgxODgyOTg2NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjkzIiBjeT0iODAuMjM0NDY3NjgzNzQ3ODIiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMDIiIGN5PSI5MC4zNTUwNzY4NTM2ODgwOCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjExMSIgY3k9IjczLjU3MzMzMDQyMTMzNjA0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTIwIiBjeT0iODMuODk3ODExODE1ODE1NzciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMjkiIGN5PSI2Ny4zMzY3NzY2ODY5MDY2OSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEzOCIgY3k9Ijc3Ljg5ODEyNzQzMTE5NTg5IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTQ3IiBjeT0iNjEuNTg5Mzg4ODA4MjM3NzciIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNTYiIGN5PSI3Mi40MTc2ODQ3MjE5NjAzNyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjU2LjM4OTcxNjIzODk2MjA0NSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE3NCIgY3k9IjY3LjUxMTc0MDkxMTUyNjIiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxODMiIGN5PSI1MS43ODk1NTM0NjkxNTUyNyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE5MiIgY3k9IjYzLjIyODQ2NzkzODIwMjYyIiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMjAxIiBjeT0iNDcuODMzMzAxMjQ0Nzc0Njk1IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTggMFYxMThIMjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNmM2YzQiLz48cGF0aCBkPSJNMTQyIDBWMTIwIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS1kYXNoYXJyYXk9IjQgNCIvPjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+562b57qm5p2f5bm25omn6KGM6aaW5q2lPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48cGF0aCBkPSJNMTIgOFYxMTVIMjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNmM2YzQiLz48cGF0aCBkPSJNMjAgMTAwUTgwIDMyIDIyMCAyNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMjAgMTA1UTgwIDQxIDIyMCAyOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNCIvPjxjaXJjbGUgY3g9IjEzMCIgY3k9IjQ1IiByPSI3IiBmaWxsPSIjZmZjZjY5IiBzdHJva2U9IiM2YjU0MjciLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuW9k+WJjeWunumZheaJp+ihjOWKqOS9nDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHBhdGggZD0iTTEyIDhWMTE1SDIzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjZjNmM0Ii8+PHBhdGggZD0iTTIwIDEwMFE4MCAzMiAyMjAgMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTIwIDEwNVE4MCA0MSAyMjAgMjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz48Y2lyY2xlIGN4PSIxMzAiIGN5PSI0NSIgcj0iNyIgZmlsbD0iI2ZmY2Y2OSIgc3Ryb2tlPSIjNmI1NDI3Ii8+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "同扰动比较策略",
+          "role": "对照",
+          "do": "同一合成系统、初始状态与扰动下比较35步轨迹。",
+          "effect": "基线与学习控制使用相同评价条件。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "local": "workflow/step-05.svg",
+            "alt": "智能完井滑套控制策略 同扰动比较策略指导图",
+            "input": "预测控制与固定反馈",
+            "output": "偏差RMS与动作代价",
+            "observe": "基线与学习控制使用相同评价条件。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLmmbrog73lrozkupXmu5HlpZfmjqfliLbnrZbnlaUg5ZCM5omw5Yqo5q+U6L6D562W55Wl5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNSAg5pm66IO95a6M5LqV5ruR5aWX5o6n5Yi2562W55WlIMK3IOWQjOaJsOWKqOavlOi+g+etlueVpTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6aKE5rWL5o6n5Yi25LiO5Zu65a6a5Y+N6aaIPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0xMiA4VjExNUgyMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I2YzZjNCIvPjxwYXRoIGQ9Ik0yMCAxMDBRODAgMzIgMjIwIDI1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjxwYXRoIGQ9Ik0yMCAxMDVRODAgNDEgMjIwIDI5IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+PGNpcmNsZSBjeD0iMTMwIiBjeT0iNDUiIHI9IjciIGZpbGw9IiNmZmNmNjkiIHN0cm9rZT0iIzZiNTQyNyIvPjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5ZCM5omw5Yqo5q+U6L6D562W55WlPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48cGF0aCBkPSJNMTIgOFYxMTVIMjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNmM2YzQiLz48cGF0aCBkPSJNMjAgMTAwUTgwIDMyIDIyMCAyNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMjAgMTA1UTgwIDQxIDIyMCAyOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNCIvPjxjaXJjbGUgY3g9IjEzMCIgY3k9IjQ1IiByPSI3IiBmaWxsPSIjZmZjZjY5IiBzdHJva2U9IiM2YjU0MjciLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWBj+W3rlJNU+S4juWKqOS9nOS7o+S7tzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHRleHQgeD0iMiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiPuKckyDmn6XnnIvni6znq4vor6/lt648L3RleHQ+PHRleHQgeD0iMiIgeT0iNjEiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiPuKckyDmlLnlj5jkuIDpobnlj4LmlbA8L3RleHQ+PHRleHQgeD0iMiIgeT0iMTAwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjYjQ2NTQ3Ij7inJMg5L+d55WZ5Lq65bel5aSN5qC4PC90ZXh0PjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "改变扰动与代价",
+          "role": "复核",
+          "do": "提高动作惩罚或扰动，检查轨迹和控制动作变化。",
+          "effect": "实际方法是预测控制，不将它称为强化学习。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "local": "workflow/step-06.svg",
+            "alt": "智能完井滑套控制策略 改变扰动与代价指导图",
+            "input": "初始偏差、扰动、惩罚",
+            "output": "控制取舍与复核",
+            "observe": "实际方法是预测控制，不将它称为强化学习。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLmmbrog73lrozkupXmu5HlpZfmjqfliLbnrZbnlaUg5pS55Y+Y5omw5Yqo5LiO5Luj5Lu35oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNiAg5pm66IO95a6M5LqV5ruR5aWX5o6n5Yi2562W55WlIMK3IOaUueWPmOaJsOWKqOS4juS7o+S7tzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5Yid5aeL5YGP5beu44CB5omw5Yqo44CB5oOp572aPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0xMiA4VjExNUgyMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I2YzZjNCIvPjxwYXRoIGQ9Ik0yMCAxMDBRODAgMzIgMjIwIDI1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjxwYXRoIGQ9Ik0yMCAxMDVRODAgNDEgMjIwIDI5IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+PGNpcmNsZSBjeD0iMTMwIiBjeT0iNDUiIHI9IjciIGZpbGw9IiNmZmNmNjkiIHN0cm9rZT0iIzZiNTQyNyIvPjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5pS55Y+Y5omw5Yqo5LiO5Luj5Lu3PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mjqfliLblj5boiI3kuI7lpI3moLg8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        }
+      ],
+      "metrics": {
+        "title": "同时检查方法与评价口径",
+        "html": "<p>135条训练转移学习动力响应，45条独立转移核对；每步搜索49个动作序列，只执行首动作，然后读取新状态重新搜索。</p>"
+      },
+      "fails": [
+        {
+          "name": "合成机制与真实部署差异",
+          "why": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1350,
+      "intro": "当前含水状态、滑套开度控制量与层间扰动，如何共同影响下一步含水状态？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-co4-sleeve-predictive-control",
+    "title": "智能完井滑套控制策略",
+    "method": "学习状态转移代理＋两步模型预测控制",
+    "what": "线性回归学习下一状态，用两步动作枚举实现有限时域反馈控制。",
+    "why": "学习状态转移并做有限步搜索，可把短期收益与含水约束放到同一图中。",
+    "how": "135条训练转移学习动力响应，45条独立转移核对；每步搜索49个动作序列，只执行首动作，然后读取新状态重新搜索。",
+    "limit": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+    "trial": "提高水侵扰动，比较预测策略与固定反馈策略的状态轨迹。",
+    "inputs": [
+      "当前含水状态",
+      "滑套开度控制量",
+      "层间扰动"
+    ],
+    "output": "下一步含水状态",
+    "type": "control",
+    "before": "固定动作难兼顾扰动变化和动作代价。",
+    "benefit": "预测未来几步再反馈，轨迹与动作曲线清楚显示控制取舍。",
+    "controls": [
+      "cost",
+      "disturbance"
+    ],
+    "views": [
+      {
+        "name": "状态轨迹与反馈基线",
+        "selector": "#main-chart"
+      },
+      {
+        "name": "当前控制动作",
+        "selector": "#analysis-chart"
+      },
+      {
+        "name": "一步代理预测",
+        "selector": "#evaluation-chart"
+      }
+    ],
+    "steps": [
+      {
+        "name": "生成状态转移样本",
+        "do": "135条转移训练、45条独立转移测试，不用评价轨迹反向拟合。",
+        "effect": "所有状态与动作都是归一教学量。"
+      },
+      {
+        "name": "学习下一状态",
+        "do": "用当前状态、动作和扰动预测下一状态。",
+        "effect": "合成系统推进轨迹，代理负责预测，两者分别实现。"
+      },
+      {
+        "name": "构造两步候选",
+        "do": "枚举7×7种动作组合，按代理预测未来两步状态。",
+        "effect": "预测范围有限，不能等同全局最优控制。"
+      },
+      {
+        "name": "筛约束并执行首步",
+        "do": "筛教学状态约束，最小化状态偏差与动作惩罚；只执行第一步。",
+        "effect": "无可行候选时采用零调整并保留状态。"
+      },
+      {
+        "name": "同扰动比较策略",
+        "do": "同一合成系统、初始状态与扰动下比较35步轨迹。",
+        "effect": "基线与学习控制使用相同评价条件。"
+      },
+      {
+        "name": "改变扰动与代价",
+        "do": "提高动作惩罚或扰动，检查轨迹和控制动作变化。",
+        "effect": "实际方法是预测控制，不将它称为强化学习。"
+      }
+    ]
+  }
+}

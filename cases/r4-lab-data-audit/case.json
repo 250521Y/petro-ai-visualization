@@ -1,0 +1,270 @@
+{
+  "id": "edu08-r4-lab-data-audit",
+  "sceneId": "r4",
+  "title": "化验数据智能审核｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "nlp",
+    "opt"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "项目测量值、单位与范围字段与化验复测结果，如何共同影响待复核化验记录？",
+      "judge": [
+        {
+          "label": "工程环节",
+          "value": "加工",
+          "desc": "化验审核需要同时检查格式、单位、合理范围与统计一致性。"
+        },
+        {
+          "label": "实际方法",
+          "value": "单位范围规则＋正常样本稳健异常检测",
+          "desc": "规则检查确定性格式问题，正常样本的中位数与MAD筛出统计偏离。"
+        },
+        {
+          "label": "数据来源",
+          "value": "教学合成 / 虚构",
+          "desc": "完整评价口径见案例演示"
+        },
+        {
+          "label": "动手目标",
+          "value": "证据可追踪",
+          "desc": "切换原始、单位错误和离群记录，追踪每条标记的理由。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "理解工程对象",
+          "html": "<details class=\"teaching-glossary\"><summary>名词定义 · 图解与生活类比</summary><p><b>名词定义：</b>化验审核需要同时检查格式、单位、合理范围与统计一致性。</p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 190\" role=\"img\" aria-label=\"化验数据智能审核输入到输出概念图\"><rect x=\"10\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#edf7f1\"/><rect x=\"320\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#eaf1fc\"/><rect x=\"630\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#fff2e1\"/><g font-family=\"Microsoft YaHei,system-ui,sans-serif\" font-size=\"19\" fill=\"#293b3b\"><text x=\"30\" y=\"62\">项目测量值</text><text x=\"30\" y=\"94\">单位与范围字段</text><text x=\"30\" y=\"126\">化验复测结果</text><text x=\"340\" y=\"80\">学习规律 / 显式知识</text><text x=\"340\" y=\"114\">保留中间依据</text><text x=\"650\" y=\"94\">待复核化验记录</text><text x=\"290\" y=\"92\">→</text><text x=\"598\" y=\"92\">→</text><text x=\"20\" y=\"176\" font-size=\"14\" fill=\"#627575\">概念关系示意，非当前计算结果；完整方法与评价口径请进入案例演示。</text></g></svg><p><b>生活类比：</b>像先检查试卷是否填错栏，再核对异常高低分。</p></details>"
+        },
+        {
+          "no": 2,
+          "en": "WHAT",
+          "title": "What · 使用什么方法",
+          "html": "<p>规则检查确定性格式问题，正常样本的中位数与MAD筛出统计偏离。</p><p><b>实际实现：</b>单位范围规则＋正常样本稳健异常检测</p>"
+        },
+        {
+          "no": 3,
+          "en": "WHY",
+          "title": "Why · 为什么需要它",
+          "html": "<p>正常样本的稳健统计可筛出难用单条规则发现的偏离，规则则保留确定性依据。</p>"
+        },
+        {
+          "no": 4,
+          "en": "HOW",
+          "title": "How · 如何发挥作用",
+          "html": "<p>60条正常记录估计稳健背景，当前记录按单位、范围和稳健Z分别标记，原始数值保留给人工复测。</p><p><b>动手验证：</b>切换原始、单位错误和离群记录，追踪每条标记的理由。</p>"
+        },
+        {
+          "no": 5,
+          "en": "LIMITS",
+          "title": "数据与结果边界",
+          "html": "<p>全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "单位范围规则＋正常样本稳健异常检测的六步路径",
+      "lead": [
+        "项目测量值、单位与范围字段与化验复测结果，如何共同影响待复核化验记录？",
+        "每步配图标明输入、产出与观察重点；案例演示提供同步变化的运行证据。"
+      ],
+      "steps": [
+        {
+          "name": "分离历史与当前",
+          "role": "数据",
+          "do": "历史正常样本只用于估计背景，当前记录保持独立。",
+          "effect": "不能把当前离群值混入正常尺度。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "local": "workflow/step-01.svg",
+            "alt": "化验数据智能审核 分离历史与当前指导图",
+            "input": "项目测量值等观测",
+            "output": "背景样本和待审记录",
+            "observe": "不能把当前离群值混入正常尺度。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLljJbpqozmlbDmja7mmbrog73lrqHmoLgg5YiG56a75Y6G5Y+y5LiO5b2T5YmN5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMSAg5YyW6aqM5pWw5o2u5pm66IO95a6h5qC4IMK3IOWIhuemu+WOhuWPsuS4juW9k+WJjTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6aG555uu5rWL6YeP5YC8562J6KeC5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7pobnnm67mtYvph4/lgLw8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5Y2V5L2N5LiO6IyD5Zu05a2X5q61PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuWMlumqjOWkjea1i+e7k+aenDwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWIhuemu+WOhuWPsuS4juW9k+WJjTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPumhueebrua1i+mHj+WAvDwvdGV4dD48cmVjdCB4PSIwIiB5PSIyNiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjU3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7ljZXkvY3kuI7ojIPlm7TlrZfmrrU8L3RleHQ+PHJlY3QgeD0iMCIgeT0iNjMiIHdpZHRoPSIxMTIiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5YyW6aqM5aSN5rWL57uT5p6cPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjEwMCIgd2lkdGg9IjE0MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iI2I0NjU0NyIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6IOM5pmv5qC35pys5ZKM5b6F5a6h6K6w5b2VPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "核对单位与范围",
+          "role": "特征",
+          "do": "检查教学单位是否一致以及是否超出0—100录入范围。",
+          "effect": "不同规则的触发原因分别保留。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "local": "workflow/step-02.svg",
+            "alt": "化验数据智能审核 核对单位与范围指导图",
+            "input": "记录字段与项目定义",
+            "output": "确定性规则标记",
+            "observe": "不同规则的触发原因分别保留。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLljJbpqozmlbDmja7mmbrog73lrqHmoLgg5qC45a+55Y2V5L2N5LiO6IyD5Zu05oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMiAg5YyW6aqM5pWw5o2u5pm66IO95a6h5qC4IMK3IOaguOWvueWNleS9jeS4juiMg+WbtDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6K6w5b2V5a2X5q615LiO6aG555uu5a6a5LmJPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7pobnnm67mtYvph4/lgLw8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5Y2V5L2N5LiO6IyD5Zu05a2X5q61PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuWMlumqjOWkjea1i+e7k+aenDwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaguOWvueWNleS9jeS4juiMg+WbtDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiPuKckyDmn6XnnIvni6znq4vor6/lt648L3RleHQ+PHRleHQgeD0iMiIgeT0iNjEiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiPuKckyDmlLnlj5jkuIDpobnlj4LmlbA8L3RleHQ+PHRleHQgeD0iMiIgeT0iMTAwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjYjQ2NTQ3Ij7inJMg5L+d55WZ5Lq65bel5aSN5qC4PC90ZXh0PjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+56Gu5a6a5oCn6KeE5YiZ5qCH6K6wPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48dGV4dCB4PSIwIiB5PSIyMyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMTwvdGV4dD48cmVjdCB4PSI2MCIgeT0iOSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMCIgeT0iNjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTI8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI0NiIgd2lkdGg9IjEwNSIgaGVpZ2h0PSIyMCIgZmlsbD0iIzQyNjdhOCIvPjx0ZXh0IHg9IjAiIHk9Ijk3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoEzPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iODMiIHdpZHRoPSIzNy41IiBoZWlnaHQ9IjIwIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTExMCAwVjExNSIgc3Ryb2tlPSIjOTlhZWFhIi8+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "学习稳健正常尺度",
+          "role": "方法",
+          "do": "用中位数和绝对偏差中位数估计位置和尺度。",
+          "effect": "统计背景并不等于行业化验标准。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "local": "workflow/step-03.svg",
+            "alt": "化验数据智能审核 学习稳健正常尺度指导图",
+            "input": "60条历史正常值",
+            "output": "中位数与MAD",
+            "observe": "统计背景并不等于行业化验标准。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLljJbpqozmlbDmja7mmbrog73lrqHmoLgg5a2m5Lmg56iz5YGl5q2j5bi45bC65bqm5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMyAg5YyW6aqM5pWw5o2u5pm66IO95a6h5qC4IMK3IOWtpuS5oOeos+WBpeato+W4uOWwuuW6pjwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+NjDmnaHljoblj7LmraPluLjlgLw8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDcsMTQ1KSI+PHRleHQgeD0iMiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiPuKckyDmn6XnnIvni6znq4vor6/lt648L3RleHQ+PHRleHQgeD0iMiIgeT0iNjEiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiPuKckyDmlLnlj5jkuIDpobnlj4LmlbA8L3RleHQ+PHRleHQgeD0iMiIgeT0iMTAwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjYjQ2NTQ3Ij7inJMg5L+d55WZ5Lq65bel5aSN5qC4PC90ZXh0PjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5a2m5Lmg56iz5YGl5q2j5bi45bC65bqmPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48dGV4dCB4PSIwIiB5PSIyMyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMTwvdGV4dD48cmVjdCB4PSI2MCIgeT0iOSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMCIgeT0iNjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTI8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI0NiIgd2lkdGg9IjEwNSIgaGVpZ2h0PSIyMCIgZmlsbD0iIzQyNjdhOCIvPjx0ZXh0IHg9IjAiIHk9Ijk3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoEzPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iODMiIHdpZHRoPSIzNy41IiBoZWlnaHQ9IjIwIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTExMCAwVjExNSIgc3Ryb2tlPSIjOTlhZWFhIi8+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7kuK3kvY3mlbDkuI5NQUQ8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjxwYXRoIGQ9Ik0wIDExNUgyMzBNMCA1M0gyMzAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+PHBhdGggZD0iTTAgMTEwTDM1IDEwOUw3MCAxMTFMMTA1IDEwNUwxMzAgMTAwTDE1MyA4MEwxODAgNDVMMjI1IDEyIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "计算统计偏离",
+          "role": "推断",
+          "do": "将当前数值转为稳健Z，超过当前阈值提示复核。",
+          "effect": "离群只说明偏离背景，不证明化验错误。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "local": "workflow/step-04.svg",
+            "alt": "化验数据智能审核 计算统计偏离指导图",
+            "input": "当前值与正常尺度",
+            "output": "稳健Z与可疑标记",
+            "observe": "离群只说明偏离背景，不证明化验错误。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLljJbpqozmlbDmja7mmbrog73lrqHmoLgg6K6h566X57uf6K6h5YGP56a75oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNCAg5YyW6aqM5pWw5o2u5pm66IO95a6h5qC4IMK3IOiuoeeul+e7n+iuoeWBj+emuzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5b2T5YmN5YC85LiO5q2j5bi45bC65bqmPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuiuoeeul+e7n+iuoeWBj+emuzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHBhdGggZD0iTTAgMTE1SDIzME0wIDUzSDIzMCIgc3Ryb2tlPSIjYjQ2NTQ3IiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz48cGF0aCBkPSJNMCAxMTBMMzUgMTA5TDcwIDExMUwxMDUgMTA1TDEzMCAxMDBMMTUzIDgwTDE4MCA0NUwyMjUgMTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7nqLPlgaVa5LiO5Y+v55aR5qCH6K6wPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSIyMiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5LqV5Y+3IEExMjwvdGV4dD48cmVjdCB4PSIwIiB5PSI0MSIgd2lkdGg9IjIyOCIgaGVpZ2h0PSIzMiIgcng9IjQiIGZpbGw9IiNlOWYxZmYiLz48dGV4dCB4PSIxMCIgeT0iNjMiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPua3seW6piAyMTAw4oCTMjEzMDwvdGV4dD48cmVjdCB4PSIwIiB5PSI4MiIgd2lkdGg9IjIyOCIgaGVpZ2h0PSIzMiIgcng9IjQiIGZpbGw9IiNmZmYwZGYiLz48dGV4dCB4PSIxMCIgeT0iMTA0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7or4Hmja4g5b6F5aSN5qC4PC90ZXh0PjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "合并依据并追溯",
+          "role": "对照",
+          "do": "对每条记录并列展示单位、范围、统计触发情况。",
+          "effect": "保留原值，不自动校正数据。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "local": "workflow/step-05.svg",
+            "alt": "化验数据智能审核 合并依据并追溯指导图",
+            "input": "规则和统计结果",
+            "output": "逐条复核理由",
+            "observe": "保留原值，不自动校正数据。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLljJbpqozmlbDmja7mmbrog73lrqHmoLgg5ZCI5bm25L6d5o2u5bm26L+95rqv5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNSAg5YyW6aqM5pWw5o2u5pm66IO95a6h5qC4IMK3IOWQiOW5tuS+neaNruW5tui/vea6rzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6KeE5YiZ5ZKM57uf6K6h57uT5p6cPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0wIDExNUgyMzBNMCA1M0gyMzAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+PHBhdGggZD0iTTAgMTEwTDM1IDEwOUw3MCAxMTFMMTA1IDEwNUwxMzAgMTAwTDE1MyA4MEwxODAgNDVMMjI1IDEyIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5ZCI5bm25L6d5o2u5bm26L+95rqvPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSIyMiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5LqV5Y+3IEExMjwvdGV4dD48cmVjdCB4PSIwIiB5PSI0MSIgd2lkdGg9IjIyOCIgaGVpZ2h0PSIzMiIgcng9IjQiIGZpbGw9IiNlOWYxZmYiLz48dGV4dCB4PSIxMCIgeT0iNjMiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPua3seW6piAyMTAw4oCTMjEzMDwvdGV4dD48cmVjdCB4PSIwIiB5PSI4MiIgd2lkdGg9IjIyOCIgaGVpZ2h0PSIzMiIgcng9IjQiIGZpbGw9IiNmZmYwZGYiLz48dGV4dCB4PSIxMCIgeT0iMTA0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7or4Hmja4g5b6F5aSN5qC4PC90ZXh0PjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6YCQ5p2h5aSN5qC455CG55SxPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "切换记录复核",
+          "role": "复核",
+          "do": "比较规则错误与统计离群，调整阈值观察变化。",
+          "effect": "最终结论需要复测、方法标准与审核人员确认。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "local": "workflow/step-06.svg",
+            "alt": "化验数据智能审核 切换记录复核指导图",
+            "input": "正常、错单位、离群记录",
+            "output": "审核清单与阈值敏感性",
+            "observe": "最终结论需要复测、方法标准与审核人员确认。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLljJbpqozmlbDmja7mmbrog73lrqHmoLgg5YiH5o2i6K6w5b2V5aSN5qC45oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNiAg5YyW6aqM5pWw5o2u5pm66IO95a6h5qC4IMK3IOWIh+aNouiusOW9leWkjeaguDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5q2j5bi444CB6ZSZ5Y2V5L2N44CB56a7576k6K6w5b2VPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMjgiIGhlaWdodD0iMzIiIHJ4PSI0IiBmaWxsPSIjZTlmMWZmIi8+PHRleHQgeD0iMTAiIHk9IjIyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIj7kupXlj7cgQTEyPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjQxIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2U5ZjFmZiIvPjx0ZXh0IHg9IjEwIiB5PSI2MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiI+5rex5bqmIDIxMDDigJMyMTMwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjgyIiB3aWR0aD0iMjI4IiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iI2ZmZjBkZiIvPjx0ZXh0IHg9IjEwIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiPuivgeaNriDlvoXlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7liIfmjaLorrDlvZXlpI3moLg8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWuoeaguOa4heWNleS4jumYiOWAvOaVj+aEn+aApzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHRleHQgeD0iMiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiPuKckyDmn6XnnIvni6znq4vor6/lt648L3RleHQ+PHRleHQgeD0iMiIgeT0iNjEiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiPuKckyDmlLnlj5jkuIDpobnlj4LmlbA8L3RleHQ+PHRleHQgeD0iMiIgeT0iMTAwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjYjQ2NTQ3Ij7inJMg5L+d55WZ5Lq65bel5aSN5qC4PC90ZXh0PjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        }
+      ],
+      "metrics": {
+        "title": "同时检查方法与评价口径",
+        "html": "<p>60条正常记录估计稳健背景，当前记录按单位、范围和稳健Z分别标记，原始数值保留给人工复测。</p>"
+      },
+      "fails": [
+        {
+          "name": "合成机制与真实部署差异",
+          "why": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1350,
+      "intro": "项目测量值、单位与范围字段与化验复测结果，如何共同影响待复核化验记录？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-r4-lab-data-audit",
+    "title": "化验数据智能审核",
+    "method": "单位范围规则＋正常样本稳健异常检测",
+    "what": "规则检查确定性格式问题，正常样本的中位数与MAD筛出统计偏离。",
+    "why": "正常样本的稳健统计可筛出难用单条规则发现的偏离，规则则保留确定性依据。",
+    "how": "60条正常记录估计稳健背景，当前记录按单位、范围和稳健Z分别标记，原始数值保留给人工复测。",
+    "limit": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+    "trial": "切换原始、单位错误和离群记录，追踪每条标记的理由。",
+    "inputs": [
+      "项目测量值",
+      "单位与范围字段",
+      "化验复测结果"
+    ],
+    "output": "待复核化验记录",
+    "type": "audit",
+    "before": "逐条审阅格式、单位和离群值，检查维度较多。",
+    "benefit": "规则与正常背景初筛可疑记录，逐项解释理由并保留原值用于复测。",
+    "controls": [
+      "threshold",
+      "record"
+    ],
+    "views": [
+      {
+        "name": "当前记录的稳健偏离",
+        "selector": "#main-chart"
+      },
+      {
+        "name": "每条标记的原因",
+        "selector": "#analysis-chart"
+      },
+      {
+        "name": "历史正常背景",
+        "selector": "#evaluation-chart"
+      }
+    ],
+    "steps": [
+      {
+        "name": "分离历史与当前",
+        "do": "历史正常样本只用于估计背景，当前记录保持独立。",
+        "effect": "不能把当前离群值混入正常尺度。"
+      },
+      {
+        "name": "核对单位与范围",
+        "do": "检查教学单位是否一致以及是否超出0—100录入范围。",
+        "effect": "不同规则的触发原因分别保留。"
+      },
+      {
+        "name": "学习稳健正常尺度",
+        "do": "用中位数和绝对偏差中位数估计位置和尺度。",
+        "effect": "统计背景并不等于行业化验标准。"
+      },
+      {
+        "name": "计算统计偏离",
+        "do": "将当前数值转为稳健Z，超过当前阈值提示复核。",
+        "effect": "离群只说明偏离背景，不证明化验错误。"
+      },
+      {
+        "name": "合并依据并追溯",
+        "do": "对每条记录并列展示单位、范围、统计触发情况。",
+        "effect": "保留原值，不自动校正数据。"
+      },
+      {
+        "name": "切换记录复核",
+        "do": "比较规则错误与统计离群，调整阈值观察变化。",
+        "effect": "最终结论需要复测、方法标准与审核人员确认。"
+      }
+    ]
+  }
+}

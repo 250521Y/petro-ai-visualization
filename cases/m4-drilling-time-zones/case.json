@@ -1,0 +1,269 @@
+{
+  "id": "edu08-m4-drilling-time-zones",
+  "sceneId": "m4",
+  "title": "钻时曲线地层划分｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "ts"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "钻时均值、局部波动与气测辅助响应，如何共同影响候选层段边界？",
+      "judge": [
+        {
+          "label": "工程环节",
+          "value": "录井",
+          "desc": "钻时随岩性与操作条件改变，候选界面必须与录井资料互证。"
+        },
+        {
+          "label": "实际方法",
+          "value": "多曲线标准化＋惩罚式动态规划分段",
+          "desc": "以段内平方误差和界面惩罚作为目标，寻找整段曲线的最优分段。"
+        },
+        {
+          "label": "数据来源",
+          "value": "教学合成 / 虚构",
+          "desc": "完整评价口径见案例演示"
+        },
+        {
+          "label": "动手目标",
+          "value": "证据可追踪",
+          "desc": "增加分段惩罚，观察边界数减少；提高噪声检查伪界面。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "理解工程对象",
+          "html": "<details class=\"teaching-glossary\"><summary>名词定义 · 图解与生活类比</summary><p><b>名词定义：</b>钻时随岩性与操作条件改变，候选界面必须与录井资料互证。</p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 190\" role=\"img\" aria-label=\"钻时曲线地层划分输入到输出概念图\"><rect x=\"10\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#edf7f1\"/><rect x=\"320\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#eaf1fc\"/><rect x=\"630\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#fff2e1\"/><g font-family=\"Microsoft YaHei,system-ui,sans-serif\" font-size=\"19\" fill=\"#293b3b\"><text x=\"30\" y=\"62\">钻时均值</text><text x=\"30\" y=\"94\">局部波动</text><text x=\"30\" y=\"126\">气测辅助响应</text><text x=\"340\" y=\"80\">学习规律 / 显式知识</text><text x=\"340\" y=\"114\">保留中间依据</text><text x=\"650\" y=\"94\">候选层段边界</text><text x=\"290\" y=\"92\">→</text><text x=\"598\" y=\"92\">→</text><text x=\"20\" y=\"176\" font-size=\"14\" fill=\"#627575\">概念关系示意，非当前计算结果；完整方法与评价口径请进入案例演示。</text></g></svg><p><b>生活类比：</b>像按节奏变化把一段音乐分成乐句。</p></details>"
+        },
+        {
+          "no": 2,
+          "en": "WHAT",
+          "title": "What · 使用什么方法",
+          "html": "<p>以段内平方误差和界面惩罚作为目标，寻找整段曲线的最优分段。</p><p><b>实际实现：</b>多曲线标准化＋惩罚式动态规划分段</p>"
+        },
+        {
+          "no": 3,
+          "en": "WHY",
+          "title": "Why · 为什么需要它",
+          "html": "<p>带惩罚的最优分段可把连续曲线划为统计性质相近的区间。</p>"
+        },
+        {
+          "no": 4,
+          "en": "HOW",
+          "title": "How · 如何发挥作用",
+          "html": "<p>从多曲线建立区间代价，动态规划比较满足最短长度的所有切分，再回溯候选界面；合成参考界面只负责评价。</p><p><b>动手验证：</b>增加分段惩罚，观察边界数减少；提高噪声检查伪界面。</p>"
+        },
+        {
+          "no": 5,
+          "en": "LIMITS",
+          "title": "数据与结果边界",
+          "html": "<p>全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "多曲线标准化＋惩罚式动态规划分段的六步路径",
+      "lead": [
+        "钻时均值、局部波动与气测辅助响应，如何共同影响候选层段边界？",
+        "每步配图标明输入、产出与观察重点；案例演示提供同步变化的运行证据。"
+      ],
+      "steps": [
+        {
+          "name": "读取多曲线序列",
+          "role": "数据",
+          "do": "保持样点顺序，使用相同深度索引对齐三项观测。",
+          "effect": "本例无监督处理整段数据，不是向未来预测。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "local": "workflow/step-01.svg",
+            "alt": "钻时曲线地层划分 读取多曲线序列指导图",
+            "input": "钻时均值等观测",
+            "output": "按深度对齐的三曲线",
+            "observe": "本例无监督处理整段数据，不是向未来预测。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLpkrvml7bmm7Lnur/lnLDlsYLliJLliIYg6K+75Y+W5aSa5puy57q/5bqP5YiX5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMSAg6ZK75pe25puy57q/5Zyw5bGC5YiS5YiGIMK3IOivu+WPluWkmuabsue6v+W6j+WIlzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6ZK75pe25Z2H5YC8562J6KeC5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7or7vlj5blpJrmm7Lnur/luo/liJc8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mjInmt7Hluqblr7npvZDnmoTkuInmm7Lnur88L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "标准化并建代价",
+          "role": "特征",
+          "do": "逐曲线标准化，再用前缀和计算任意区间的平方误差。",
+          "effect": "避免量纲较大的曲线独占分段代价。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "local": "workflow/step-02.svg",
+            "alt": "钻时曲线地层划分 标准化并建代价指导图",
+            "input": "三项深度响应",
+            "output": "各区间的段内误差",
+            "observe": "避免量纲较大的曲线独占分段代价。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLpkrvml7bmm7Lnur/lnLDlsYLliJLliIYg5qCH5YeG5YyW5bm25bu65Luj5Lu35oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMiAg6ZK75pe25puy57q/5Zyw5bGC5YiS5YiGIMK3IOagh+WHhuWMluW5tuW7uuS7o+S7tzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5LiJ6aG55rex5bqm5ZON5bqUPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7moIflh4bljJblubblu7rku6Pku7c8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWQhOWMuumXtOeahOauteWGheivr+W3rjwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PGNpcmNsZSBjeD0iMjQiIGN5PSIxOCIgcj0iMTMiIGZpbGw9IiMyMzc3NjIiLz48cGF0aCBkPSJNMzggMThMMTI1IDYwTDIwNyAxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjQiIGN5PSI2MCIgcj0iMTMiIGZpbGw9IiM0MjY3YTgiLz48cGF0aCBkPSJNMzggNjBMMTI1IDYwTDIwNyA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMjQiIGN5PSIxMDIiIHI9IjEzIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTM4IDEwMkwxMjUgNjBMMjA3IDEwMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTI1IiBjeT0iNjAiIHI9IjI0IiBmaWxsPSIjZTlmMWZmIiBzdHJva2U9IiM0MjY3YTgiLz48dGV4dCB4PSIxMDgiIHk9IjY1IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7lrabkuaA8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "动态规划选分段",
+          "role": "方法",
+          "do": "同时比较拟合误差、分段惩罚与每段至少6样点的约束。",
+          "effect": "惩罚过小可能把噪声切成很多小段。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "local": "workflow/step-03.svg",
+            "alt": "钻时曲线地层划分 动态规划选分段指导图",
+            "input": "区间误差与惩罚",
+            "output": "最小总代价路径",
+            "observe": "惩罚过小可能把噪声切成很多小段。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLpkrvml7bmm7Lnur/lnLDlsYLliJLliIYg5Yqo5oCB6KeE5YiS6YCJ5YiG5q615oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMyAg6ZK75pe25puy57q/5Zyw5bGC5YiS5YiGIMK3IOWKqOaAgeinhOWIkumAieWIhuautTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5Yy66Ze06K+v5beu5LiO5oOp572aPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWKqOaAgeinhOWIkumAieWIhuautTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PGNpcmNsZSBjeD0iMjQiIGN5PSIxOCIgcj0iMTMiIGZpbGw9IiMyMzc3NjIiLz48cGF0aCBkPSJNMzggMThMMTI1IDYwTDIwNyAxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjQiIGN5PSI2MCIgcj0iMTMiIGZpbGw9IiM0MjY3YTgiLz48cGF0aCBkPSJNMzggNjBMMTI1IDYwTDIwNyA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMjQiIGN5PSIxMDIiIHI9IjEzIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTM4IDEwMkwxMjUgNjBMMjA3IDEwMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTI1IiBjeT0iNjAiIHI9IjI0IiBmaWxsPSIjZTlmMWZmIiBzdHJva2U9IiM0MjY3YTgiLz48dGV4dCB4PSIxMDgiIHk9IjY1IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7lrabkuaA8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mnIDlsI/mgLvku6Pku7fot6/lvoQ8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "回溯候选界面",
+          "role": "推断",
+          "do": "沿前驱索引回溯边界，再重建每段均值曲线。",
+          "effect": "候选界面是统计变化，需要与地质资料互证。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "local": "workflow/step-04.svg",
+            "alt": "钻时曲线地层划分 回溯候选界面指导图",
+            "input": "最优前驱索引",
+            "output": "分段边界与均值",
+            "observe": "候选界面是统计变化，需要与地质资料互证。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLpkrvml7bmm7Lnur/lnLDlsYLliJLliIYg5Zue5rqv5YCZ6YCJ55WM6Z2i5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNCAg6ZK75pe25puy57q/5Zyw5bGC5YiS5YiGIMK3IOWbnua6r+WAmemAieeVjOmdojwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5pyA5LyY5YmN6amx57Si5byVPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxjaXJjbGUgY3g9IjI0IiBjeT0iMTgiIHI9IjEzIiBmaWxsPSIjMjM3NzYyIi8+PHBhdGggZD0iTTM4IDE4TDEyNSA2MEwyMDcgMTgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjI0IiBjeT0iNjAiIHI9IjEzIiBmaWxsPSIjNDI2N2E4Ii8+PHBhdGggZD0iTTM4IDYwTDEyNSA2MEwyMDcgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjI0IiBjeT0iMTAyIiByPSIxMyIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik0zOCAxMDJMMTI1IDYwTDIwNyAxMDIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEyNSIgY3k9IjYwIiByPSIyNCIgZmlsbD0iI2U5ZjFmZiIgc3Ryb2tlPSIjNDI2N2E4Ii8+PHRleHQgeD0iMTA4IiB5PSI2NSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+5a2m5LmgPC90ZXh0PjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5Zue5rqv5YCZ6YCJ55WM6Z2iPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48cGF0aCBkPSJNMCAyMEw0NSAyNUw3MCAxMUwxMDAgMjZMMTUwIDE4TDE3NSAyOEwyMjUgMTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgNThMNDUgNjNMNzAgNDlMMTAwIDY0TDE1MCA1NkwxNzUgNjZMMjI1IDUyIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0wIDk2TDQ1IDEwMUw3MCA4N0wxMDAgMTAyTDE1MCA5NEwxNzUgMTA0TDIyNSA5MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNzAgMFYxMjBNMTUwIDBWMTIwIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS1kYXNoYXJyYXk9IjQgMyIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5YiG5q616L6555WM5LiO5Z2H5YC8PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48cmVjdCB4PSIyMCIgeT0iMCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjQyIiB5PSIyNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjxyZWN0IHg9IjgwIiB5PSIwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTAyIiB5PSIyNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMTQwIiB5PSIwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTYyIiB5PSIyNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMjAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iNDIiIHk9IjY0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSI4MCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSIxMDIiIHk9IjY0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PHJlY3QgeD0iMTQwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjE2MiIgeT0iNjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjIwIiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjQyIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjgwIiB5PSI4MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2U4ZWVmNCIvPjx0ZXh0IHg9IjEwMiIgeT0iMTA0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iMTYyIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "匹配参考界面",
+          "role": "对照",
+          "do": "用±3样点容差做一对一界面匹配。",
+          "effect": "同一个参考界面最多匹配一个候选，避免重复计分。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "local": "workflow/step-05.svg",
+            "alt": "钻时曲线地层划分 匹配参考界面指导图",
+            "input": "候选与合成参考",
+            "output": "精确率与召回率",
+            "observe": "同一个参考界面最多匹配一个候选，避免重复计分。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLpkrvml7bmm7Lnur/lnLDlsYLliJLliIYg5Yy56YWN5Y+C6ICD55WM6Z2i5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNSAg6ZK75pe25puy57q/5Zyw5bGC5YiS5YiGIMK3IOWMuemFjeWPguiAg+eVjOmdojwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5YCZ6YCJ5LiO5ZCI5oiQ5Y+C6ICDPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7ljLnphY3lj4LogIPnlYzpnaI8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjxyZWN0IHg9IjIwIiB5PSIwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iNDIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxMDIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxNjIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIyMCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSI0MiIgeT0iNjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjgwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjEwMiIgeT0iNjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTYyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMjAiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iNDIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTAyIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSIxNjIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+57K+56Gu546H5LiO5Y+s5Zue546HPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "改变惩罚与噪声",
+          "role": "复核",
+          "do": "比较边界数、位置与误差，解释过分段和欠分段。",
+          "effect": "参考界面不进入动态规划目标。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "local": "workflow/step-06.svg",
+            "alt": "钻时曲线地层划分 改变惩罚与噪声指导图",
+            "input": "惩罚和观测扰动",
+            "output": "界面稳定性",
+            "observe": "参考界面不进入动态规划目标。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLpkrvml7bmm7Lnur/lnLDlsYLliJLliIYg5pS55Y+Y5oOp572a5LiO5Zmq5aOw5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNiAg6ZK75pe25puy57q/5Zyw5bGC5YiS5YiGIMK3IOaUueWPmOaDqee9muS4juWZquWjsDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5oOp572a5ZKM6KeC5rWL5omw5YqoPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxyZWN0IHg9IjIwIiB5PSIwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjYjNkOGM4Ii8+PHRleHQgeD0iNDIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7inJM8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxMDIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSIxNjIiIHk9IjI0IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7CtzwvdGV4dD48cmVjdCB4PSIyMCIgeT0iNDAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNlOGVlZjQiLz48dGV4dCB4PSI0MiIgeT0iNjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjgwIiB5PSI0MCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjM1IiByeD0iMyIgZmlsbD0iI2IzZDhjOCIvPjx0ZXh0IHg9IjEwMiIgeT0iNjQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuKckzwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjQwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTYyIiB5PSI2NCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iMjAiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iNDIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+wrc8L3RleHQ+PHJlY3QgeD0iODAiIHk9IjgwIiB3aWR0aD0iNTUiIGhlaWdodD0iMzUiIHJ4PSIzIiBmaWxsPSIjZThlZWY0Ii8+PHRleHQgeD0iMTAyIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPsK3PC90ZXh0PjxyZWN0IHg9IjE0MCIgeT0iODAiIHdpZHRoPSI1NSIgaGVpZ2h0PSIzNSIgcng9IjMiIGZpbGw9IiNiM2Q4YzgiLz48dGV4dCB4PSIxNjIiIHk9IjEwNCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+4pyTPC90ZXh0PjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5pS55Y+Y5oOp572a5LiO5Zmq5aOwPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7nlYzpnaLnqLPlrprmgKc8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        }
+      ],
+      "metrics": {
+        "title": "同时检查方法与评价口径",
+        "html": "<p>从多曲线建立区间代价，动态规划比较满足最短长度的所有切分，再回溯候选界面；合成参考界面只负责评价。</p>"
+      },
+      "fails": [
+        {
+          "name": "合成机制与真实部署差异",
+          "why": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1350,
+      "intro": "钻时均值、局部波动与气测辅助响应，如何共同影响候选层段边界？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-m4-drilling-time-zones",
+    "title": "钻时曲线地层划分",
+    "method": "多曲线标准化＋惩罚式动态规划分段",
+    "what": "以段内平方误差和界面惩罚作为目标，寻找整段曲线的最优分段。",
+    "why": "带惩罚的最优分段可把连续曲线划为统计性质相近的区间。",
+    "how": "从多曲线建立区间代价，动态规划比较满足最短长度的所有切分，再回溯候选界面；合成参考界面只负责评价。",
+    "limit": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+    "trial": "增加分段惩罚，观察边界数减少；提高噪声检查伪界面。",
+    "inputs": [
+      "钻时均值",
+      "局部波动",
+      "气测辅助响应"
+    ],
+    "output": "候选层段边界",
+    "type": "changepoint",
+    "before": "靠单条曲线目视选界面，容易将尖峰当成地层变化。",
+    "benefit": "联合曲线并用整体目标选分段，惩罚和边界数的关系直观可见。",
+    "controls": [
+      "penalty",
+      "noise"
+    ],
+    "views": [
+      {
+        "name": "多曲线与候选边界",
+        "selector": "#main-chart"
+      },
+      {
+        "name": "分段均值重建",
+        "selector": "#analysis-chart"
+      },
+      {
+        "name": "界面误差",
+        "selector": "#evaluation-chart"
+      }
+    ],
+    "steps": [
+      {
+        "name": "读取多曲线序列",
+        "do": "保持样点顺序，使用相同深度索引对齐三项观测。",
+        "effect": "本例无监督处理整段数据，不是向未来预测。"
+      },
+      {
+        "name": "标准化并建代价",
+        "do": "逐曲线标准化，再用前缀和计算任意区间的平方误差。",
+        "effect": "避免量纲较大的曲线独占分段代价。"
+      },
+      {
+        "name": "动态规划选分段",
+        "do": "同时比较拟合误差、分段惩罚与每段至少6样点的约束。",
+        "effect": "惩罚过小可能把噪声切成很多小段。"
+      },
+      {
+        "name": "回溯候选界面",
+        "do": "沿前驱索引回溯边界，再重建每段均值曲线。",
+        "effect": "候选界面是统计变化，需要与地质资料互证。"
+      },
+      {
+        "name": "匹配参考界面",
+        "do": "用±3样点容差做一对一界面匹配。",
+        "effect": "同一个参考界面最多匹配一个候选，避免重复计分。"
+      },
+      {
+        "name": "改变惩罚与噪声",
+        "do": "比较边界数、位置与误差，解释过分段和欠分段。",
+        "effect": "参考界面不进入动态规划目标。"
+      }
+    ]
+  }
+}

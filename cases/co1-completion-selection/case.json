@@ -1,0 +1,252 @@
+{
+  "id": "edu08-co1-completion-selection",
+  "sceneId": "co1",
+  "title": "完井方式智能优选｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "kg",
+    "opt"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "出砂风险、隔离需求和代价偏好，怎样改变候选排序？",
+      "judge": [
+        {
+          "label": "环节",
+          "value": "完井",
+          "desc": "完井方式需结合储层、井况与作业需求比较。本例用四种抽象候选方案演示硬约束与软评分，规则与分值均为教学设定。"
+        },
+        {
+          "label": "实际方法",
+          "value": "显式适用性规则 + 加权多准则排序",
+          "desc": "无需后端；算法在浏览器运行"
+        },
+        {
+          "label": "数据",
+          "value": "教学合成",
+          "desc": "不使用真实生产数据"
+        },
+        {
+          "label": "阅读目标",
+          "value": "依据可追踪",
+          "desc": "增加出砂风险，观察哪些候选被排除；再提高代价权重，解释排名变化。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "先辨认工程问题",
+          "html": "<style>/* Full-chain readable layout */\nbody{background:#fff;font-size:16px}.chain-hero{display:grid;grid-template-columns:1fr 1.15fr;gap:32px;align-items:center}.chain-hero>div{min-width:0}.chart{width:100%;height:auto;min-width:0!important}.viz-scroll{overflow:auto}.chain-workspace{display:grid;grid-template-columns:minmax(210px,.65fr) minmax(0,1.65fr);gap:24px;align-items:start}.chain-controls{padding:20px;background:#f4f8f5;border-radius:14px;display:grid;gap:16px}.chain-controls button{padding:11px;border:1px solid #b7d7c8;border-radius:8px;background:white;color:#237762;text-align:left;font:inherit;cursor:pointer}.chain-controls button:disabled{opacity:.45;cursor:not-allowed}.chain-controls textarea{max-width:100%;width:100%;padding:10px;font:inherit;border:1px solid #c2d1c9;border-radius:7px;resize:vertical}.chain-controls p{font-size:13px}.chain-controls .control label{display:flex;justify-content:space-between;gap:8px}.chain-controls input{width:100%}.chain-knowledge{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:22px;align-items:center}.chain-knowledge>*{min-width:0}.chain-knowledge svg{width:100%}.chain-evidence{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:22px}.chain-evidence>div{min-width:0}.metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin:22px 0}.metric strong{font-size:23px;overflow-wrap:anywhere}.table-scroll{overflow:auto}table{width:100%}td,th{padding:9px;font-size:14px}.note{padding:16px;background:#fff4db;border-radius:10px;line-height:1.8}#overview,#main-chart{border:1px solid #e4e8e6;border-radius:14px;padding:15px;background:#fff}button:focus-visible,[tabindex]:focus-visible{outline:3px solid #4267a8;outline-offset:3px}.control output{color:#237762;font-weight:bold}.teaching-glossary details{margin:24px 0}.section{scroll-margin-top:15px}svg [role=button]{cursor:pointer}svg text{font-family:system-ui,'Microsoft YaHei',sans-serif}@media(max-width:800px){.chain-hero,.chain-workspace,.chain-knowledge,.chain-evidence{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.hero h1{font-size:34px}.page{padding:20px 16px}.chain-controls{order:0}}</style><div class=\"teaching-glossary\"><details><summary>名词定义 · 点击展开图解与类比</summary><div class=\"chain-knowledge\"><div><h4>名词定义</h4><p>完井方式需结合储层、井况与作业需求比较。本例用四种抽象候选方案演示硬约束与软评分，规则与分值均为教学设定。</p></div><div><svg viewBox=\"0 0 580 240\" role=\"img\" aria-label=\"完井方式智能优选概念关系示意\"><g><rect x=\"10\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#e7f5ed\"/><text x=\"95\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">需求</text></g><path d=\"M180 115h23l-7 -6m7 6l-7 6\" stroke=\"#237762\" fill=\"none\"/><g><rect x=\"205\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#e9f1ff\"/><text x=\"290\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">约束评分</text></g><path d=\"M375 115h23l-7 -6m7 6l-7 6\" stroke=\"#237762\" fill=\"none\"/><g><rect x=\"400\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#fff0df\"/><text x=\"485\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">可行候选</text></g><text x=\"290\" y=\"205\" text-anchor=\"middle\" fill=\"#5e6e73\" font-size=\"16\">教学关系图；实际结果在交互实验中重新计算</text></svg></div><div><h4>生活类比</h4><p>像选择交通方式：必须能到达目的地，再比较时间、费用和舒适度。</p></div></div></details></div>"
+        },
+        {
+          "no": 2,
+          "en": "METHOD",
+          "title": "实际方法与可见证据",
+          "html": "<svg viewBox=\"0 0 580 240\" role=\"img\" aria-label=\"完井方式智能优选概念关系示意\"><g><rect x=\"10\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#e7f5ed\"/><text x=\"95\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">需求</text></g><path d=\"M180 115h23l-7 -6m7 6l-7 6\" stroke=\"#237762\" fill=\"none\"/><g><rect x=\"205\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#e9f1ff\"/><text x=\"290\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">约束评分</text></g><path d=\"M375 115h23l-7 -6m7 6l-7 6\" stroke=\"#237762\" fill=\"none\"/><g><rect x=\"400\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#fff0df\"/><text x=\"485\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">可行候选</text></g><text x=\"290\" y=\"205\" text-anchor=\"middle\" fill=\"#5e6e73\" font-size=\"16\">教学关系图；实际结果在交互实验中重新计算</text></svg><p>显式适用性规则 + 加权多准则排序。请在案例演示中逐步检查输入、中间状态和输出。</p>"
+        },
+        {
+          "no": 3,
+          "en": "EXPERIMENT",
+          "title": "带着一个对照进入实验",
+          "html": "<p>增加出砂风险，观察哪些候选被排除；再提高代价权重，解释排名变化。</p>"
+        },
+        {
+          "no": 4,
+          "en": "LIMITS",
+          "title": "怎样理解结果边界",
+          "html": "<p>这是透明规则演示，不是训练出的深度学习模型。候选分值与可行阈值不属于工程设计标准，不生成现场施工建议。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "显式适用性规则 + 加权多准则排序的六步路径",
+      "lead": [
+        "出砂风险、隔离需求和代价偏好，怎样改变候选排序？",
+        "本页指导图用于说明每一步的输入、处理与产出；随参数更新的真实图表请到案例演示的算法步骤查看。"
+      ],
+      "steps": [
+        {
+          "name": "建立工况画像",
+          "role": "数据",
+          "do": "建立工况与偏好画像，得到用于筛选的条件向量。",
+          "effect": "读图后应能说明：先分清工况要求与代价偏好，二者承担不同作用。",
+          "trap": "这是透明规则演示，不是训练出的深度学习模型。候选分值与可行阈值不属于工程设计标准，不生成现场施工建议。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPuWujOS6leaWueW8j+aZuuiDveS8mOmAiSDnrKwx5q2lIOW7uueri+W3peWGteeUu+WDjzwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeWHuueggumjjumZqeS4jumalOemu+mcgOaxgu+8jOW7uueri+W3peWGteS4juWBj+WlveeUu+WDj++8jOW+l+WIsOeUqOS6juetm+mAieeahOadoeS7tuWQkemHj+OAgui/meaYr+a1geeoi+aMh+WvvOekuuaEj++8jOS4jeaYr+W9k+WJjeiuoeeul+e7k+aenOOAgjwvZGVzYz48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEwIiBmaWxsPSIjZmZmIi8+PGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSxzeXN0ZW0tdWksc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQiIHk9IjMyIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPjAxICDlu7rnq4vlt6XlhrXnlLvlg488L3RleHQ+PHJlY3QgeD0iMTgiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmM2Y4ZjUiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM0IiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIzNzc2MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lh7rnoILpo47pmankuI7pmpTnprvpnIDmsYI8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIsMTQ2KSI+PHRleHQgeD0iMCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+54m55b6BMTwvdGV4dD48cmVjdCB4PSI2NCIgeT0iOSIgd2lkdGg9IjEyMC4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjU5IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPueJueW+gTI8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjQ0IiB3aWR0aD0iNjcuNSIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjU5IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7nibnlvoEzPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI3OSIgd2lkdGg9Ijk3LjUiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTAuMCwxNzYuMCBMMzI4LjAsMTc2LjAgTDMyMi4wLDE3MC4wIEwzMjguMCwxNzYuMCBMMzIyLjAsMTgyLjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI4IiBmaWxsPSIjZjJmNmZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lu7rnq4vlt6XlhrXkuI7lgY/lpb3nlLvlg488L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzYwLDE0NikiPjx0ZXh0IHg9IjAiIHk9IjI0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPueJueW+gTE8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjkiIHdpZHRoPSIxMjAuMCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI1OSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7nibnlvoEyPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI0NCIgd2lkdGg9IjY3LjUiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSI1OSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+54m55b6BMzwvdGV4dD48cmVjdCB4PSI2NCIgeT0iNzkiIHdpZHRoPSI5Ny41IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0PjwvZz48cGF0aCBkPSJNNjI4LjAsMTc2LjAgTDY0Ni4wLDE3Ni4wIEw2NDAuMCwxNzAuMCBMNjQ2LjAsMTc2LjAgTDY0MC4wLDE4Mi4wIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2ZhZjZmMCIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDMiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+55So5LqO562b6YCJ55qE5p2h5Lu25ZCR6YePPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY3OCwxNDYpIj48cmVjdCB4PSIyMCIgeT0iOSIgd2lkdGg9IjI1IiBoZWlnaHQ9IjIxIiByeD0iMiIgZmlsbD0iI2Q5ZWVlNSIvPjxyZWN0IHg9IjUxIiB5PSI5IiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZTlmMWZmIi8+PHJlY3QgeD0iODIiIHk9IjkiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNmMmVjZmYiLz48cmVjdCB4PSIxMTMiIHk9IjkiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNkOWVlZTUiLz48cmVjdCB4PSIxNDQiIHk9IjkiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNlOWYxZmYiLz48cmVjdCB4PSIxNzUiIHk9IjkiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNmMmVjZmYiLz48cmVjdCB4PSIyMCIgeT0iMzYiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNlOWYxZmYiLz48cmVjdCB4PSI1MSIgeT0iMzYiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNmMmVjZmYiLz48cmVjdCB4PSI4MiIgeT0iMzYiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNkOWVlZTUiLz48cmVjdCB4PSIxMTMiIHk9IjM2IiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZTlmMWZmIi8+PHJlY3QgeD0iMTQ0IiB5PSIzNiIgd2lkdGg9IjI1IiBoZWlnaHQ9IjIxIiByeD0iMiIgZmlsbD0iI2YyZWNmZiIvPjxyZWN0IHg9IjE3NSIgeT0iMzYiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNkOWVlZTUiLz48cmVjdCB4PSIyMCIgeT0iNjMiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNmMmVjZmYiLz48cmVjdCB4PSI1MSIgeT0iNjMiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNkOWVlZTUiLz48cmVjdCB4PSI4MiIgeT0iNjMiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNlOWYxZmYiLz48cmVjdCB4PSIxMTMiIHk9IjYzIiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZjJlY2ZmIi8+PHJlY3QgeD0iMTQ0IiB5PSI2MyIgd2lkdGg9IjI1IiBoZWlnaHQ9IjIxIiByeD0iMiIgZmlsbD0iI2Q5ZWVlNSIvPjxyZWN0IHg9IjE3NSIgeT0iNjMiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNlOWYxZmYiLz48cmVjdCB4PSIyMCIgeT0iOTAiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNkOWVlZTUiLz48cmVjdCB4PSI1MSIgeT0iOTAiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNlOWYxZmYiLz48cmVjdCB4PSI4MiIgeT0iOTAiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNmMmVjZmYiLz48cmVjdCB4PSIxMTMiIHk9IjkwIiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZDllZWU1Ii8+PHJlY3QgeD0iMTQ0IiB5PSI5MCIgd2lkdGg9IjI1IiBoZWlnaHQ9IjIxIiByeD0iMiIgZmlsbD0iI2U5ZjFmZiIvPjxyZWN0IHg9IjE3NSIgeT0iOTAiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNmMmVjZmYiLz48dGV4dCB4PSIxMTIiIHk9IjE0NSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzYxNzc3YiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+5qC35pysIMOXIOeJueW+gTwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzYxNzc3YiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7mtYHnqIvnpLrmhI8gwrcg5Zu+5b2i5LiO56S65L6L5pWw5YC85LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe257uT5p6c6K+35Zyo5Lqk5LqS5a6e6aqM5Lit5p+l55yLPC90ZXh0PjwvZz48L3N2Zz4=",
+            "alt": "完井方式智能优选 建立工况画像指导图",
+            "input": "出砂风险与隔离需求",
+            "output": "用于筛选的条件向量",
+            "observe": "先分清工况要求与代价偏好，二者承担不同作用。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        },
+        {
+          "name": "检查适用性约束",
+          "role": "特征",
+          "do": "逐项检查硬约束，得到可用与被排除的候选。",
+          "effect": "读图后应能说明：查看每个排除原因；无可用候选时应保留空状态。",
+          "trap": "这是透明规则演示，不是训练出的深度学习模型。候选分值与可行阈值不属于工程设计标准，不生成现场施工建议。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPuWujOS6leaWueW8j+aZuuiDveS8mOmAiSDnrKwy5q2lIOajgOafpemAgueUqOaAp+e6puadnzwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeWbm+enjeaVmeWtpuWAmemAieaWueW8j++8jOmAkOmhueajgOafpeehrOe6puadn++8jOW+l+WIsOWPr+eUqOS4juiiq+aOkumZpOeahOWAmemAieOAgui/meaYr+a1geeoi+aMh+WvvOekuuaEj++8jOS4jeaYr+W9k+WJjeiuoeeul+e7k+aenOOAgjwvZGVzYz48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEwIiBmaWxsPSIjZmZmIi8+PGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSxzeXN0ZW0tdWksc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQiIHk9IjMyIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPjAyICDmo4Dmn6XpgILnlKjmgKfnuqbmnZ88L3RleHQ+PHJlY3QgeD0iMTgiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmM2Y4ZjUiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM0IiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIzNzc2MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lm5vnp43mlZnlrablgJnpgInmlrnlvI88L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIsMTQ2KSI+PHRleHQgeD0iMCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5YCZ6YCJQTwvdGV4dD48cmVjdCB4PSI2NCIgeT0iOSIgd2lkdGg9IjEzMi4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjU5IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWAmemAiUI8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjQ0IiB3aWR0aD0iOTkuMCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjU5IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lgJnpgIlDPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI3OSIgd2lkdGg9IjYzLjAiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTAuMCwxNzYuMCBMMzI4LjAsMTc2LjAgTDMyMi4wLDE3MC4wIEwzMjguMCwxNzYuMCBMMzIyLjAsMTgyLjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI4IiBmaWxsPSIjZjJmNmZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7pgJDpobnmo4Dmn6XnoaznuqbmnZ88L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzYwLDE0NikiPjxyZWN0IHg9IjEwIiB5PSI1IiB3aWR0aD0iMjIyIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iI2Q5ZWVlNSIvPjx0ZXh0IHg9IjIyIiB5PSIyNiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lgJnpgIlBICDpgJrov4c8L3RleHQ+PHJlY3QgeD0iMTAiIHk9IjQ0IiB3aWR0aD0iMjIyIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iI2Y3ZTVkYyIvPjx0ZXh0IHg9IjIyIiB5PSI2NSIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lgJnpgIlCICDmjpLpmaQ8L3RleHQ+PHJlY3QgeD0iMTAiIHk9IjgzIiB3aWR0aD0iMjIyIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iI2Q5ZWVlNSIvPjx0ZXh0IHg9IjIyIiB5PSIxMDQiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiIHRleHQtYW5jaG9yPSJzdGFydCI+5YCZ6YCJQyAg6YCa6L+HPC90ZXh0PjwvZz48cGF0aCBkPSJNNjI4LjAsMTc2LjAgTDY0Ni4wLDE3Ni4wIEw2NDAuMCwxNzAuMCBMNjQ2LjAsMTc2LjAgTDY0MC4wLDE4Mi4wIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2ZhZjZmMCIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDMiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5Y+v55So5LiO6KKr5o6S6Zmk55qE5YCZ6YCJPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY3OCwxNDYpIj48dGV4dCB4PSIwIiB5PSIyNCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lgJnpgIlBPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI5IiB3aWR0aD0iMTMyLjAiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PHRleHQgeD0iMCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5YCZ6YCJQjwvdGV4dD48cmVjdCB4PSI2NCIgeT0iNDQiIHdpZHRoPSI5OS4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9Ijk0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWAmemAiUM8L3RleHQ+PHJlY3QgeD0iNjQiIHk9Ijc5IiB3aWR0aD0iNjMuMCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9Ijk0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzYxNzc3YiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7mtYHnqIvnpLrmhI8gwrcg5Zu+5b2i5LiO56S65L6L5pWw5YC85LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe257uT5p6c6K+35Zyo5Lqk5LqS5a6e6aqM5Lit5p+l55yLPC90ZXh0PjwvZz48L3N2Zz4=",
+            "alt": "完井方式智能优选 检查适用性约束指导图",
+            "input": "四种教学候选方式",
+            "output": "可用与被排除的候选",
+            "observe": "查看每个排除原因；无可用候选时应保留空状态。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        },
+        {
+          "name": "归一化偏好权重",
+          "role": "方法",
+          "do": "除以权重总和，得到合计为1的评分权重。",
+          "effect": "读图后应能说明：提高代价权重，观察其他目标的相对占比如何变化。",
+          "trap": "这是透明规则演示，不是训练出的深度学习模型。候选分值与可行阈值不属于工程设计标准，不生成现场施工建议。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPuWujOS6leaWueW8j+aZuuiDveS8mOmAiSDnrKwz5q2lIOW9kuS4gOWMluWBj+Wlveadg+mHjTwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeS4jeWQjOebruagh+eahOWBj+Wlveadg+mHje+8jOmZpOS7peadg+mHjeaAu+WSjO+8jOW+l+WIsOWQiOiuoeS4ujHnmoTor4TliIbmnYPph43jgILov5nmmK/mtYHnqIvmjIflr7znpLrmhI/vvIzkuI3mmK/lvZPliY3orqHnrpfnu5PmnpzjgII8L2Rlc2M+PHJlY3Qgd2lkdGg9Ijk2MCIgaGVpZ2h0PSIzNDAiIHJ4PSIxMCIgZmlsbD0iI2ZmZiIvPjxnIGZvbnQtZmFtaWx5PSJNaWNyb3NvZnQgWWFIZWksc3lzdGVtLXVpLHNhbnMtc2VyaWYiPjx0ZXh0IHg9IjI0IiB5PSIzMiIgZm9udC1zaXplPSIyMSIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj4wMyAg5b2S5LiA5YyW5YGP5aW95p2D6YeNPC90ZXh0PjxyZWN0IHg9IjE4IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI4IiBmaWxsPSIjZjNmOGY1IiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiMyMzc3NjIiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+5YeG5aSH6L6T5YWlPC90ZXh0Pjx0ZXh0IHg9IjM0IiB5PSIxMDMiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5LiN5ZCM55uu5qCH55qE5YGP5aW95p2D6YeNPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQyLDE0NikiPjx0ZXh0IHg9IjAiIHk9IjI0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPueJueW+gTE8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjkiIHdpZHRoPSIxMjAuMCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI1OSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7nibnlvoEyPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI0NCIgd2lkdGg9IjY3LjUiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSI1OSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+54m55b6BMzwvdGV4dD48cmVjdCB4PSI2NCIgeT0iNzkiIHdpZHRoPSI5Ny41IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0PjwvZz48cGF0aCBkPSJNMzEwLjAsMTc2LjAgTDMyOC4wLDE3Ni4wIEwzMjIuMCwxNzAuMCBMMzI4LjAsMTc2LjAgTDMyMi4wLDE4Mi4wIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2YyZjZmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDMiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+6Zmk5Lul5p2D6YeN5oC75ZKMPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2MCwxNDYpIj48dGV4dCB4PSIwIiB5PSIyNCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7ljp/lgLxBPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI5IiB3aWR0aD0iMTQyLjUiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PHRleHQgeD0iMCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5Y6f5YC8QjwvdGV4dD48cmVjdCB4PSI2NCIgeT0iNDQiIHdpZHRoPSI1Mi41IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0PjxsaW5lIHgxPSIzMCIgeTE9IjgwIiB4Mj0iMjAwIiB5Mj0iODAiIHN0cm9rZT0iI2I4YzZjOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjAiIHk9IjEwOSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCIgdGV4dC1hbmNob3I9InN0YXJ0Ij7nu5/kuIDlsLrluqYgLyDlr7npvZDln7rlh4Y8L3RleHQ+PHBhdGggZD0iTTExMC4wLDExNS4wIEwxMTAuMCwxMzIuMCBMMTc1LjAsMTMyLjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9nPjxwYXRoIGQ9Ik02MjguMCwxNzYuMCBMNjQ2LjAsMTc2LjAgTDY0MC4wLDE3MC4wIEw2NDYuMCwxNzYuMCBMNjQwLjAsMTgyLjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI4IiBmaWxsPSIjZmFmNmYwIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lkIjorqHkuLox55qE6K+E5YiG5p2D6YeNPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY3OCwxNDYpIj48dGV4dCB4PSIxMiIgeT0iMTQzIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNDI2N2E4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuekuuaEj+adg+mHjeWQiOiuoSAxMDAlPC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjI0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPui/kemCuzE8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjkiIHdpZHRoPSI3NS4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjU5IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPui/kemCuzI8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjQ0IiB3aWR0aD0iNDUuMCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjU5IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7ov5HpgrszPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI3OSIgd2lkdGg9IjMwLjAiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzEiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2MTc3N2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5rWB56iL56S65oSPIMK3IOWbvuW9ouS4juekuuS+i+aVsOWAvOS4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtue7k+aenOivt+WcqOS6pOS6kuWunumqjOS4reafpeecizwvdGV4dD48L2c+PC9zdmc+",
+            "alt": "完井方式智能优选 归一化偏好权重指导图",
+            "input": "不同目标的偏好权重",
+            "output": "合计为1的评分权重",
+            "observe": "提高代价权重，观察其他目标的相对占比如何变化。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        },
+        {
+          "name": "逐项分解得分",
+          "role": "推断",
+          "do": "按偏好加权求和，得到可解释的总分与贡献。",
+          "effect": "读图后应能说明：对照贡献条形，解释高分来自哪个目标。",
+          "trap": "这是透明规则演示，不是训练出的深度学习模型。候选分值与可行阈值不属于工程设计标准，不生成现场施工建议。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPuWujOS6leaWueW8j+aZuuiDveS8mOmAiSDnrKw05q2lIOmAkOmhueWIhuino+W+l+WIhjwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeWPr+eUqOWAmemAieeahOWIhumhueW+l+WIhu+8jOaMieWBj+WlveWKoOadg+axguWSjO+8jOW+l+WIsOWPr+ino+mHiueahOaAu+WIhuS4jui0oeeMruOAgui/meaYr+a1geeoi+aMh+WvvOekuuaEj++8jOS4jeaYr+W9k+WJjeiuoeeul+e7k+aenOOAgjwvZGVzYz48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEwIiBmaWxsPSIjZmZmIi8+PGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSxzeXN0ZW0tdWksc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQiIHk9IjMyIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPjA0ICDpgJDpobnliIbop6PlvpfliIY8L3RleHQ+PHJlY3QgeD0iMTgiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmM2Y4ZjUiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM0IiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIzNzc2MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lj6/nlKjlgJnpgInnmoTliIbpobnlvpfliIY8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIsMTQ2KSI+PHJlY3QgeD0iMjAiIHk9IjkiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNkOWVlZTUiLz48cmVjdCB4PSI1MSIgeT0iOSIgd2lkdGg9IjI1IiBoZWlnaHQ9IjIxIiByeD0iMiIgZmlsbD0iI2U5ZjFmZiIvPjxyZWN0IHg9IjgyIiB5PSI5IiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZjJlY2ZmIi8+PHJlY3QgeD0iMTEzIiB5PSI5IiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZDllZWU1Ii8+PHJlY3QgeD0iMTQ0IiB5PSI5IiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZTlmMWZmIi8+PHJlY3QgeD0iMTc1IiB5PSI5IiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZjJlY2ZmIi8+PHJlY3QgeD0iMjAiIHk9IjM2IiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZTlmMWZmIi8+PHJlY3QgeD0iNTEiIHk9IjM2IiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZjJlY2ZmIi8+PHJlY3QgeD0iODIiIHk9IjM2IiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZDllZWU1Ii8+PHJlY3QgeD0iMTEzIiB5PSIzNiIgd2lkdGg9IjI1IiBoZWlnaHQ9IjIxIiByeD0iMiIgZmlsbD0iI2U5ZjFmZiIvPjxyZWN0IHg9IjE0NCIgeT0iMzYiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNmMmVjZmYiLz48cmVjdCB4PSIxNzUiIHk9IjM2IiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZDllZWU1Ii8+PHJlY3QgeD0iMjAiIHk9IjYzIiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZjJlY2ZmIi8+PHJlY3QgeD0iNTEiIHk9IjYzIiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZDllZWU1Ii8+PHJlY3QgeD0iODIiIHk9IjYzIiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZTlmMWZmIi8+PHJlY3QgeD0iMTEzIiB5PSI2MyIgd2lkdGg9IjI1IiBoZWlnaHQ9IjIxIiByeD0iMiIgZmlsbD0iI2YyZWNmZiIvPjxyZWN0IHg9IjE0NCIgeT0iNjMiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNkOWVlZTUiLz48cmVjdCB4PSIxNzUiIHk9IjYzIiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZTlmMWZmIi8+PHJlY3QgeD0iMjAiIHk9IjkwIiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZDllZWU1Ii8+PHJlY3QgeD0iNTEiIHk9IjkwIiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZTlmMWZmIi8+PHJlY3QgeD0iODIiIHk9IjkwIiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZjJlY2ZmIi8+PHJlY3QgeD0iMTEzIiB5PSI5MCIgd2lkdGg9IjI1IiBoZWlnaHQ9IjIxIiByeD0iMiIgZmlsbD0iI2Q5ZWVlNSIvPjxyZWN0IHg9IjE0NCIgeT0iOTAiIHdpZHRoPSIyNSIgaGVpZ2h0PSIyMSIgcng9IjIiIGZpbGw9IiNlOWYxZmYiLz48cmVjdCB4PSIxNzUiIHk9IjkwIiB3aWR0aD0iMjUiIGhlaWdodD0iMjEiIHJ4PSIyIiBmaWxsPSIjZjJlY2ZmIi8+PHRleHQgeD0iMTEyIiB5PSIxNDUiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2MTc3N2IiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuagt+acrCDDlyDnibnlvoE8L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTAuMCwxNzYuMCBMMzI4LjAsMTc2LjAgTDMyMi4wLDE3MC4wIEwzMjguMCwxNzYuMCBMMzIyLjAsMTgyLjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI4IiBmaWxsPSIjZjJmNmZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7mjInlgY/lpb3liqDmnYPmsYLlkow8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzYwLDE0NikiPjx0ZXh0IHg9IjEyIiB5PSIxNDMiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM0MjY3YTgiIHRleHQtYW5jaG9yPSJzdGFydCI+56S65oSP5p2D6YeN5ZCI6K6hIDEwMCU8L3RleHQ+PHRleHQgeD0iMCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+6L+R6YK7MTwvdGV4dD48cmVjdCB4PSI2NCIgeT0iOSIgd2lkdGg9Ijc1LjAiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PHRleHQgeD0iMCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+6L+R6YK7MjwvdGV4dD48cmVjdCB4PSI2NCIgeT0iNDQiIHdpZHRoPSI0NS4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9Ijk0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPui/kemCuzM8L3RleHQ+PHJlY3QgeD0iNjQiIHk9Ijc5IiB3aWR0aD0iMzAuMCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9Ijk0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48L2c+PHBhdGggZD0iTTYyOC4wLDE3Ni4wIEw2NDYuMCwxNzYuMCBMNjQwLjAsMTcwLjAgTDY0Ni4wLDE3Ni4wIEw2NDAuMCwxODIuMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmYWY2ZjAiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTAzIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWPr+ino+mHiueahOaAu+WIhuS4jui0oeeMrjwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2NzgsMTQ2KSI+PHRleHQgeD0iMCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+6aG5Mei0oeeMrjwvdGV4dD48cmVjdCB4PSI2NCIgeT0iOSIgd2lkdGg9IjEwNS4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjU5IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPumhuTLotKHnjK48L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjQ0IiB3aWR0aD0iNjcuNSIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIyMTgiIHk9IjU5IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7pobkz6LSh54yuPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI3OSIgd2lkdGg9IjQ1LjAiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjNzY1NDk3Ii8+PHRleHQgeD0iMjE4IiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzEiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2MTc3N2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5rWB56iL56S65oSPIMK3IOWbvuW9ouS4juekuuS+i+aVsOWAvOS4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtue7k+aenOivt+WcqOS6pOS6kuWunumqjOS4reafpeecizwvdGV4dD48L2c+PC9zdmc+",
+            "alt": "完井方式智能优选 逐项分解得分指导图",
+            "input": "可用候选的分项得分",
+            "output": "可解释的总分与贡献",
+            "observe": "对照贡献条形，解释高分来自哪个目标。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        },
+        {
+          "name": "比较候选与基线",
+          "role": "对照",
+          "do": "按同一工况比较排序，得到当前推荐与备选。",
+          "effect": "读图后应能说明：只在可用候选之间比较，推荐依赖规则与偏好。",
+          "trap": "这是透明规则演示，不是训练出的深度学习模型。候选分值与可行阈值不属于工程设计标准，不生成现场施工建议。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPuWujOS6leaWueW8j+aZuuiDveS8mOmAiSDnrKw15q2lIOavlOi+g+WAmemAieS4juWfuue6vzwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeWAmemAieaAu+WIhuS4juavlOi+g+Wfuue6v++8jOaMieWQjOS4gOW3peWGteavlOi+g+aOkuW6j++8jOW+l+WIsOW9k+WJjeaOqOiNkOS4juWkh+mAieOAgui/meaYr+a1geeoi+aMh+WvvOekuuaEj++8jOS4jeaYr+W9k+WJjeiuoeeul+e7k+aenOOAgjwvZGVzYz48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEwIiBmaWxsPSIjZmZmIi8+PGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSxzeXN0ZW0tdWksc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQiIHk9IjMyIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPjA1ICDmr5TovoPlgJnpgInkuI7ln7rnur88L3RleHQ+PHJlY3QgeD0iMTgiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmM2Y4ZjUiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM0IiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIzNzc2MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lgJnpgInmgLvliIbkuI7mr5TovoPln7rnur88L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIsMTQ2KSI+PHRleHQgeD0iMCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+54m55b6BMTwvdGV4dD48cmVjdCB4PSI2NCIgeT0iOSIgd2lkdGg9IjEyMC4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjU5IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPueJueW+gTI8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjQ0IiB3aWR0aD0iNjcuNSIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjU5IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7nibnlvoEzPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI3OSIgd2lkdGg9Ijk3LjUiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTAuMCwxNzYuMCBMMzI4LjAsMTc2LjAgTDMyMi4wLDE3MC4wIEwzMjguMCwxNzYuMCBMMzIyLjAsMTgyLjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI4IiBmaWxsPSIjZjJmNmZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7mjInlkIzkuIDlt6XlhrXmr5TovoPmjpLluo88L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzYwLDE0NikiPjx0ZXh0IHg9IjAiIHk9IjI0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWAmemAiUE8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjkiIHdpZHRoPSIxMzIuMCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI1OSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lgJnpgIlCPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI0NCIgd2lkdGg9Ijk5LjAiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSI1OSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5YCZ6YCJQzwvdGV4dD48cmVjdCB4PSI2NCIgeT0iNzkiIHdpZHRoPSI2My4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0PjwvZz48cGF0aCBkPSJNNjI4LjAsMTc2LjAgTDY0Ni4wLDE3Ni4wIEw2NDAuMCwxNzAuMCBMNjQ2LjAsMTc2LjAgTDY0MC4wLDE4Mi4wIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2ZhZjZmMCIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDMiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5b2T5YmN5o6o6I2Q5LiO5aSH6YCJPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY3OCwxNDYpIj48dGV4dCB4PSIwIiB5PSIyNCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lgJnpgIlBPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI5IiB3aWR0aD0iMTMyLjAiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PHRleHQgeD0iMCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5YCZ6YCJQjwvdGV4dD48cmVjdCB4PSI2NCIgeT0iNDQiIHdpZHRoPSI5OS4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9Ijk0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWAmemAiUM8L3RleHQ+PHJlY3QgeD0iNjQiIHk9Ijc5IiB3aWR0aD0iNjMuMCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9Ijk0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzYxNzc3YiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7mtYHnqIvnpLrmhI8gwrcg5Zu+5b2i5LiO56S65L6L5pWw5YC85LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe257uT5p6c6K+35Zyo5Lqk5LqS5a6e6aqM5Lit5p+l55yLPC90ZXh0PjwvZz48L3N2Zz4=",
+            "alt": "完井方式智能优选 比较候选与基线指导图",
+            "input": "候选总分与比较基线",
+            "output": "当前推荐与备选",
+            "observe": "只在可用候选之间比较，推荐依赖规则与偏好。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        },
+        {
+          "name": "改变条件复核",
+          "role": "评价",
+          "do": "改变风险或代价偏好，得到筛选与排名的联动变化。",
+          "effect": "读图后应能说明：先改变一个条件，追踪它如何影响约束、贡献和排序。",
+          "trap": "这是透明规则演示，不是训练出的深度学习模型。候选分值与可行阈值不属于工程设计标准，不生成现场施工建议。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPuWujOS6leaWueW8j+aZuuiDveS8mOmAiSDnrKw25q2lIOaUueWPmOadoeS7tuWkjeaguDwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeW9k+WJjeW3peWGteS4juaOqOiNkO+8jOaUueWPmOmjjumZqeaIluS7o+S7t+WBj+Wlve+8jOW+l+WIsOetm+mAieS4juaOkuWQjeeahOiBlOWKqOWPmOWMluOAgui/meaYr+a1geeoi+aMh+WvvOekuuaEj++8jOS4jeaYr+W9k+WJjeiuoeeul+e7k+aenOOAgjwvZGVzYz48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEwIiBmaWxsPSIjZmZmIi8+PGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSxzeXN0ZW0tdWksc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQiIHk9IjMyIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPjA2ICDmlLnlj5jmnaHku7blpI3moLg8L3RleHQ+PHJlY3QgeD0iMTgiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmM2Y4ZjUiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM0IiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIzNzc2MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lvZPliY3lt6XlhrXkuI7mjqjojZA8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIsMTQ2KSI+PHRleHQgeD0iMCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+54m55b6BMTwvdGV4dD48cmVjdCB4PSI2NCIgeT0iOSIgd2lkdGg9IjEyMC4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjU5IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPueJueW+gTI8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjQ0IiB3aWR0aD0iNjcuNSIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjU5IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7nibnlvoEzPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI3OSIgd2lkdGg9Ijk3LjUiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PC9nPjxwYXRoIGQ9Ik0zMTAuMCwxNzYuMCBMMzI4LjAsMTc2LjAgTDMyMi4wLDE3MC4wIEwzMjguMCwxNzYuMCBMMzIyLjAsMTgyLjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI4IiBmaWxsPSIjZjJmNmZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7mlLnlj5jpo47pmanmiJbku6Pku7flgY/lpb08L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzYwLDE0NikiPjx0ZXh0IHg9IjAiIHk9IjI0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuaooeWeizwvdGV4dD48cmVjdCB4PSI2NCIgeT0iOSIgd2lkdGg9IjEwMi4wMDAwMDAwMDAwMDAwMSIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjI0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI1OSIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7ln7rnur88L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjQ0IiB3aWR0aD0iMTIyLjk5OTk5OTk5OTk5OTk5IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzQyNjdhOCIvPjx0ZXh0IHg9IjIxOCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9Ijk0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWPguiAgzwvdGV4dD48cmVjdCB4PSI2NCIgeT0iNzkiIHdpZHRoPSIxMDUuMCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiNiNDY1NDciLz48dGV4dCB4PSIyMTgiIHk9Ijk0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIxMiIgeT0iMTQzIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNjE3NzdiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuS/neaMgeebuOWQjOivhOS7t+agt+acrDwvdGV4dD48L2c+PHBhdGggZD0iTTYyOC4wLDE3Ni4wIEw2NDYuMCwxNzYuMCBMNjQwLjAsMTcwLjAgTDY0Ni4wLDE3Ni4wIEw2NDAuMCwxODIuMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmYWY2ZjAiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTAzIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuetm+mAieS4juaOkuWQjeeahOiBlOWKqOWPmOWMljwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2NzgsMTQ2KSI+PHRleHQgeD0iMCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5YCZ6YCJQTwvdGV4dD48cmVjdCB4PSI2NCIgeT0iOSIgd2lkdGg9IjEzMi4wIiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjU5IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWAmemAiUI8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjQ0IiB3aWR0aD0iOTkuMCIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjU5IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lgJnpgIlDPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI3OSIgd2lkdGg9IjYzLjAiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzEiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2MTc3N2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5rWB56iL56S65oSPIMK3IOWbvuW9ouS4juekuuS+i+aVsOWAvOS4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtue7k+aenOivt+WcqOS6pOS6kuWunumqjOS4reafpeecizwvdGV4dD48L2c+PC9zdmc+",
+            "alt": "完井方式智能优选 改变条件复核指导图",
+            "input": "当前工况与推荐",
+            "output": "筛选与排名的联动变化",
+            "observe": "先改变一个条件，追踪它如何影响约束、贡献和排序。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        }
+      ],
+      "metrics": {
+        "title": "在同一实验中检查完整证据链",
+        "html": "<p>每一步的中间数值与图形位于演示页的“算法步骤”。参考标签、生成器与推断器分别说明。</p>"
+      },
+      "fails": [
+        {
+          "name": "外推与适用性",
+          "why": "这是透明规则演示，不是训练出的深度学习模型。候选分值与可行阈值不属于工程设计标准，不生成现场施工建议。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1600,
+      "intro": "出砂风险、隔离需求和代价偏好，怎样改变候选排序？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-co1-completion-selection",
+    "title": "完井方式智能优选",
+    "method": "显式适用性规则＋加权多准则排序",
+    "what": "先按工况检查硬约束，再用归一化偏好权重合计候选得分。",
+    "why": "完井选择既要满足条件，也要比较隔离需求与代价等偏好。",
+    "how": "规则筛候选，权重分解各项得分，再产生排序；风险或代价偏好变化时，排除理由与推荐同步更新。",
+    "type": "retrieval",
+    "controls": [
+      "a",
+      "c"
+    ],
+    "views": [
+      {
+        "selector": "#main-chart",
+        "name": "可用方案排序"
+      },
+      {
+        "selector": "#analysis-chart",
+        "name": "评分贡献"
+      },
+      {
+        "selector": "#evaluation-chart",
+        "name": "适用性与取舍"
+      }
+    ],
+    "before": "凭经验逐一检查方案，排除理由和偏好取舍不易留存。",
+    "benefit": "把硬约束和软评分拆开，候选、依据与空状态能一起复核。",
+    "trial": "改变风险或代价偏好，得到筛选与排名的联动变化。",
+    "limit": "这是透明规则演示，不是训练出的深度学习模型。候选分值与可行阈值不属于工程设计标准，不生成现场施工建议。",
+    "steps": [
+      {
+        "name": "建立工况画像",
+        "do": "建立工况与偏好画像，得到用于筛选的条件向量。",
+        "effect": "读图后应能说明：先分清工况要求与代价偏好，二者承担不同作用。"
+      },
+      {
+        "name": "检查适用性约束",
+        "do": "逐项检查硬约束，得到可用与被排除的候选。",
+        "effect": "读图后应能说明：查看每个排除原因；无可用候选时应保留空状态。"
+      },
+      {
+        "name": "归一化偏好权重",
+        "do": "除以权重总和，得到合计为1的评分权重。",
+        "effect": "读图后应能说明：提高代价权重，观察其他目标的相对占比如何变化。"
+      },
+      {
+        "name": "逐项分解得分",
+        "do": "按偏好加权求和，得到可解释的总分与贡献。",
+        "effect": "读图后应能说明：对照贡献条形，解释高分来自哪个目标。"
+      },
+      {
+        "name": "比较候选与基线",
+        "do": "按同一工况比较排序，得到当前推荐与备选。",
+        "effect": "读图后应能说明：只在可用候选之间比较，推荐依赖规则与偏好。"
+      },
+      {
+        "name": "改变条件复核",
+        "do": "改变风险或代价偏好，得到筛选与排名的联动变化。",
+        "effect": "读图后应能说明：先改变一个条件，追踪它如何影响约束、贡献和排序。"
+      }
+    ]
+  }
+}

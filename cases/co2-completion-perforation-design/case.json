@@ -1,0 +1,269 @@
+{
+  "id": "edu08-co2-completion-perforation-design",
+  "sceneId": "co2",
+  "title": "射孔参数智能设计｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "opt"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "孔密教学指数、穿深教学指数与出砂敏感指数，如何共同影响产能响应教学值？",
+      "judge": [
+        {
+          "label": "工程环节",
+          "value": "完井",
+          "desc": "完井射孔设计需同时比较产能响应、施工代价与出砂相关约束。"
+        },
+        {
+          "label": "实际方法",
+          "value": "二次特征岭回归代理＋约束网格搜索",
+          "desc": "先学习合成实验的响应曲面，再在289组候选中筛约束并比较高响应与低代价。"
+        },
+        {
+          "label": "数据来源",
+          "value": "教学合成 / 虚构",
+          "desc": "完整评价口径见案例演示"
+        },
+        {
+          "label": "动手目标",
+          "value": "证据可追踪",
+          "desc": "提高出砂敏感度，观察可行方案与Pareto候选怎样收缩。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "理解工程对象",
+          "html": "<details class=\"teaching-glossary\"><summary>名词定义 · 图解与生活类比</summary><p><b>名词定义：</b>完井射孔设计需同时比较产能响应、施工代价与出砂相关约束。</p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 190\" role=\"img\" aria-label=\"射孔参数智能设计输入到输出概念图\"><rect x=\"10\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#edf7f1\"/><rect x=\"320\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#eaf1fc\"/><rect x=\"630\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#fff2e1\"/><g font-family=\"Microsoft YaHei,system-ui,sans-serif\" font-size=\"19\" fill=\"#293b3b\"><text x=\"30\" y=\"62\">孔密教学指数</text><text x=\"30\" y=\"94\">穿深教学指数</text><text x=\"30\" y=\"126\">出砂敏感指数</text><text x=\"340\" y=\"80\">学习规律 / 显式知识</text><text x=\"340\" y=\"114\">保留中间依据</text><text x=\"650\" y=\"94\">产能响应教学值</text><text x=\"290\" y=\"92\">→</text><text x=\"598\" y=\"92\">→</text><text x=\"20\" y=\"176\" font-size=\"14\" fill=\"#627575\">概念关系示意，非当前计算结果；完整方法与评价口径请进入案例演示。</text></g></svg><p><b>生活类比：</b>像在速度、价格和耐用性之间选方案。</p></details>"
+        },
+        {
+          "no": 2,
+          "en": "WHAT",
+          "title": "What · 使用什么方法",
+          "html": "<p>先学习合成实验的响应曲面，再在289组候选中筛约束并比较高响应与低代价。</p><p><b>实际实现：</b>二次特征岭回归代理＋约束网格搜索</p>"
+        },
+        {
+          "no": 3,
+          "en": "WHY",
+          "title": "Why · 为什么需要它",
+          "html": "<p>代理模型使大量参数组合可快速比较，并用非支配候选呈现取舍。</p>"
+        },
+        {
+          "no": 4,
+          "en": "HOW",
+          "title": "How · 如何发挥作用",
+          "html": "<p>训练代理只看训练组；搜索时使用代理预测和显式代价/风险约束，留出测试负责核对误差，紫圈标示非支配候选。</p><p><b>动手验证：</b>提高出砂敏感度，观察可行方案与Pareto候选怎样收缩。</p>"
+        },
+        {
+          "no": 5,
+          "en": "LIMITS",
+          "title": "数据与结果边界",
+          "html": "<p>全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "二次特征岭回归代理＋约束网格搜索的六步路径",
+      "lead": [
+        "孔密教学指数、穿深教学指数与出砂敏感指数，如何共同影响产能响应教学值？",
+        "每步配图标明输入、产出与观察重点；案例演示提供同步变化的运行证据。"
+      ],
+      "steps": [
+        {
+          "name": "整理工况与响应",
+          "role": "数据",
+          "do": "将144条合成实验分组，84条拟合、24条保留校准、36条测试。",
+          "effect": "搜索候选与训练样本分开；真实响应仅用于核对。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "local": "workflow/step-01.svg",
+            "alt": "射孔参数智能设计 整理工况与响应指导图",
+            "input": "孔密教学指数等观测",
+            "output": "按组分开的训练与测试",
+            "observe": "搜索候选与训练样本分开；真实响应仅用于核对。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsITlrZTlj4LmlbDmmbrog73orr7orqEg5pW055CG5bel5Ya15LiO5ZON5bqU5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMSAg5bCE5a2U5Y+C5pWw5pm66IO96K6+6K6hIMK3IOaVtOeQhuW3peWGteS4juWTjeW6lDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5a2U5a+G5pWZ5a2m5oyH5pWw562J6KeC5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7lrZTlr4bmlZnlrabmjIfmlbA8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+56m/5rex5pWZ5a2m5oyH5pWwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuWHuuegguaVj+aEn+aMh+aVsDwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaVtOeQhuW3peWGteS4juWTjeW6lDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuWtlOWvhuaVmeWtpuaMh+aVsDwvdGV4dD48cmVjdCB4PSIwIiB5PSIyNiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjU3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nqb/mt7HmlZnlrabmjIfmlbA8L3RleHQ+PHJlY3QgeD0iMCIgeT0iNjMiIHdpZHRoPSIxMTIiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+5Ye656CC5pWP5oSf5oyH5pWwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjEwMCIgd2lkdGg9IjE0MCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iI2I0NjU0NyIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5oyJ57uE5YiG5byA55qE6K6t57uD5LiO5rWL6K+VPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48dGV4dCB4PSIwIiB5PSIyMyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMTwvdGV4dD48cmVjdCB4PSI2MCIgeT0iOSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMCIgeT0iNjAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTI8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI0NiIgd2lkdGg9IjEwNSIgaGVpZ2h0PSIyMCIgZmlsbD0iIzQyNjdhOCIvPjx0ZXh0IHg9IjAiIHk9Ijk3IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoEzPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iODMiIHdpZHRoPSIzNy41IiBoZWlnaHQ9IjIwIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTExMCAwVjExNSIgc3Ryb2tlPSIjOTlhZWFhIi8+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "构建响应特征",
+          "role": "特征",
+          "do": "仅用训练组标准化各项特征，准备非线性响应的线性参数化。",
+          "effect": "代理的形式是二次特征回归，不是精确物理仿真。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "local": "workflow/step-02.svg",
+            "alt": "射孔参数智能设计 构建响应特征指导图",
+            "input": "三输入与训练尺度",
+            "output": "二次项与交互项",
+            "observe": "代理的形式是二次特征回归，不是精确物理仿真。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsITlrZTlj4LmlbDmmbrog73orr7orqEg5p6E5bu65ZON5bqU54m55b6B5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMiAg5bCE5a2U5Y+C5pWw5pm66IO96K6+6K6hIMK3IOaehOW7uuWTjeW6lOeJueW+gTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5LiJ6L6T5YWl5LiO6K6t57uD5bC65bqmPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7lrZTlr4bmlZnlrabmjIfmlbA8L3RleHQ+PHJlY3QgeD0iMCIgeT0iMjYiIHdpZHRoPSIxNjAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI1NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+56m/5rex5pWZ5a2m5oyH5pWwPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjYzIiB3aWR0aD0iMTEyIiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPuWHuuegguaVj+aEn+aMh+aVsDwvdGV4dD48cmVjdCB4PSIwIiB5PSIxMDAiIHdpZHRoPSIxNDAiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNiNDY1NDciLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaehOW7uuWTjeW6lOeJueW+gTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjMiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTE8L3RleHQ+PHJlY3QgeD0iNjAiIHk9IjkiIHdpZHRoPSI2MCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjYwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoEyPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iNDYiIHdpZHRoPSIxMDUiIGhlaWdodD0iMjAiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMzwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjgzIiB3aWR0aD0iMzcuNSIgaGVpZ2h0PSIyMCIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik0xMTAgMFYxMTUiIHN0cm9rZT0iIzk5YWVhYSIvPjwvZz48cGF0aCBkPSJNNjI5IDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmZmY3ZWMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5LqM5qyh6aG55LiO5Lqk5LqS6aG5PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4MywxNDUpIj48Y2lyY2xlIGN4PSIyNCIgY3k9IjE4IiByPSIxMyIgZmlsbD0iIzIzNzc2MiIvPjxwYXRoIGQ9Ik0zOCAxOEwxMjUgNjBMMjA3IDE4IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjYwIiByPSIxMyIgZmlsbD0iIzQyNjdhOCIvPjxwYXRoIGQ9Ik0zOCA2MEwxMjUgNjBMMjA3IDYwIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjEwMiIgcj0iMTMiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMzggMTAyTDEyNSA2MEwyMDcgMTAyIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxMjUiIGN5PSI2MCIgcj0iMjQiIGZpbGw9IiNlOWYxZmYiIHN0cm9rZT0iIzQyNjdhOCIvPjx0ZXh0IHg9IjEwOCIgeT0iNjUiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiPuWtpuS5oDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "拟合并核对代理",
+          "role": "方法",
+          "do": "拟合正则回归，再在独立组上与训练均值基线比较RMSE。",
+          "effect": "代理误差会传到优选结论，不能只汇报最大预测。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "local": "workflow/step-03.svg",
+            "alt": "射孔参数智能设计 拟合并核对代理指导图",
+            "input": "训练实验与留出组",
+            "output": "响应模型与测试误差",
+            "observe": "代理误差会传到优选结论，不能只汇报最大预测。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsITlrZTlj4LmlbDmmbrog73orr7orqEg5ouf5ZCI5bm25qC45a+55Luj55CG5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMyAg5bCE5a2U5Y+C5pWw5pm66IO96K6+6K6hIMK3IOaLn+WQiOW5tuaguOWvueS7o+eQhjwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6K6t57uD5a6e6aqM5LiO55WZ5Ye657uEPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaLn+WQiOW5tuaguOWvueS7o+eQhjwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PGNpcmNsZSBjeD0iMjQiIGN5PSIxOCIgcj0iMTMiIGZpbGw9IiMyMzc3NjIiLz48cGF0aCBkPSJNMzggMThMMTI1IDYwTDIwNyAxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjQiIGN5PSI2MCIgcj0iMTMiIGZpbGw9IiM0MjY3YTgiLz48cGF0aCBkPSJNMzggNjBMMTI1IDYwTDIwNyA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMjQiIGN5PSIxMDIiIHI9IjEzIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTM4IDEwMkwxMjUgNjBMMjA3IDEwMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTI1IiBjeT0iNjAiIHI9IjI0IiBmaWxsPSIjZTlmMWZmIiBzdHJva2U9IiM0MjY3YTgiLz48dGV4dCB4PSIxMDgiIHk9IjY1IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7lrabkuaA8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7lk43lupTmqKHlnovkuI7mtYvor5Xor6/lt648L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTAwIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjEiIGN5PSIxMDkuNjY4MzgxMDc5NzE1OTciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjExOS4zNDcwNDIyODk0MDI4MiIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjM5IiBjeT0iMTAyLjA0NjIzMjAzODM5NTEiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI0OCIgY3k9IjExMS43NzYxMzUzOTI2MzI2NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjU3IiBjeT0iOTQuNTQ2ODQyNjQ3MzU2NCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjY2IiBjeT0iMTA0LjM2ODMxODE5MjIzMDg3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSI4Ny4yNTAzNjk3NjQ5NjQ0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iODQiIGN5PSI5Ny4yMDI2MTgxODgyOTg2NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjkzIiBjeT0iODAuMjM0NDY3NjgzNzQ3ODIiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMDIiIGN5PSI5MC4zNTUwNzY4NTM2ODgwOCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjExMSIgY3k9IjczLjU3MzMzMDQyMTMzNjA0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTIwIiBjeT0iODMuODk3ODExODE1ODE1NzciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMjkiIGN5PSI2Ny4zMzY3NzY2ODY5MDY2OSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEzOCIgY3k9Ijc3Ljg5ODEyNzQzMTE5NTg5IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTQ3IiBjeT0iNjEuNTg5Mzg4ODA4MjM3NzciIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNTYiIGN5PSI3Mi40MTc2ODQ3MjE5NjAzNyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjU2LjM4OTcxNjIzODk2MjA0NSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE3NCIgY3k9IjY3LjUxMTc0MDkxMTUyNjIiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxODMiIGN5PSI1MS43ODk1NTM0NjkxNTUyNyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE5MiIgY3k9IjYzLjIyODQ2NzkzODIwMjYyIiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMjAxIiBjeT0iNDcuODMzMzAxMjQ0Nzc0Njk1IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTggMFYxMThIMjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNmM2YzQiLz48cGF0aCBkPSJNMTQyIDBWMTIwIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS1kYXNoYXJyYXk9IjQgNCIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "枚举并筛约束",
+          "role": "推断",
+          "do": "固定第三项工况，扫描两项设计变量并检查预算及教学风险上限。",
+          "effect": "预算过低时必须显示无可行解，不强行推荐。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "local": "workflow/step-04.svg",
+            "alt": "射孔参数智能设计 枚举并筛约束指导图",
+            "input": "289组候选与工况",
+            "output": "可行与排除方案",
+            "observe": "预算过低时必须显示无可行解，不强行推荐。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsITlrZTlj4LmlbDmmbrog73orr7orqEg5p6a5Li+5bm2562b57qm5p2f5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNCAg5bCE5a2U5Y+C5pWw5pm66IO96K6+6K6hIMK3IOaemuS4vuW5tuetm+e6puadnzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+Mjg557uE5YCZ6YCJ5LiO5bel5Ya1PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxjaXJjbGUgY3g9IjI0IiBjeT0iMTgiIHI9IjEzIiBmaWxsPSIjMjM3NzYyIi8+PHBhdGggZD0iTTM4IDE4TDEyNSA2MEwyMDcgMTgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjI0IiBjeT0iNjAiIHI9IjEzIiBmaWxsPSIjNDI2N2E4Ii8+PHBhdGggZD0iTTM4IDYwTDEyNSA2MEwyMDcgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjI0IiBjeT0iMTAyIiByPSIxMyIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik0zOCAxMDJMMTI1IDYwTDIwNyAxMDIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEyNSIgY3k9IjYwIiByPSIyNCIgZmlsbD0iI2U5ZjFmZiIgc3Ryb2tlPSIjNDI2N2E4Ii8+PHRleHQgeD0iMTA4IiB5PSI2NSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+5a2m5LmgPC90ZXh0PjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5p6a5Li+5bm2562b57qm5p2fPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjIxIiBjeT0iMTA5LjY2ODM4MTA3OTcxNTk3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxMTkuMzQ3MDQyMjg5NDAyODIiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIzOSIgY3k9IjEwMi4wNDYyMzIwMzgzOTUxIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNDgiIGN5PSIxMTEuNzc2MTM1MzkyNjMyNjciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI1NyIgY3k9Ijk0LjU0Njg0MjY0NzM1NjQiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI2NiIgY3k9IjEwNC4zNjgzMTgxOTIyMzA4NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9Ijc1IiBjeT0iODcuMjUwMzY5NzY0OTY0NCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9Ijg0IiBjeT0iOTcuMjAyNjE4MTg4Mjk4NjciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI5MyIgY3k9IjgwLjIzNDQ2NzY4Mzc0NzgyIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTAyIiBjeT0iOTAuMzU1MDc2ODUzNjg4MDgiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMTEiIGN5PSI3My41NzMzMzA0MjEzMzYwNCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjgzLjg5NzgxMTgxNTgxNTc3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTI5IiBjeT0iNjcuMzM2Nzc2Njg2OTA2NjkiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxMzgiIGN5PSI3Ny44OTgxMjc0MzExOTU4OSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE0NyIgY3k9IjYxLjU4OTM4ODgwODIzNzc3IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTU2IiBjeT0iNzIuNDE3Njg0NzIxOTYwMzciIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNjUiIGN5PSI1Ni4zODk3MTYyMzg5NjIwNDUiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNzQiIGN5PSI2Ny41MTE3NDA5MTE1MjYyIiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTgzIiBjeT0iNTEuNzg5NTUzNDY5MTU1MjciIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxOTIiIGN5PSI2My4yMjg0Njc5MzgyMDI2MiIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjIwMSIgY3k9IjQ3LjgzMzMwMTI0NDc3NDY5NSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik04IDBWMTE4SDIzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjZjNmM0Ii8+PHBhdGggZD0iTTE0MiAwVjEyMCIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2UtZGFzaGFycmF5PSI0IDQiLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWPr+ihjOS4juaOkumZpOaWueahiDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMDAiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIyMSIgY3k9IjEwOS42NjgzODEwNzk3MTU5NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMTE5LjM0NzA0MjI4OTQwMjgyIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMzkiIGN5PSIxMDIuMDQ2MjMyMDM4Mzk1MSIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjQ4IiBjeT0iMTExLjc3NjEzNTM5MjYzMjY3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNTciIGN5PSI5NC41NDY4NDI2NDczNTY0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNjYiIGN5PSIxMDQuMzY4MzE4MTkyMjMwODciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI3NSIgY3k9Ijg3LjI1MDM2OTc2NDk2NDQiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI4NCIgY3k9Ijk3LjIwMjYxODE4ODI5ODY3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iOTMiIGN5PSI4MC4yMzQ0Njc2ODM3NDc4MiIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjEwMiIgY3k9IjkwLjM1NTA3Njg1MzY4ODA4IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTExIiBjeT0iNzMuNTczMzMwNDIxMzM2MDQiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMjAiIGN5PSI4My44OTc4MTE4MTU4MTU3NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjEyOSIgY3k9IjY3LjMzNjc3NjY4NjkwNjY5IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTM4IiBjeT0iNzcuODk4MTI3NDMxMTk1ODkiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNDciIGN5PSI2MS41ODkzODg4MDgyMzc3NyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE1NiIgY3k9IjcyLjQxNzY4NDcyMTk2MDM3IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTY1IiBjeT0iNTYuMzg5NzE2MjM4OTYyMDQ1IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTc0IiBjeT0iNjcuNTExNzQwOTExNTI2MiIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE4MyIgY3k9IjUxLjc4OTU1MzQ2OTE1NTI3IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTkyIiBjeT0iNjMuMjI4NDY3OTM4MjAyNjIiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIyMDEiIGN5PSI0Ny44MzMzMDEyNDQ3NzQ2OTUiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNOCAwVjExOEgyMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I2YzZjNCIvPjxwYXRoIGQ9Ik0xNDIgMFYxMjAiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLWRhc2hhcnJheT0iNCA0Ii8+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "比较取舍与推荐",
+          "role": "对照",
+          "do": "对可行候选比较代价和响应，保留非支配点并标记最高预测。",
+          "effect": "低代价与高响应常有取舍，紫圈并非额外训练模型。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "local": "workflow/step-05.svg",
+            "alt": "射孔参数智能设计 比较取舍与推荐指导图",
+            "input": "可行候选的预测",
+            "output": "Pareto候选与最高响应",
+            "observe": "低代价与高响应常有取舍，紫圈并非额外训练模型。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsITlrZTlj4LmlbDmmbrog73orr7orqEg5q+U6L6D5Y+W6IiN5LiO5o6o6I2Q5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNSAg5bCE5a2U5Y+C5pWw5pm66IO96K6+6K6hIMK3IOavlOi+g+WPluiIjeS4juaOqOiNkDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5Y+v6KGM5YCZ6YCJ55qE6aKE5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTAwIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjEiIGN5PSIxMDkuNjY4MzgxMDc5NzE1OTciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjExOS4zNDcwNDIyODk0MDI4MiIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjM5IiBjeT0iMTAyLjA0NjIzMjAzODM5NTEiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI0OCIgY3k9IjExMS43NzYxMzUzOTI2MzI2NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjU3IiBjeT0iOTQuNTQ2ODQyNjQ3MzU2NCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjY2IiBjeT0iMTA0LjM2ODMxODE5MjIzMDg3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSI4Ny4yNTAzNjk3NjQ5NjQ0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iODQiIGN5PSI5Ny4yMDI2MTgxODgyOTg2NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjkzIiBjeT0iODAuMjM0NDY3NjgzNzQ3ODIiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMDIiIGN5PSI5MC4zNTUwNzY4NTM2ODgwOCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjExMSIgY3k9IjczLjU3MzMzMDQyMTMzNjA0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTIwIiBjeT0iODMuODk3ODExODE1ODE1NzciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMjkiIGN5PSI2Ny4zMzY3NzY2ODY5MDY2OSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEzOCIgY3k9Ijc3Ljg5ODEyNzQzMTE5NTg5IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTQ3IiBjeT0iNjEuNTg5Mzg4ODA4MjM3NzciIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNTYiIGN5PSI3Mi40MTc2ODQ3MjE5NjAzNyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjU2LjM4OTcxNjIzODk2MjA0NSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE3NCIgY3k9IjY3LjUxMTc0MDkxMTUyNjIiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxODMiIGN5PSI1MS43ODk1NTM0NjkxNTUyNyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE5MiIgY3k9IjYzLjIyODQ2NzkzODIwMjYyIiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMjAxIiBjeT0iNDcuODMzMzAxMjQ0Nzc0Njk1IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTggMFYxMThIMjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNmM2YzQiLz48cGF0aCBkPSJNMTQyIDBWMTIwIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS1kYXNoYXJyYXk9IjQgNCIvPjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5q+U6L6D5Y+W6IiN5LiO5o6o6I2QPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEwMCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjIxIiBjeT0iMTA5LjY2ODM4MTA3OTcxNTk3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxMTkuMzQ3MDQyMjg5NDAyODIiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIzOSIgY3k9IjEwMi4wNDYyMzIwMzgzOTUxIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNDgiIGN5PSIxMTEuNzc2MTM1MzkyNjMyNjciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI1NyIgY3k9Ijk0LjU0Njg0MjY0NzM1NjQiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI2NiIgY3k9IjEwNC4zNjgzMTgxOTIyMzA4NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9Ijc1IiBjeT0iODcuMjUwMzY5NzY0OTY0NCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9Ijg0IiBjeT0iOTcuMjAyNjE4MTg4Mjk4NjciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI5MyIgY3k9IjgwLjIzNDQ2NzY4Mzc0NzgyIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTAyIiBjeT0iOTAuMzU1MDc2ODUzNjg4MDgiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMTEiIGN5PSI3My41NzMzMzA0MjEzMzYwNCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjgzLjg5NzgxMTgxNTgxNTc3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTI5IiBjeT0iNjcuMzM2Nzc2Njg2OTA2NjkiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxMzgiIGN5PSI3Ny44OTgxMjc0MzExOTU4OSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE0NyIgY3k9IjYxLjU4OTM4ODgwODIzNzc3IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTU2IiBjeT0iNzIuNDE3Njg0NzIxOTYwMzciIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNjUiIGN5PSI1Ni4zODk3MTYyMzg5NjIwNDUiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNzQiIGN5PSI2Ny41MTE3NDA5MTE1MjYyIiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTgzIiBjeT0iNTEuNzg5NTUzNDY5MTU1MjciIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxOTIiIGN5PSI2My4yMjg0Njc5MzgyMDI2MiIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjIwMSIgY3k9IjQ3LjgzMzMwMTI0NDc3NDY5NSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik04IDBWMTE4SDIzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjZjNmM0Ii8+PHBhdGggZD0iTTE0MiAwVjEyMCIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2UtZGFzaGFycmF5PSI0IDQiLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPlBhcmV0b+WAmemAieS4juacgOmrmOWTjeW6lDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHRleHQgeD0iMiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyMzc3NjIiPuKckyDmn6XnnIvni6znq4vor6/lt648L3RleHQ+PHRleHQgeD0iMiIgeT0iNjEiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiPuKckyDmlLnlj5jkuIDpobnlj4LmlbA8L3RleHQ+PHRleHQgeD0iMiIgeT0iMTAwIiBmb250LXNpemU9IjE2IiBmaWxsPSIjYjQ2NTQ3Ij7inJMg5L+d55WZ5Lq65bel5aSN5qC4PC90ZXh0PjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "改变约束复核",
+          "role": "复核",
+          "do": "改变预算与背景工况，追踪可行域、候选和预测误差。",
+          "effect": "风险阈值及代价均为教学设定，不能作为施工标准。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "local": "workflow/step-06.svg",
+            "alt": "射孔参数智能设计 改变约束复核指导图",
+            "input": "预算或工况",
+            "output": "推荐变化与适用性",
+            "observe": "风险阈值及代价均为教学设定，不能作为施工标准。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLlsITlrZTlj4LmlbDmmbrog73orr7orqEg5pS55Y+Y57qm5p2f5aSN5qC45oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNiAg5bCE5a2U5Y+C5pWw5pm66IO96K6+6K6hIMK3IOaUueWPmOe6puadn+WkjeaguDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6aKE566X5oiW5bel5Ya1PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTAwIiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjEiIGN5PSIxMDkuNjY4MzgxMDc5NzE1OTciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjExOS4zNDcwNDIyODk0MDI4MiIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjM5IiBjeT0iMTAyLjA0NjIzMjAzODM5NTEiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSI0OCIgY3k9IjExMS43NzYxMzUzOTI2MzI2NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjU3IiBjeT0iOTQuNTQ2ODQyNjQ3MzU2NCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjY2IiBjeT0iMTA0LjM2ODMxODE5MjIzMDg3IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSI4Ny4yNTAzNjk3NjQ5NjQ0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iODQiIGN5PSI5Ny4yMDI2MTgxODgyOTg2NyIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjkzIiBjeT0iODAuMjM0NDY3NjgzNzQ3ODIiIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMDIiIGN5PSI5MC4zNTUwNzY4NTM2ODgwOCIgcj0iNSIgZmlsbD0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjExMSIgY3k9IjczLjU3MzMzMDQyMTMzNjA0IiByPSI1IiBmaWxsPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMTIwIiBjeT0iODMuODk3ODExODE1ODE1NzciIHI9IjUiIGZpbGw9IiMyMzc3NjIiLz48Y2lyY2xlIGN4PSIxMjkiIGN5PSI2Ny4zMzY3NzY2ODY5MDY2OSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEzOCIgY3k9Ijc3Ljg5ODEyNzQzMTE5NTg5IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTQ3IiBjeT0iNjEuNTg5Mzg4ODA4MjM3NzciIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxNTYiIGN5PSI3Mi40MTc2ODQ3MjE5NjAzNyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE2NSIgY3k9IjU2LjM4OTcxNjIzODk2MjA0NSIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE3NCIgY3k9IjY3LjUxMTc0MDkxMTUyNjIiIHI9IjUiIGZpbGw9IiNiNDY1NDciLz48Y2lyY2xlIGN4PSIxODMiIGN5PSI1MS43ODk1NTM0NjkxNTUyNyIgcj0iNSIgZmlsbD0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjE5MiIgY3k9IjYzLjIyODQ2NzkzODIwMjYyIiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMjAxIiBjeT0iNDcuODMzMzAxMjQ0Nzc0Njk1IiByPSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTggMFYxMThIMjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNmM2YzQiLz48cGF0aCBkPSJNMTQyIDBWMTIwIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS1kYXNoYXJyYXk9IjQgNCIvPjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5pS55Y+Y57qm5p2f5aSN5qC4PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mjqjojZDlj5jljJbkuI7pgILnlKjmgKc8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        }
+      ],
+      "metrics": {
+        "title": "同时检查方法与评价口径",
+        "html": "<p>训练代理只看训练组；搜索时使用代理预测和显式代价/风险约束，留出测试负责核对误差，紫圈标示非支配候选。</p>"
+      },
+      "fails": [
+        {
+          "name": "合成机制与真实部署差异",
+          "why": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1350,
+      "intro": "孔密教学指数、穿深教学指数与出砂敏感指数，如何共同影响产能响应教学值？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-co2-completion-perforation-design",
+    "title": "射孔参数智能设计",
+    "method": "二次特征岭回归代理＋约束网格搜索",
+    "what": "先学习合成实验的响应曲面，再在289组候选中筛约束并比较高响应与低代价。",
+    "why": "代理模型使大量参数组合可快速比较，并用非支配候选呈现取舍。",
+    "how": "训练代理只看训练组；搜索时使用代理预测和显式代价/风险约束，留出测试负责核对误差，紫圈标示非支配候选。",
+    "limit": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+    "trial": "提高出砂敏感度，观察可行方案与Pareto候选怎样收缩。",
+    "inputs": [
+      "孔密教学指数",
+      "穿深教学指数",
+      "出砂敏感指数"
+    ],
+    "output": "产能响应教学值",
+    "type": "optimization",
+    "before": "逐方案比较多个目标与约束，容易只记住单个高分方案。",
+    "benefit": "复用代理扫描候选，可行域和Pareto点把响应、代价及无解情形放在同一张图中。",
+    "controls": [
+      "budget",
+      "c"
+    ],
+    "views": [
+      {
+        "name": "可行域与Pareto取舍",
+        "selector": "#main-chart"
+      },
+      {
+        "name": "代理留出误差",
+        "selector": "#analysis-chart"
+      },
+      {
+        "name": "当前推荐与约束",
+        "selector": "#evaluation-chart"
+      }
+    ],
+    "steps": [
+      {
+        "name": "整理工况与响应",
+        "do": "将144条合成实验分组，84条拟合、24条保留校准、36条测试。",
+        "effect": "搜索候选与训练样本分开；真实响应仅用于核对。"
+      },
+      {
+        "name": "构建响应特征",
+        "do": "仅用训练组标准化各项特征，准备非线性响应的线性参数化。",
+        "effect": "代理的形式是二次特征回归，不是精确物理仿真。"
+      },
+      {
+        "name": "拟合并核对代理",
+        "do": "拟合正则回归，再在独立组上与训练均值基线比较RMSE。",
+        "effect": "代理误差会传到优选结论，不能只汇报最大预测。"
+      },
+      {
+        "name": "枚举并筛约束",
+        "do": "固定第三项工况，扫描两项设计变量并检查预算及教学风险上限。",
+        "effect": "预算过低时必须显示无可行解，不强行推荐。"
+      },
+      {
+        "name": "比较取舍与推荐",
+        "do": "对可行候选比较代价和响应，保留非支配点并标记最高预测。",
+        "effect": "低代价与高响应常有取舍，紫圈并非额外训练模型。"
+      },
+      {
+        "name": "改变约束复核",
+        "do": "改变预算与背景工况，追踪可行域、候选和预测误差。",
+        "effect": "风险阈值及代价均为教学设定，不能作为施工标准。"
+      }
+    ]
+  }
+}

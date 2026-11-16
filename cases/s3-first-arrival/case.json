@@ -1,0 +1,269 @@
+{
+  "id": "edu08-s3-first-arrival",
+  "sceneId": "s3",
+  "title": "初至波自动拾取｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "ts"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "短窗能量、长短窗比与振幅变化，如何共同影响初至样点？",
+      "judge": [
+        {
+          "label": "工程环节",
+          "value": "物探",
+          "desc": "初至是地震道首次出现有效到达的位置，拾取偏差会影响后续校正。"
+        },
+        {
+          "label": "实际方法",
+          "value": "波形窗口逻辑回归＋首越阈值拾取",
+          "desc": "把每个局部窗口转成三项波形属性，学习到达窗口分数并选首个越阈值时刻。"
+        },
+        {
+          "label": "数据来源",
+          "value": "教学合成 / 虚构",
+          "desc": "完整评价口径见案例演示"
+        },
+        {
+          "label": "动手目标",
+          "value": "证据可追踪",
+          "desc": "增加噪声与拾取阈值，观察到达误差和未拾取道数。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "理解工程对象",
+          "html": "<details class=\"teaching-glossary\"><summary>名词定义 · 图解与生活类比</summary><p><b>名词定义：</b>初至是地震道首次出现有效到达的位置，拾取偏差会影响后续校正。</p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 190\" role=\"img\" aria-label=\"初至波自动拾取输入到输出概念图\"><rect x=\"10\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#edf7f1\"/><rect x=\"320\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#eaf1fc\"/><rect x=\"630\" y=\"25\" width=\"260\" height=\"120\" rx=\"12\" fill=\"#fff2e1\"/><g font-family=\"Microsoft YaHei,system-ui,sans-serif\" font-size=\"19\" fill=\"#293b3b\"><text x=\"30\" y=\"62\">短窗能量</text><text x=\"30\" y=\"94\">长短窗比</text><text x=\"30\" y=\"126\">振幅变化</text><text x=\"340\" y=\"80\">学习规律 / 显式知识</text><text x=\"340\" y=\"114\">保留中间依据</text><text x=\"650\" y=\"94\">初至样点</text><text x=\"290\" y=\"92\">→</text><text x=\"598\" y=\"92\">→</text><text x=\"20\" y=\"176\" font-size=\"14\" fill=\"#627575\">概念关系示意，非当前计算结果；完整方法与评价口径请进入案例演示。</text></g></svg><p><b>生活类比：</b>像在嘈杂录音里标出第一个清晰音节。</p></details>"
+        },
+        {
+          "no": 2,
+          "en": "WHAT",
+          "title": "What · 使用什么方法",
+          "html": "<p>把每个局部窗口转成三项波形属性，学习到达窗口分数并选首个越阈值时刻。</p><p><b>实际实现：</b>波形窗口逻辑回归＋首越阈值拾取</p>"
+        },
+        {
+          "no": 3,
+          "en": "WHY",
+          "title": "Why · 为什么需要它",
+          "html": "<p>窗口分类器把多个局部属性组合成到达概率，便于检查噪声触发。</p>"
+        },
+        {
+          "no": 4,
+          "en": "HOW",
+          "title": "How · 如何发挥作用",
+          "html": "<p>8条完整道训练、4条道留出。窗口属性进逻辑回归，概率阈值决定候选；参考初至只用于误差与未拾取统计。</p><p><b>动手验证：</b>增加噪声与拾取阈值，观察到达误差和未拾取道数。</p>"
+        },
+        {
+          "no": 5,
+          "en": "LIMITS",
+          "title": "数据与结果边界",
+          "html": "<p>全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "波形窗口逻辑回归＋首越阈值拾取的六步路径",
+      "lead": [
+        "短窗能量、长短窗比与振幅变化，如何共同影响初至样点？",
+        "每步配图标明输入、产出与观察重点；案例演示提供同步变化的运行证据。"
+      ],
+      "steps": [
+        {
+          "name": "划分完整地震道",
+          "role": "数据",
+          "do": "完整地震道分组，避免相邻窗口跨训练与测试泄漏。",
+          "effect": "参考初至是训练标签与评价依据，不进入测试特征。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "local": "workflow/step-01.svg",
+            "alt": "初至波自动拾取 划分完整地震道指导图",
+            "input": "短窗能量等观测",
+            "output": "8训练道和4测试道",
+            "observe": "参考初至是训练标签与评价依据，不进入测试特征。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLliJ3oh7Pms6Loh6rliqjmi77lj5Yg5YiS5YiG5a6M5pW05Zyw6ZyH6YGT5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMSAg5Yid6Iez5rOi6Ieq5Yqo5ou+5Y+WIMK3IOWIkuWIhuWujOaVtOWcsOmch+mBkzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+55+t56qX6IO96YeP562J6KeC5rWLPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7liJLliIblrozmlbTlnLDpnIfpgZM8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj446K6t57uD6YGT5ZKMNOa1i+ivlemBkzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHRleHQgeD0iMCIgeT0iMjMiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTE8L3RleHQ+PHJlY3QgeD0iNjAiIHk9IjkiIHdpZHRoPSI2MCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjAiIHk9IjYwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoEyPC90ZXh0PjxyZWN0IHg9IjExMCIgeT0iNDYiIHdpZHRoPSIxMDUiIGhlaWdodD0iMjAiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIwIiB5PSI5NyIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMzwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjgzIiB3aWR0aD0iMzcuNSIgaGVpZ2h0PSIyMCIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik0xMTAgMFYxMTUiIHN0cm9rZT0iIzk5YWVhYSIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "提取窗口属性",
+          "role": "特征",
+          "do": "从含噪观测提取短窗能量、短长窗比与振幅变化。",
+          "effect": "中心窗口会含未来少量样点，不是严格实时拾取。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "local": "workflow/step-02.svg",
+            "alt": "初至波自动拾取 提取窗口属性指导图",
+            "input": "含噪局部波形",
+            "output": "能量、窗比与变化量",
+            "observe": "中心窗口会含未来少量样点，不是严格实时拾取。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLliJ3oh7Pms6Loh6rliqjmi77lj5Yg5o+Q5Y+W56qX5Y+j5bGe5oCn5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMiAg5Yid6Iez5rOi6Ieq5Yqo5ou+5Y+WIMK3IOaPkOWPlueql+WPo+WxnuaApzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5ZCr5Zmq5bGA6YOo5rOi5b2iPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0wIDIwTDQ1IDI1TDcwIDExTDEwMCAyNkwxNTAgMThMMTc1IDI4TDIyNSAxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMCA1OEw0NSA2M0w3MCA0OUwxMDAgNjRMMTUwIDU2TDE3NSA2NkwyMjUgNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTAgOTZMNDUgMTAxTDcwIDg3TDEwMCAxMDJMMTUwIDk0TDE3NSAxMDRMMjI1IDkwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik03MCAwVjEyME0xNTAgMFYxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+PC9nPjxwYXRoIGQ9Ik0zMTEgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YxZjVmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7mj5Dlj5bnqpflj6PlsZ7mgKc8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzY1LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuiDvemHj+OAgeeql+avlOS4juWPmOWMlumHjzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PGNpcmNsZSBjeD0iMjQiIGN5PSIxOCIgcj0iMTMiIGZpbGw9IiMyMzc3NjIiLz48cGF0aCBkPSJNMzggMThMMTI1IDYwTDIwNyAxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjQiIGN5PSI2MCIgcj0iMTMiIGZpbGw9IiM0MjY3YTgiLz48cGF0aCBkPSJNMzggNjBMMTI1IDYwTDIwNyA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMjQiIGN5PSIxMDIiIHI9IjEzIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTM4IDEwMkwxMjUgNjBMMjA3IDEwMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTI1IiBjeT0iNjAiIHI9IjI0IiBmaWxsPSIjZTlmMWZmIiBzdHJva2U9IiM0MjY3YTgiLz48dGV4dCB4PSIxMDgiIHk9IjY1IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7lrabkuaA8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "训练到达分类器",
+          "role": "方法",
+          "do": "正类加权8倍拟合到达后短窗口与背景，缓解样本不平衡。",
+          "effect": "类别加权不等于完成概率校准。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "local": "workflow/step-03.svg",
+            "alt": "初至波自动拾取 训练到达分类器指导图",
+            "input": "训练属性与窗口标签",
+            "output": "逻辑回归权重",
+            "observe": "类别加权不等于完成概率校准。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLliJ3oh7Pms6Loh6rliqjmi77lj5Yg6K6t57uD5Yiw6L6+5YiG57G75Zmo5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wMyAg5Yid6Iez5rOi6Ieq5Yqo5ou+5Y+WIMK3IOiuree7g+WIsOi+vuWIhuexu+WZqDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6K6t57uD5bGe5oCn5LiO56qX5Y+j5qCH562+PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjx0ZXh0IHg9IjAiIHk9IjIzIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIj7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjYwIiB5PSI5IiB3aWR0aD0iNjAiIGhlaWdodD0iMjAiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIwIiB5PSI2MCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiI+54m55b6BMjwvdGV4dD48cmVjdCB4PSIxMTAiIHk9IjQ2IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI2N2E4Ii8+PHRleHQgeD0iMCIgeT0iOTciIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iMTEwIiB5PSI4MyIgd2lkdGg9IjM3LjUiIGhlaWdodD0iMjAiIGZpbGw9IiNiNDY1NDciLz48cGF0aCBkPSJNMTEwIDBWMTE1IiBzdHJva2U9IiM5OWFlYWEiLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuiuree7g+WIsOi+vuWIhuexu+WZqDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PGNpcmNsZSBjeD0iMjQiIGN5PSIxOCIgcj0iMTMiIGZpbGw9IiMyMzc3NjIiLz48cGF0aCBkPSJNMzggMThMMTI1IDYwTDIwNyAxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIi8+PGNpcmNsZSBjeD0iMjQiIGN5PSI2MCIgcj0iMTMiIGZpbGw9IiM0MjY3YTgiLz48cGF0aCBkPSJNMzggNjBMMTI1IDYwTDIwNyA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4Ii8+PGNpcmNsZSBjeD0iMjQiIGN5PSIxMDIiIHI9IjEzIiBmaWxsPSIjYjQ2NTQ3Ii8+PHBhdGggZD0iTTM4IDEwMkwxMjUgNjBMMjA3IDEwMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjQ2NTQ3Ii8+PGNpcmNsZSBjeD0iMTI1IiBjeT0iNjAiIHI9IjI0IiBmaWxsPSIjZTlmMWZmIiBzdHJva2U9IiM0MjY3YTgiLz48dGV4dCB4PSIxMDgiIHk9IjY1IiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIj7lrabkuaA8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7pgLvovpHlm57lvZLmnYPph408L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjxwYXRoIGQ9Ik0wIDExNUgyMzBNMCA1M0gyMzAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+PHBhdGggZD0iTTAgMTEwTDM1IDEwOUw3MCAxMTFMMTA1IDEwNUwxMzAgMTAwTDE1MyA4MEwxODAgNDVMMjI1IDEyIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNjI3NTc1Ij7mtYHnqIvmjIflr7znpLrmhI/vvJrlm77lvaLlj4rnpLrkvovkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bmlbDlgLzor7fnnIvkuqTkupLlrp7pqozkuI7mnKzmraXov5DooYzor4Hmja7jgII8L3RleHQ+PC9nPjwvc3ZnPg=="
+          }
+        },
+        {
+          "name": "选首个越阈值点",
+          "role": "推断",
+          "do": "选择首个超过概率阈值的窗口；没有越阈值时保留未拾取。",
+          "effect": "噪声触发可使拾取过早，应同时查看波形。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "local": "workflow/step-04.svg",
+            "alt": "初至波自动拾取 选首个越阈值点指导图",
+            "input": "测试概率序列",
+            "output": "候选初至或未拾取",
+            "observe": "噪声触发可使拾取过早，应同时查看波形。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLliJ3oh7Pms6Loh6rliqjmi77lj5Yg6YCJ6aaW5Liq6LaK6ZiI5YC854K55oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNCAg5Yid6Iez5rOi6Ieq5Yqo5ou+5Y+WIMK3IOmAiemmluS4qui2iumYiOWAvOeCuTwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+5rWL6K+V5qaC546H5bqP5YiXPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxjaXJjbGUgY3g9IjI0IiBjeT0iMTgiIHI9IjEzIiBmaWxsPSIjMjM3NzYyIi8+PHBhdGggZD0iTTM4IDE4TDEyNSA2MEwyMDcgMTgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIvPjxjaXJjbGUgY3g9IjI0IiBjeT0iNjAiIHI9IjEzIiBmaWxsPSIjNDI2N2E4Ii8+PHBhdGggZD0iTTM4IDYwTDEyNSA2MEwyMDcgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIvPjxjaXJjbGUgY3g9IjI0IiBjeT0iMTAyIiByPSIxMyIgZmlsbD0iI2I0NjU0NyIvPjxwYXRoIGQ9Ik0zOCAxMDJMMTI1IDYwTDIwNyAxMDIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIvPjxjaXJjbGUgY3g9IjEyNSIgY3k9IjYwIiByPSIyNCIgZmlsbD0iI2U5ZjFmZiIgc3Ryb2tlPSIjNDI2N2E4Ii8+PHRleHQgeD0iMTA4IiB5PSI2NSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiI+5a2m5LmgPC90ZXh0PjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6YCJ6aaW5Liq6LaK6ZiI5YC854K5PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48cGF0aCBkPSJNMCAxMTVIMjMwTTAgNTNIMjMwIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS1kYXNoYXJyYXk9IjUgNCIvPjxwYXRoIGQ9Ik0wIDExMEwzNSAxMDlMNzAgMTExTDEwNSAxMDVMMTMwIDEwMEwxNTMgODBMMTgwIDQ1TDIyNSAxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48L2c+PHBhdGggZD0iTTYyOSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZmZmN2VjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3Ij7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuWAmemAieWIneiHs+aIluacquaLvuWPljwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMsMTQ1KSI+PHBhdGggZD0iTTEyIDhWMTE1SDIzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjZjNmM0Ii8+PHBhdGggZD0iTTIwIDEwMFE4MCAzMiAyMjAgMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTIwIDEwNVE4MCA0MSAyMjAgMjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz48Y2lyY2xlIGN4PSIxMzAiIGN5PSI0NSIgcj0iNyIgZmlsbD0iI2ZmY2Y2OSIgc3Ryb2tlPSIjNmI1NDI3Ii8+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzIiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2Mjc1NzUiPua1geeoi+aMh+WvvOekuuaEj++8muWbvuW9ouWPiuekuuS+i+S4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtuaVsOWAvOivt+eci+S6pOS6kuWunumqjOS4juacrOatpei/kOihjOivgeaNruOAgjwvdGV4dD48L2c+PC9zdmc+"
+          }
+        },
+        {
+          "name": "核对留出拾取误差",
+          "role": "对照",
+          "do": "只在有效拾取道计算MAE，另报未拾取数量，与振幅基线比较。",
+          "effect": "未拾取不能按零误差参与均值。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "local": "workflow/step-05.svg",
+            "alt": "初至波自动拾取 核对留出拾取误差指导图",
+            "input": "4条测试道候选",
+            "output": "MAE与未拾取道数",
+            "observe": "未拾取不能按零误差参与均值。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLliJ3oh7Pms6Loh6rliqjmi77lj5Yg5qC45a+555WZ5Ye65ou+5Y+W6K+v5beu5oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNSAg5Yid6Iez5rOi6Ieq5Yqo5ou+5Y+WIMK3IOaguOWvueeVmeWHuuaLvuWPluivr+W3rjwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+NOadoea1i+ivlemBk+WAmemAiTwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0NywxNDUpIj48cGF0aCBkPSJNMCAxMTVIMjMwTTAgNTNIMjMwIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS1kYXNoYXJyYXk9IjUgNCIvPjxwYXRoIGQ9Ik0wIDExMEwzNSAxMDlMNzAgMTExTDEwNSAxMDVMMTMwIDEwMEwxNTMgODBMMTgwIDQ1TDIyNSAxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48L2c+PHBhdGggZD0iTTMxMSAxODBoMTlsLTYgLTZtNiA2bC02IDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI5IiBmaWxsPSIjZjFmNWZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4Ij7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMyOTNiM2IiPuaguOWvueeVmeWHuuaLvuWPluivr+W3rjwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsMTQ1KSI+PHBhdGggZD0iTTEyIDhWMTE1SDIzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjZjNmM0Ii8+PHBhdGggZD0iTTIwIDEwMFE4MCAzMiAyMjAgMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTIwIDEwNVE4MCA0MSAyMjAgMjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz48Y2lyY2xlIGN4PSIxMzAiIGN5PSI0NSIgcj0iNyIgZmlsbD0iI2ZmY2Y2OSIgc3Ryb2tlPSIjNmI1NDI3Ii8+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj5NQUXkuI7mnKrmi77lj5bpgZPmlbA8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        },
+        {
+          "name": "调整噪声和阈值",
+          "role": "复核",
+          "do": "切换留出道，检查阈值升高是否减少噪声触发并增加未拾取。",
+          "effect": "合成道表现不代表真实工区泛化能力。",
+          "trap": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "local": "workflow/step-06.svg",
+            "alt": "初至波自动拾取 调整噪声和阈值指导图",
+            "input": "阈值、噪声与道号",
+            "output": "误差和完整性权衡",
+            "observe": "合成道表现不代表真实工区泛化能力。",
+            "caption": "流程指导示意，不是当前计算结果。请在本步运行证据与交互实验中核对真实计算。",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiB2aWV3Qm94PSIwIDAgOTYwIDM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLliJ3oh7Pms6Loh6rliqjmi77lj5Yg6LCD5pW05Zmq5aOw5ZKM6ZiI5YC85oyH5a+85Zu+Ij48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEyIiBmaWxsPSIjZmZmIi8+PHRleHQgeD0iMjQiIHk9IjMxIiBmb250LXNpemU9IjE5IiBmaWxsPSIjMjkzYjNiIj4wNiAg5Yid6Iez5rOi6Ieq5Yqo5ou+5Y+WIMK3IOiwg+aVtOWZquWjsOWSjOmYiOWAvDwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2YwZjhmMyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6ZiI5YC844CB5Zmq5aOw5LiO6YGT5Y+3PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ3LDE0NSkiPjxwYXRoIGQ9Ik0xMiA4VjExNUgyMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I2YzZjNCIvPjxwYXRoIGQ9Ik0yMCAxMDBRODAgMzIgMjIwIDI1IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjxwYXRoIGQ9Ik0yMCAxMDVRODAgNDEgMjIwIDI5IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+PGNpcmNsZSBjeD0iMTMwIiBjeT0iNDUiIHI9IjciIGZpbGw9IiNmZmNmNjkiIHN0cm9rZT0iIzZiNTQyNyIvPjwvZz48cGF0aCBkPSJNMzExIDE4MGgxOWwtNiAtNm02IDZsLTYgNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjkiIGZpbGw9IiNmMWY1ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwNiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzI5M2IzYiI+6LCD5pW05Zmq5aOw5ZKM6ZiI5YC8PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2NSwxNDUpIj48dGV4dCB4PSIyIiB5PSIyMiIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzIzNzc2MiI+4pyTIOafpeeci+eLrOeri+ivr+W3rjwvdGV4dD48dGV4dCB4PSIyIiB5PSI2MSIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzQyNjdhOCI+4pyTIOaUueWPmOS4gOmhueWPguaVsDwvdGV4dD48dGV4dCB4PSIyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiNiNDY1NDciPuKckyDkv53nlZnkurrlt6XlpI3moLg8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjkgMTgwaDE5bC02IC02bTYgNmwtNiA2IiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOSIgZmlsbD0iI2ZmZjdlYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTA2IiBmb250LXNpemU9IjE1IiBmaWxsPSIjMjkzYjNiIj7or6/lt67lkozlrozmlbTmgKfmnYPooaE8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgzLDE0NSkiPjx0ZXh0IHg9IjIiIHk9IjIyIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjM3NzYyIj7inJMg5p+l55yL54us56uL6K+v5beuPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjYxIiBmb250LXNpemU9IjE2IiBmaWxsPSIjNDI2N2E4Ij7inJMg5pS55Y+Y5LiA6aG55Y+C5pWwPC90ZXh0Pjx0ZXh0IHg9IjIiIHk9IjEwMCIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2I0NjU0NyI+4pyTIOS/neeVmeS6uuW3peWkjeaguDwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzYyNzU3NSI+5rWB56iL5oyH5a+856S65oSP77ya5Zu+5b2i5Y+K56S65L6L5LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe25pWw5YC86K+355yL5Lqk5LqS5a6e6aqM5LiO5pys5q2l6L+Q6KGM6K+B5o2u44CCPC90ZXh0PjwvZz48L3N2Zz4="
+          }
+        }
+      ],
+      "metrics": {
+        "title": "同时检查方法与评价口径",
+        "html": "<p>8条完整道训练、4条道留出。窗口属性进逻辑回归，概率阈值决定候选；参考初至只用于误差与未拾取统计。</p>"
+      },
+      "fails": [
+        {
+          "name": "合成机制与真实部署差异",
+          "why": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1350,
+      "intro": "短窗能量、长短窗比与振幅变化，如何共同影响初至样点？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-s3-first-arrival",
+    "title": "初至波自动拾取",
+    "method": "波形窗口逻辑回归＋首越阈值拾取",
+    "what": "把每个局部窗口转成三项波形属性，学习到达窗口分数并选首个越阈值时刻。",
+    "why": "窗口分类器把多个局部属性组合成到达概率，便于检查噪声触发。",
+    "how": "8条完整道训练、4条道留出。窗口属性进逻辑回归，概率阈值决定候选；参考初至只用于误差与未拾取统计。",
+    "limit": "全部数据与工况为教学合成或虚构。评价只描述当前合成机制下的表现。本例不直接生成现场设计、控制或处置指令。",
+    "trial": "增加噪声与拾取阈值，观察到达误差和未拾取道数。",
+    "inputs": [
+      "短窗能量",
+      "长短窗比",
+      "振幅变化"
+    ],
+    "output": "初至样点",
+    "type": "picker",
+    "before": "在大量地震道上逐道找初至，噪声触发不易统一复核。",
+    "benefit": "窗口分数统一候选依据，同时查看波形、阈值、误差和未拾取道。",
+    "controls": [
+      "threshold",
+      "noise"
+    ],
+    "views": [
+      {
+        "name": "波形与初至候选",
+        "selector": "#main-chart"
+      },
+      {
+        "name": "窗口概率与阈值",
+        "selector": "#analysis-chart"
+      },
+      {
+        "name": "留出道拾取误差",
+        "selector": "#evaluation-chart"
+      }
+    ],
+    "steps": [
+      {
+        "name": "划分完整地震道",
+        "do": "完整地震道分组，避免相邻窗口跨训练与测试泄漏。",
+        "effect": "参考初至是训练标签与评价依据，不进入测试特征。"
+      },
+      {
+        "name": "提取窗口属性",
+        "do": "从含噪观测提取短窗能量、短长窗比与振幅变化。",
+        "effect": "中心窗口会含未来少量样点，不是严格实时拾取。"
+      },
+      {
+        "name": "训练到达分类器",
+        "do": "正类加权8倍拟合到达后短窗口与背景，缓解样本不平衡。",
+        "effect": "类别加权不等于完成概率校准。"
+      },
+      {
+        "name": "选首个越阈值点",
+        "do": "选择首个超过概率阈值的窗口；没有越阈值时保留未拾取。",
+        "effect": "噪声触发可使拾取过早，应同时查看波形。"
+      },
+      {
+        "name": "核对留出拾取误差",
+        "do": "只在有效拾取道计算MAE，另报未拾取数量，与振幅基线比较。",
+        "effect": "未拾取不能按零误差参与均值。"
+      },
+      {
+        "name": "调整噪声和阈值",
+        "do": "切换留出道，检查阈值升高是否减少噪声触发并增加未拾取。",
+        "effect": "合成道表现不代表真实工区泛化能力。"
+      }
+    ]
+  }
+}

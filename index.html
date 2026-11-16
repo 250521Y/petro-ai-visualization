@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="assets/lab/ai-book.css?v=da38613d7b">
+<title>智绘油程 · 石油工程AI可视化平台</title>
+<meta name="description" content="智绘油程以63个交互案例完整覆盖石油作业13个环节、61个场景。通过同页参数联动、算法可视化和What、Why、How研读，理解AI方法的工程作用。">
+
+<link rel="stylesheet" href="assets/core/tokens.css?v=342cf33930">
+<link rel="stylesheet" href="assets/core/layout.css?v=244c2c1175">
+<link rel="stylesheet" href="assets/core/ui.css?v=c4f7c3007f">
+<link rel="stylesheet" href="assets/core/workflow-guides.css?v=46d80ec931">
+<link rel="stylesheet" href="assets/core/case-search.css?v=99a5a3db14">
+<link rel="stylesheet" href="assets/core/petro-journey.css?v=2170589568">
+<link rel="stylesheet" href="assets/core/own-theme.css?v=12fc0f8769"><link rel="stylesheet" href="assets/core/expansion-palette.css?v=c26bb5fc3a"></head>
+<body>
+
+<div id="view">
+  <main class="wrap" style="padding:120px 0">
+    <div class="empty"><b>正在加载</b>如果这行字一直不消失，说明脚本没有正确执行，
+    请检查浏览器控制台。</div>
+  </main>
+</div>
+
+<noscript>
+  <div class="wrap" style="padding:80px 0">
+    <div class="empty"><b>需要启用 JavaScript</b>本站是纯前端渲染的，所有页面由本地脚本生成。</div>
+  </div>
+</noscript>
+
+<!-- =========================================================
+     脚本加载顺序（改这里之前先读 docs/如何添加新案例.md）
+     1. data.js         场景元数据
+     2. registry.js     案例注册表
+     3. kit.js          渲染工具箱
+     4. cases/*         案例插件 —— 新增案例加在这一段
+     5. case-demo-host  示范宿主（整页 iframe / 模块 Shadow DOM）
+     6. case-upload     案例包导入（读 localStorage，必须在 shell 前）
+     7. shell.js        外壳，必须最后
+     ========================================================= -->
+<script src="assets/data.js?v=054d343508"></script>
+<script src="assets/core/registry.js?v=8f05258ab1"></script>
+<script src="assets/core/kit.js?v=b27a67a325"></script>
+
+
+
+<!-- ↑ 新案例加在这里：<script src="assets/cases/你的案例.case.js"></script> -->
+
+<!-- 上传的案例包（localStorage）在这里恢复注册，必须在 shell.js 之前 -->
+<script src="assets/core/case-demo-host.js?v=852ac36c34"></script>
+<script src="assets/cases/portfolio-bundle.js?v=6cabd386ff"></script>
+<script src="assets/vendor/jszip-3.10.1.min.js?v=acc7e41455"></script>
+<script src="assets/core/case-zip.js?v=866fef1e24"></script>
+<script src="assets/core/case-upload.js?v=002bac9bec"></script>
+
+<script src="assets/core/admin.js?v=f912dbe9ec"></script>
+
+<script src="assets/core/own-ui.js?v=c23c17a32d"></script>
+<script src="assets/core/case-search.js?v=27c4dbde76"></script>
+<script src="assets/core/petro-journey.js?v=c66d262632"></script>
+<script src="assets/core/shell.js?v=3e752b76fd"></script>
+
+</body>
+</html>

@@ -1,0 +1,251 @@
+{
+  "id": "edu08-t1-pipeline-leak",
+  "sceneId": "t1",
+  "title": "管道泄漏智能检测｜可视化教学实验",
+  "version": "4.1.0",
+  "updated": "2026-11-03",
+  "status": "ready",
+  "methods": [
+    "ts"
+  ],
+  "tabs": {
+    "background": {
+      "label": "专业背景",
+      "lede": "阈值与噪声怎样改变泄漏示意信号的发现时刻？",
+      "judge": [
+        {
+          "label": "环节",
+          "value": "运输",
+          "desc": "持续流量差可用于异常监测。本例从合成的入口与出口信号计算差值，用CUSUM积累持续偏离，不能据此定位真实泄漏或触发现场处置。"
+        },
+        {
+          "label": "实际方法",
+          "value": "前段背景标定 + 单侧CUSUM序贯异常检测",
+          "desc": "无需后端；算法在浏览器运行"
+        },
+        {
+          "label": "数据",
+          "value": "教学合成",
+          "desc": "不使用真实生产数据"
+        },
+        {
+          "label": "阅读目标",
+          "value": "依据可追踪",
+          "desc": "先关闭异常，比较误报；再增加噪声或提高阈值，解释发现延迟。"
+        }
+      ],
+      "sections": [
+        {
+          "no": 1,
+          "en": "CONTEXT",
+          "title": "先辨认工程问题",
+          "html": "<style>/* Full-chain readable layout */\nbody{background:#fff;font-size:16px}.chain-hero{display:grid;grid-template-columns:1fr 1.15fr;gap:32px;align-items:center}.chain-hero>div{min-width:0}.chart{width:100%;height:auto;min-width:0!important}.viz-scroll{overflow:auto}.chain-workspace{display:grid;grid-template-columns:minmax(210px,.65fr) minmax(0,1.65fr);gap:24px;align-items:start}.chain-controls{padding:20px;background:#f4f8f5;border-radius:14px;display:grid;gap:16px}.chain-controls button{padding:11px;border:1px solid #b7d7c8;border-radius:8px;background:white;color:#237762;text-align:left;font:inherit;cursor:pointer}.chain-controls button:disabled{opacity:.45;cursor:not-allowed}.chain-controls textarea{max-width:100%;width:100%;padding:10px;font:inherit;border:1px solid #c2d1c9;border-radius:7px;resize:vertical}.chain-controls p{font-size:13px}.chain-controls .control label{display:flex;justify-content:space-between;gap:8px}.chain-controls input{width:100%}.chain-knowledge{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:22px;align-items:center}.chain-knowledge>*{min-width:0}.chain-knowledge svg{width:100%}.chain-evidence{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:22px}.chain-evidence>div{min-width:0}.metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin:22px 0}.metric strong{font-size:23px;overflow-wrap:anywhere}.table-scroll{overflow:auto}table{width:100%}td,th{padding:9px;font-size:14px}.note{padding:16px;background:#fff4db;border-radius:10px;line-height:1.8}#overview,#main-chart{border:1px solid #e4e8e6;border-radius:14px;padding:15px;background:#fff}button:focus-visible,[tabindex]:focus-visible{outline:3px solid #4267a8;outline-offset:3px}.control output{color:#237762;font-weight:bold}.teaching-glossary details{margin:24px 0}.section{scroll-margin-top:15px}svg [role=button]{cursor:pointer}svg text{font-family:system-ui,'Microsoft YaHei',sans-serif}@media(max-width:800px){.chain-hero,.chain-workspace,.chain-knowledge,.chain-evidence{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.hero h1{font-size:34px}.page{padding:20px 16px}.chain-controls{order:0}}</style><div class=\"teaching-glossary\"><details><summary>名词定义 · 点击展开图解与类比</summary><div class=\"chain-knowledge\"><div><h4>名词定义</h4><p>持续流量差可用于异常监测。本例从合成的入口与出口信号计算差值，用CUSUM积累持续偏离，不能据此定位真实泄漏或触发现场处置。</p></div><div><svg viewBox=\"0 0 580 240\" role=\"img\" aria-label=\"管道泄漏智能检测概念关系示意\"><g><rect x=\"10\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#e7f5ed\"/><text x=\"95\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">双端观测</text></g><path d=\"M180 115h23l-7 -6m7 6l-7 6\" stroke=\"#237762\" fill=\"none\"/><g><rect x=\"205\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#e9f1ff\"/><text x=\"290\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">累计偏离</text></g><path d=\"M375 115h23l-7 -6m7 6l-7 6\" stroke=\"#237762\" fill=\"none\"/><g><rect x=\"400\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#fff0df\"/><text x=\"485\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">异常提示</text></g><text x=\"290\" y=\"205\" text-anchor=\"middle\" fill=\"#5e6e73\" font-size=\"16\">教学关系图；实际结果在交互实验中重新计算</text></svg></div><div><h4>生活类比</h4><p>像发现水桶慢慢漏水：每次少一点不明显，持续积累后才容易判断。</p></div></div></details></div>"
+        },
+        {
+          "no": 2,
+          "en": "METHOD",
+          "title": "实际方法与可见证据",
+          "html": "<svg viewBox=\"0 0 580 240\" role=\"img\" aria-label=\"管道泄漏智能检测概念关系示意\"><g><rect x=\"10\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#e7f5ed\"/><text x=\"95\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">双端观测</text></g><path d=\"M180 115h23l-7 -6m7 6l-7 6\" stroke=\"#237762\" fill=\"none\"/><g><rect x=\"205\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#e9f1ff\"/><text x=\"290\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">累计偏离</text></g><path d=\"M375 115h23l-7 -6m7 6l-7 6\" stroke=\"#237762\" fill=\"none\"/><g><rect x=\"400\" y=\"70\" width=\"170\" height=\"90\" rx=\"15\" fill=\"#fff0df\"/><text x=\"485\" y=\"122\" text-anchor=\"middle\" fill=\"#293b3b\" font-size=\"21\">异常提示</text></g><text x=\"290\" y=\"205\" text-anchor=\"middle\" fill=\"#5e6e73\" font-size=\"16\">教学关系图；实际结果在交互实验中重新计算</text></svg><p>前段背景标定 + 单侧CUSUM序贯异常检测。请在案例演示中逐步检查输入、中间状态和输出。</p>"
+        },
+        {
+          "no": 3,
+          "en": "EXPERIMENT",
+          "title": "带着一个对照进入实验",
+          "html": "<p>先关闭异常，比较误报；再增加噪声或提高阈值，解释发现延迟。</p>"
+        },
+        {
+          "no": 4,
+          "en": "LIMITS",
+          "title": "怎样理解结果边界",
+          "html": "<p>只使用变化前50点标定背景，不读取泄漏时刻。报警为教学异常提示，传感漂移同样可能触发；无物理泄漏量与位置推断。</p>"
+        }
+      ]
+    },
+    "workflow": {
+      "label": "案例流程",
+      "title": "前段背景标定 + 单侧CUSUM序贯异常检测的六步路径",
+      "lead": [
+        "阈值与噪声怎样改变泄漏示意信号的发现时刻？",
+        "本页指导图用于说明每一步的输入、处理与产出；随参数更新的真实图表请到案例演示的算法步骤查看。"
+      ],
+      "steps": [
+        {
+          "name": "观测双端序列",
+          "role": "数据",
+          "do": "按相同时刻成对读取，得到双端观测及差值线索。",
+          "effect": "读图后应能说明：比较两条曲线的同步关系，差值变化不直接等于真实泄漏量。",
+          "trap": "只使用变化前50点标定背景，不读取泄漏时刻。报警为教学异常提示，传感漂移同样可能触发；无物理泄漏量与位置推断。",
+          "figure": {
+            "src": "demo/workflow/step-01.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPueuoemBk+azhOa8j+aZuuiDveajgOa1iyDnrKwx5q2lIOingua1i+WPjOerr+W6j+WIlzwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeWFpeWPo+S4juWHuuWPo+WQiOaIkOa1gemHj+W6j+WIl++8jOaMieebuOWQjOaXtuWIu+aIkOWvueivu+WPlu+8jOW+l+WIsOWPjOerr+ingua1i+WPiuW3ruWAvOe6v+e0ouOAgui/meaYr+a1geeoi+aMh+WvvOekuuaEj++8jOS4jeaYr+W9k+WJjeiuoeeul+e7k+aenOOAgjwvZGVzYz48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEwIiBmaWxsPSIjZmZmIi8+PGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSxzeXN0ZW0tdWksc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQiIHk9IjMyIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPjAxICDop4LmtYvlj4znq6/luo/liJc8L3RleHQ+PHJlY3QgeD0iMTgiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmM2Y4ZjUiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM0IiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIzNzc2MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lhaXlj6PkuI7lh7rlj6PlkIjmiJDmtYHph4/luo/liJc8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIsMTQ2KSI+PGxpbmUgeDE9IjEwIiB5MT0iNSIgeDI9IjEwIiB5Mj0iMTIwIiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSIxMCIgeTE9IjEyMCIgeDI9IjIzNiIgeTI9IjEyMCIgc3Ryb2tlPSIjYjhjNmM5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMTIuMCw5Mi4wIEwyMC40LDc5LjAgTDI4LjgsNjguMSBMMzcuMiw2MS4wIEw0NS42LDU5LjAgTDU0LjAsNjIuMSBMNjIuNCw2OS43IEw3MC44LDgwLjQgTDc5LjIsOTIuMSBMODcuNiwxMDIuNyBMOTYuMCwxMTAuMSBMMTA0LjQsMTEzLjEgTDExMi44LDExMC44IEwxMjEuMiwxMDMuNiBMMTI5LjYsOTIuNiBMMTM4LjAsNzkuNSBMMTQ2LjQsNjYuNSBMMTU0LjgsNTUuNyBMMTYzLjIsNDguOSBMMTcxLjYsNDcuMCBMMTgwLjAsNTAuNCBMMTg4LjQsNTguMSBMMTk2LjgsNjguOSBMMjA1LjIsODAuNiBMMjEzLjYsOTEuMSBMMjIyLjAsOTguNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMTIuMCwxMDIuMCBMMjAuNCw5NC4wIEwyOC44LDgzLjUgTDM3LjIsNzEuOSBMNDUuNiw2NC40IEw1NC4wLDY2LjQgTDYyLjQsNzguMSBMNzAuOCw5NC4zIEw3OS4yLDEwOC4wIEw4Ny42LDExNS4yIEw5Ni4wLDExNi45IEwxMDQuNCwxMTcuMSBMMTEyLjgsMTE3LjYgTDEyMS4yLDExNi4xIEwxMjkuNiwxMDguNSBMMTM4LjAsOTMuNCBMMTQ2LjQsNzQuOCBMMTU0LjgsNjAuMCBMMTYzLjIsNTQuNCBMMTcxLjYsNTcuOSBMMTgwLjAsNjUuOCBMMTg4LjQsNzMuMiBMMTk2LjgsNzguOCBMMjA1LjIsODUuNSBMMjEzLjYsOTUuNiBMMjIyLjAsMTA3LjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz48L2c+PHBhdGggZD0iTTMxMC4wLDE3Ni4wIEwzMjguMCwxNzYuMCBMMzIyLjAsMTcwLjAgTDMyOC4wLDE3Ni4wIEwzMjIuMCwxODIuMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmMmY2ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTAzIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuaMieebuOWQjOaXtuWIu+aIkOWvueivu+WPljwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjAsMTQ2KSI+PGxpbmUgeDE9IjEwIiB5MT0iNSIgeDI9IjEwIiB5Mj0iMTIwIiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSIxMCIgeTE9IjEyMCIgeDI9IjIzNiIgeTI9IjEyMCIgc3Ryb2tlPSIjYjhjNmM5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMTIuMCw5Mi4wIEwyMC40LDc5LjAgTDI4LjgsNjguMSBMMzcuMiw2MS4wIEw0NS42LDU5LjAgTDU0LjAsNjIuMSBMNjIuNCw2OS43IEw3MC44LDgwLjQgTDc5LjIsOTIuMSBMODcuNiwxMDIuNyBMOTYuMCwxMTAuMSBMMTA0LjQsMTEzLjEgTDExMi44LDExMC44IEwxMjEuMiwxMDMuNiBMMTI5LjYsOTIuNiBMMTM4LjAsNzkuNSBMMTQ2LjQsNjYuNSBMMTU0LjgsNTUuNyBMMTYzLjIsNDguOSBMMTcxLjYsNDcuMCBMMTgwLjAsNTAuNCBMMTg4LjQsNTguMSBMMTk2LjgsNjguOSBMMjA1LjIsODAuNiBMMjEzLjYsOTEuMSBMMjIyLjAsOTguNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48L2c+PHBhdGggZD0iTTYyOC4wLDE3Ni4wIEw2NDYuMCwxNzYuMCBMNjQwLjAsMTcwLjAgTDY0Ni4wLDE3Ni4wIEw2NDAuMCwxODIuMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI2NTQiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmYWY2ZjAiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjY3MCIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiNiNDY1NDciIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+5qC45a+55Lqn5Ye6PC90ZXh0Pjx0ZXh0IHg9IjY3MCIgeT0iMTAzIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWPjOerr+ingua1i+WPiuW3ruWAvOe6v+e0ojwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2NzgsMTQ2KSI+PGxpbmUgeDE9IjEwIiB5MT0iNSIgeDI9IjEwIiB5Mj0iMTIwIiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSIxMCIgeTE9IjEyMCIgeDI9IjIzNiIgeTI9IjEyMCIgc3Ryb2tlPSIjYjhjNmM5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMTIuMCw5Mi4wIEwyMC40LDc5LjAgTDI4LjgsNjguMSBMMzcuMiw2MS4wIEw0NS42LDU5LjAgTDU0LjAsNjIuMSBMNjIuNCw2OS43IEw3MC44LDgwLjQgTDc5LjIsOTIuMSBMODcuNiwxMDIuNyBMOTYuMCwxMTAuMSBMMTA0LjQsMTEzLjEgTDExMi44LDExMC44IEwxMjEuMiwxMDMuNiBMMTI5LjYsOTIuNiBMMTM4LjAsNzkuNSBMMTQ2LjQsNjYuNSBMMTU0LjgsNTUuNyBMMTYzLjIsNDguOSBMMTcxLjYsNDcuMCBMMTgwLjAsNTAuNCBMMTg4LjQsNTguMSBMMTk2LjgsNjguOSBMMjA1LjIsODAuNiBMMjEzLjYsOTEuMSBMMjIyLjAsOTguNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48L2c+PHRleHQgeD0iMjQiIHk9IjMzMSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzYxNzc3YiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7mtYHnqIvnpLrmhI8gwrcg5Zu+5b2i5LiO56S65L6L5pWw5YC85LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe257uT5p6c6K+35Zyo5Lqk5LqS5a6e6aqM5Lit5p+l55yLPC90ZXh0PjwvZz48L3N2Zz4=",
+            "alt": "管道泄漏智能检测 观测双端序列指导图",
+            "input": "入口与出口合成流量序列",
+            "output": "双端观测及差值线索",
+            "observe": "比较两条曲线的同步关系，差值变化不直接等于真实泄漏量。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        },
+        {
+          "name": "前段背景标定",
+          "role": "特征",
+          "do": "估计背景均值与标准差，得到固定背景尺度。",
+          "effect": "读图后应能说明：只用前50点标定，算法不读取参考泄漏时刻。",
+          "trap": "只使用变化前50点标定背景，不读取泄漏时刻。报警为教学异常提示，传感漂移同样可能触发；无物理泄漏量与位置推断。",
+          "figure": {
+            "src": "demo/workflow/step-02.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPueuoemBk+azhOa8j+aZuuiDveajgOa1iyDnrKwy5q2lIOWJjeauteiDjOaZr+agh+WumjwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeWPmOWMluWJjTUw54K555qE5rWB6YeP5beu77yM5Lyw6K6h6IOM5pmv5Z2H5YC85LiO5qCH5YeG5beu77yM5b6X5Yiw5Zu65a6a6IOM5pmv5bC65bqm44CC6L+Z5piv5rWB56iL5oyH5a+856S65oSP77yM5LiN5piv5b2T5YmN6K6h566X57uT5p6c44CCPC9kZXNjPjxyZWN0IHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiByeD0iMTAiIGZpbGw9IiNmZmYiLz48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48dGV4dCB4PSIyNCIgeT0iMzIiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+MDIgIOWJjeauteiDjOaZr+agh+WumjwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2YzZjhmNSIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuWHhuWkh+i+k+WFpTwvdGV4dD48dGV4dCB4PSIzNCIgeT0iMTAzIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWPmOWMluWJjTUw54K555qE5rWB6YeP5beuPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQyLDE0NikiPjxsaW5lIHgxPSIxMCIgeTE9IjUiIHgyPSIxMCIgeTI9IjEyMCIgc3Ryb2tlPSIjYjhjNmM5IiBzdHJva2Utd2lkdGg9IjIiLz48bGluZSB4MT0iMTAiIHkxPSIxMjAiIHgyPSIyMzYiIHkyPSIxMjAiIHN0cm9rZT0iI2I4YzZjOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTEyLjAsOTIuMCBMMjAuNCw3OS4wIEwyOC44LDY4LjEgTDM3LjIsNjEuMCBMNDUuNiw1OS4wIEw1NC4wLDYyLjEgTDYyLjQsNjkuNyBMNzAuOCw4MC40IEw3OS4yLDkyLjEgTDg3LjYsMTAyLjcgTDk2LjAsMTEwLjEgTDEwNC40LDExMy4xIEwxMTIuOCwxMTAuOCBMMTIxLjIsMTAzLjYgTDEyOS42LDkyLjYgTDEzOC4wLDc5LjUgTDE0Ni40LDY2LjUgTDE1NC44LDU1LjcgTDE2My4yLDQ4LjkgTDE3MS42LDQ3LjAgTDE4MC4wLDUwLjQgTDE4OC40LDU4LjEgTDE5Ni44LDY4LjkgTDIwNS4yLDgwLjYgTDIxMy42LDkxLjEgTDIyMi4wLDk4LjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9nPjxwYXRoIGQ9Ik0zMTAuMCwxNzYuMCBMMzI4LjAsMTc2LjAgTDMyMi4wLDE3MC4wIEwzMjguMCwxNzYuMCBMMzIyLjAsMTgyLjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMzM2IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI4IiBmaWxsPSIjZjJmNmZjIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSIzNTIiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjNDI2N2E4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuaJp+ihjOacrOatpTwvdGV4dD48dGV4dCB4PSIzNTIiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7kvLDorqHog4zmma/lnYflgLzkuI7moIflh4blt648L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzYwLDE0NikiPjxsaW5lIHgxPSIxMCIgeTE9IjUiIHgyPSIxMCIgeTI9IjEyMCIgc3Ryb2tlPSIjYjhjNmM5IiBzdHJva2Utd2lkdGg9IjIiLz48bGluZSB4MT0iMTAiIHkxPSIxMjAiIHgyPSIyMzYiIHkyPSIxMjAiIHN0cm9rZT0iI2I4YzZjOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTEyLjAsOTIuMCBMMjAuNCw3OS4wIEwyOC44LDY4LjEgTDM3LjIsNjEuMCBMNDUuNiw1OS4wIEw1NC4wLDYyLjEgTDYyLjQsNjkuNyBMNzAuOCw4MC40IEw3OS4yLDkyLjEgTDg3LjYsMTAyLjcgTDk2LjAsMTEwLjEgTDEwNC40LDExMy4xIEwxMTIuOCwxMTAuOCBMMTIxLjIsMTAzLjYgTDEyOS42LDkyLjYgTDEzOC4wLDc5LjUgTDE0Ni40LDY2LjUgTDE1NC44LDU1LjcgTDE2My4yLDQ4LjkgTDE3MS42LDQ3LjAgTDE4MC4wLDUwLjQgTDE4OC40LDU4LjEgTDE5Ni44LDY4LjkgTDIwNS4yLDgwLjYgTDIxMy42LDkxLjEgTDIyMi4wLDk4LjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIgc3Ryb2tlLXdpZHRoPSIzIi8+PGxpbmUgeDE9IjE1NSIgeTE9IjUiIHgyPSIxNTUiIHkyPSIxMjAiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI0IDQiLz48dGV4dCB4PSIxNjAiIHk9IjE2IiBmb250LXNpemU9IjEzIiBmaWxsPSIjYjQ2NTQ3IiB0ZXh0LWFuY2hvcj0ic3RhcnQiPumihOa1izwvdGV4dD48dGV4dCB4PSIxMiIgeT0iMTQzIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNDI2N2E4IiB0ZXh0LWFuY2hvcj0ic3RhcnQiPui/h+WOuyDihpIg5pyq5p2lPC90ZXh0PjwvZz48cGF0aCBkPSJNNjI4LjAsMTc2LjAgTDY0Ni4wLDE3Ni4wIEw2NDAuMCwxNzAuMCBMNjQ2LjAsMTc2LjAgTDY0MC4wLDE4Mi4wIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2ZhZjZmMCIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDMiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5Zu65a6a6IOM5pmv5bC65bqmPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY3OCwxNDYpIj48dGV4dCB4PSIwIiB5PSIyNCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7nibnlvoExPC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI5IiB3aWR0aD0iMTIwLjAiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PHRleHQgeD0iMCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+54m55b6BMjwvdGV4dD48cmVjdCB4PSI2NCIgeT0iNDQiIHdpZHRoPSI2Ny41IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9Ijk0IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPueJueW+gTM8L3RleHQ+PHJlY3QgeD0iNjQiIHk9Ijc5IiB3aWR0aD0iOTcuNSIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9Ijk0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48L2c+PHRleHQgeD0iMjQiIHk9IjMzMSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzYxNzc3YiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7mtYHnqIvnpLrmhI8gwrcg5Zu+5b2i5LiO56S65L6L5pWw5YC85LiN5Luj6KGo5b2T5YmN6L+Q6KGM57uT5p6c77yb5a6e5pe257uT5p6c6K+35Zyo5Lqk5LqS5a6e6aqM5Lit5p+l55yLPC90ZXh0PjwvZz48L3N2Zz4=",
+            "alt": "管道泄漏智能检测 前段背景标定指导图",
+            "input": "变化前50点的流量差",
+            "output": "固定背景尺度",
+            "observe": "只用前50点标定，算法不读取参考泄漏时刻。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        },
+        {
+          "name": "标准化流量差",
+          "role": "方法",
+          "do": "计算标准化正向偏离，得到可比较的偏离序列。",
+          "effect": "读图后应能说明：区分随机噪声与持续偏离，观察标准化后的量级。",
+          "trap": "只使用变化前50点标定背景，不读取泄漏时刻。报警为教学异常提示，传感漂移同样可能触发；无物理泄漏量与位置推断。",
+          "figure": {
+            "src": "demo/workflow/step-03.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPueuoemBk+azhOa8j+aZuuiDveajgOa1iyDnrKwz5q2lIOagh+WHhuWMlua1gemHj+W3rjwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeW9k+WJjea1gemHj+W3ruS4juiDjOaZr+e7n+iuoe+8jOiuoeeul+agh+WHhuWMluato+WQkeWBj+emu++8jOW+l+WIsOWPr+avlOi+g+eahOWBj+emu+W6j+WIl+OAgui/meaYr+a1geeoi+aMh+WvvOekuuaEj++8jOS4jeaYr+W9k+WJjeiuoeeul+e7k+aenOOAgjwvZGVzYz48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEwIiBmaWxsPSIjZmZmIi8+PGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSxzeXN0ZW0tdWksc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQiIHk9IjMyIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPjAzICDmoIflh4bljJbmtYHph4/lt648L3RleHQ+PHJlY3QgeD0iMTgiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmM2Y4ZjUiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM0IiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIzNzc2MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lvZPliY3mtYHph4/lt67kuI7og4zmma/nu5/orqE8L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIsMTQ2KSI+PGxpbmUgeDE9IjEwIiB5MT0iNSIgeDI9IjEwIiB5Mj0iMTIwIiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSIxMCIgeTE9IjEyMCIgeDI9IjIzNiIgeTI9IjEyMCIgc3Ryb2tlPSIjYjhjNmM5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMTIuMCw5Mi4wIEwyMC40LDc5LjAgTDI4LjgsNjguMSBMMzcuMiw2MS4wIEw0NS42LDU5LjAgTDU0LjAsNjIuMSBMNjIuNCw2OS43IEw3MC44LDgwLjQgTDc5LjIsOTIuMSBMODcuNiwxMDIuNyBMOTYuMCwxMTAuMSBMMTA0LjQsMTEzLjEgTDExMi44LDExMC44IEwxMjEuMiwxMDMuNiBMMTI5LjYsOTIuNiBMMTM4LjAsNzkuNSBMMTQ2LjQsNjYuNSBMMTU0LjgsNTUuNyBMMTYzLjIsNDguOSBMMTcxLjYsNDcuMCBMMTgwLjAsNTAuNCBMMTg4LjQsNTguMSBMMTk2LjgsNjguOSBMMjA1LjIsODAuNiBMMjEzLjYsOTEuMSBMMjIyLjAsOTguNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMTIuMCwxMDIuMCBMMjAuNCw5NC4wIEwyOC44LDgzLjUgTDM3LjIsNzEuOSBMNDUuNiw2NC40IEw1NC4wLDY2LjQgTDYyLjQsNzguMSBMNzAuOCw5NC4zIEw3OS4yLDEwOC4wIEw4Ny42LDExNS4yIEw5Ni4wLDExNi45IEwxMDQuNCwxMTcuMSBMMTEyLjgsMTE3LjYgTDEyMS4yLDExNi4xIEwxMjkuNiwxMDguNSBMMTM4LjAsOTMuNCBMMTQ2LjQsNzQuOCBMMTU0LjgsNjAuMCBMMTYzLjIsNTQuNCBMMTcxLjYsNTcuOSBMMTgwLjAsNjUuOCBMMTg4LjQsNzMuMiBMMTk2LjgsNzguOCBMMjA1LjIsODUuNSBMMjEzLjYsOTUuNiBMMjIyLjAsMTA3LjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz48L2c+PHBhdGggZD0iTTMxMC4wLDE3Ni4wIEwzMjguMCwxNzYuMCBMMzIyLjAsMTcwLjAgTDMyOC4wLDE3Ni4wIEwzMjIuMCwxODIuMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmMmY2ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTAzIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuiuoeeul+agh+WHhuWMluato+WQkeWBj+emuzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjAsMTQ2KSI+PHRleHQgeD0iMCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5Y6f5YC8QTwvdGV4dD48cmVjdCB4PSI2NCIgeT0iOSIgd2lkdGg9IjE0Mi41IiBoZWlnaHQ9IjE4IiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjIxOCIgeT0iMjQiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjU5IiBmb250LXNpemU9IjE0IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWOn+WAvEI8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjQ0IiB3aWR0aD0iNTIuNSIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSIyMTgiIHk9IjU5IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48bGluZSB4MT0iMzAiIHkxPSI4MCIgeDI9IjIwMCIgeTI9IjgwIiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjIwIiB5PSIxMDkiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM0MjY3YTgiIHRleHQtYW5jaG9yPSJzdGFydCI+57uf5LiA5bC65bqmIC8g5a+56b2Q5Z+65YeGPC90ZXh0PjxwYXRoIGQ9Ik0xMTAuMCwxMTUuMCBMMTEwLjAsMTMyLjAgTDE3NS4wLDEzMi4wIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMyIvPjwvZz48cGF0aCBkPSJNNjI4LjAsMTc2LjAgTDY0Ni4wLDE3Ni4wIEw2NDAuMCwxNzAuMCBMNjQ2LjAsMTc2LjAgTDY0MC4wLDE4Mi4wIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2ZhZjZmMCIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDMiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5Y+v5q+U6L6D55qE5YGP56a75bqP5YiXPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY3OCwxNDYpIj48bGluZSB4MT0iMTAiIHkxPSI1IiB4Mj0iMTAiIHkyPSIxMjAiIHN0cm9rZT0iI2I4YzZjOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjEwIiB5MT0iMTIwIiB4Mj0iMjM2IiB5Mj0iMTIwIiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0xMi4wLDkyLjAgTDIwLjQsNzkuMCBMMjguOCw2OC4xIEwzNy4yLDYxLjAgTDQ1LjYsNTkuMCBMNTQuMCw2Mi4xIEw2Mi40LDY5LjcgTDcwLjgsODAuNCBMNzkuMiw5Mi4xIEw4Ny42LDEwMi43IEw5Ni4wLDExMC4xIEwxMDQuNCwxMTMuMSBMMTEyLjgsMTEwLjggTDEyMS4yLDEwMy42IEwxMjkuNiw5Mi42IEwxMzguMCw3OS41IEwxNDYuNCw2Ni41IEwxNTQuOCw1NS43IEwxNjMuMiw0OC45IEwxNzEuNiw0Ny4wIEwxODAuMCw1MC40IEwxODguNCw1OC4xIEwxOTYuOCw2OC45IEwyMDUuMiw4MC42IEwyMTMuNiw5MS4xIEwyMjIuMCw5OC40IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjwvZz48dGV4dCB4PSIyNCIgeT0iMzMxIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNjE3NzdiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPua1geeoi+ekuuaEjyDCtyDlm77lvaLkuI7npLrkvovmlbDlgLzkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bnu5Pmnpzor7flnKjkuqTkupLlrp7pqozkuK3mn6XnnIs8L3RleHQ+PC9nPjwvc3ZnPg==",
+            "alt": "管道泄漏智能检测 标准化流量差指导图",
+            "input": "当前流量差与背景统计",
+            "output": "可比较的偏离序列",
+            "observe": "区分随机噪声与持续偏离，观察标准化后的量级。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        },
+        {
+          "name": "累积正向偏离",
+          "role": "推断",
+          "do": "累积正向证据并允许归零，得到单侧CUSUM统计量。",
+          "effect": "读图后应能说明：跟踪证据怎样逐点累积，短暂回落会降低累积量。",
+          "trap": "只使用变化前50点标定背景，不读取泄漏时刻。报警为教学异常提示，传感漂移同样可能触发；无物理泄漏量与位置推断。",
+          "figure": {
+            "src": "demo/workflow/step-04.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPueuoemBk+azhOa8j+aZuuiDveajgOa1iyDnrKw05q2lIOe0r+enr+ato+WQkeWBj+emuzwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeagh+WHhuWMluWBj+emu+S4juS4iuS4gOaXtuWIu+e0r+enr+mHj++8jOe0r+enr+ato+WQkeivgeaNruW5tuWFgeiuuOW9kumbtu+8jOW+l+WIsOWNleS+p0NVU1VN57uf6K6h6YeP44CC6L+Z5piv5rWB56iL5oyH5a+856S65oSP77yM5LiN5piv5b2T5YmN6K6h566X57uT5p6c44CCPC9kZXNjPjxyZWN0IHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiByeD0iMTAiIGZpbGw9IiNmZmYiLz48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48dGV4dCB4PSIyNCIgeT0iMzIiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+MDQgIOe0r+enr+ato+WQkeWBj+emuzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2YzZjhmNSIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuWHhuWkh+i+k+WFpTwvdGV4dD48dGV4dCB4PSIzNCIgeT0iMTAzIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuagh+WHhuWMluWBj+emu+S4juS4iuS4gOaXtuWIu+e0r+enr+mHjzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MiwxNDYpIj48bGluZSB4MT0iMTAiIHkxPSI1IiB4Mj0iMTAiIHkyPSIxMjAiIHN0cm9rZT0iI2I4YzZjOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjEwIiB5MT0iMTIwIiB4Mj0iMjM2IiB5Mj0iMTIwIiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0xMi4wLDkyLjAgTDIwLjQsNzkuMCBMMjguOCw2OC4xIEwzNy4yLDYxLjAgTDQ1LjYsNTkuMCBMNTQuMCw2Mi4xIEw2Mi40LDY5LjcgTDcwLjgsODAuNCBMNzkuMiw5Mi4xIEw4Ny42LDEwMi43IEw5Ni4wLDExMC4xIEwxMDQuNCwxMTMuMSBMMTEyLjgsMTEwLjggTDEyMS4yLDEwMy42IEwxMjkuNiw5Mi42IEwxMzguMCw3OS41IEwxNDYuNCw2Ni41IEwxNTQuOCw1NS43IEwxNjMuMiw0OC45IEwxNzEuNiw0Ny4wIEwxODAuMCw1MC40IEwxODguNCw1OC4xIEwxOTYuOCw2OC45IEwyMDUuMiw4MC42IEwyMTMuNiw5MS4xIEwyMjIuMCw5OC40IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjwvZz48cGF0aCBkPSJNMzEwLjAsMTc2LjAgTDMyOC4wLDE3Ni4wIEwzMjIuMCwxNzAuMCBMMzI4LjAsMTc2LjAgTDMyMi4wLDE4Mi4wIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjMzNiIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2YyZjZmYyIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzUyIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzQyNjdhOCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7miafooYzmnKzmraU8L3RleHQ+PHRleHQgeD0iMzUyIiB5PSIxMDMiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+57Sv56ev5q2j5ZCR6K+B5o2u5bm25YWB6K645b2S6Zu2PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM2MCwxNDYpIj48bGluZSB4MT0iMTAiIHkxPSI4IiB4Mj0iMTAiIHkyPSIxMjUiIHN0cm9rZT0iI2I4YzZjOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjEwIiB5MT0iMTI1IiB4Mj0iMjM1IiB5Mj0iMTI1IiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0xNS4wLDExNS4wIEw1NS4wLDExMC4wIEw5MC4wLDExNi4wIEwxMjUuMCw5NC4wIEwxNTAuMCw3NS4wIEwxNzguMCw0OC4wIEwyMTAuMCwyMC4wIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjxsaW5lIHgxPSIxMCIgeTE9IjU1IiB4Mj0iMjM1IiB5Mj0iNTUiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz48dGV4dCB4PSIyMTUiIHk9IjQ4IiBmb250LXNpemU9IjEzIiBmaWxsPSIjYjQ2NTQ3IiB0ZXh0LWFuY2hvcj0iZW5kIj7pmIjlgLw8L3RleHQ+PC9nPjxwYXRoIGQ9Ik02MjguMCwxNzYuMCBMNjQ2LjAsMTc2LjAgTDY0MC4wLDE3MC4wIEw2NDYuMCwxNzYuMCBMNjQwLjAsMTgyLjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzQyNjdhOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iNjU0IiB5PSI1MCIgd2lkdGg9IjI4OCIgaGVpZ2h0PSIyNjAiIHJ4PSI4IiBmaWxsPSIjZmFmNmYwIiBzdHJva2U9IiNkY2U1ZTgiLz48dGV4dCB4PSI2NzAiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjYjQ2NTQ3IiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuaguOWvueS6p+WHujwvdGV4dD48dGV4dCB4PSI2NzAiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7ljZXkvqdDVVNVTee7n+iuoemHjzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2NzgsMTQ2KSI+PGxpbmUgeDE9IjEwIiB5MT0iOCIgeDI9IjEwIiB5Mj0iMTI1IiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSIxMCIgeTE9IjEyNSIgeDI9IjIzNSIgeTI9IjEyNSIgc3Ryb2tlPSIjYjhjNmM5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMTUuMCwxMTUuMCBMNTUuMCwxMTAuMCBMOTAuMCwxMTYuMCBMMTI1LjAsOTQuMCBMMTUwLjAsNzUuMCBMMTc4LjAsNDguMCBMMjEwLjAsMjAuMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48bGluZSB4MT0iMTAiIHkxPSI1NSIgeDI9IjIzNSIgeTI9IjU1IiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+PHRleHQgeD0iMjE1IiB5PSI0OCIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9ImVuZCI+6ZiI5YC8PC90ZXh0PjwvZz48dGV4dCB4PSIyNCIgeT0iMzMxIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNjE3NzdiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPua1geeoi+ekuuaEjyDCtyDlm77lvaLkuI7npLrkvovmlbDlgLzkuI3ku6PooajlvZPliY3ov5DooYznu5PmnpzvvJvlrp7ml7bnu5Pmnpzor7flnKjkuqTkupLlrp7pqozkuK3mn6XnnIs8L3RleHQ+PC9nPjwvc3ZnPg==",
+            "alt": "管道泄漏智能检测 累积正向偏离指导图",
+            "input": "标准化偏离与上一时刻累积量",
+            "output": "单侧CUSUM统计量",
+            "observe": "跟踪证据怎样逐点累积，短暂回落会降低累积量。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        },
+        {
+          "name": "阈值报警与延迟",
+          "role": "对照",
+          "do": "找首次越过阈值的时刻，得到报警时刻及参考后的延迟。",
+          "effect": "读图后应能说明：提高阈值可能增加发现延迟，报警不是故障原因认定。",
+          "trap": "只使用变化前50点标定背景，不读取泄漏时刻。报警为教学异常提示，传感漂移同样可能触发；无物理泄漏量与位置推断。",
+          "figure": {
+            "src": "demo/workflow/step-05.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPueuoemBk+azhOa8j+aZuuiDveajgOa1iyDnrKw15q2lIOmYiOWAvOaKpeitpuS4juW7tui/nzwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpUNVU1VN5puy57q/5LiO5oql6K2m6ZiI5YC877yM5om+6aaW5qyh6LaK6L+H6ZiI5YC855qE5pe25Yi777yM5b6X5Yiw5oql6K2m5pe25Yi75Y+K5Y+C6ICD5ZCO55qE5bu26L+f44CC6L+Z5piv5rWB56iL5oyH5a+856S65oSP77yM5LiN5piv5b2T5YmN6K6h566X57uT5p6c44CCPC9kZXNjPjxyZWN0IHdpZHRoPSI5NjAiIGhlaWdodD0iMzQwIiByeD0iMTAiIGZpbGw9IiNmZmYiLz48ZyBmb250LWZhbWlseT0iTWljcm9zb2Z0IFlhSGVpLHN5c3RlbS11aSxzYW5zLXNlcmlmIj48dGV4dCB4PSIyNCIgeT0iMzIiIGZvbnQtc2l6ZT0iMjEiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+MDUgIOmYiOWAvOaKpeitpuS4juW7tui/nzwvdGV4dD48cmVjdCB4PSIxOCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2YzZjhmNSIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iMzQiIHk9Ijc3IiBmb250LXNpemU9IjE3IiBmaWxsPSIjMjM3NzYyIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPuWHhuWkh+i+k+WFpTwvdGV4dD48dGV4dCB4PSIzNCIgeT0iMTAzIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPkNVU1VN5puy57q/5LiO5oql6K2m6ZiI5YC8PC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQyLDE0NikiPjxsaW5lIHgxPSIxMCIgeTE9IjgiIHgyPSIxMCIgeTI9IjEyNSIgc3Ryb2tlPSIjYjhjNmM5IiBzdHJva2Utd2lkdGg9IjIiLz48bGluZSB4MT0iMTAiIHkxPSIxMjUiIHgyPSIyMzUiIHkyPSIxMjUiIHN0cm9rZT0iI2I4YzZjOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTE1LjAsMTE1LjAgTDU1LjAsMTEwLjAgTDkwLjAsMTE2LjAgTDEyNS4wLDk0LjAgTDE1MC4wLDc1LjAgTDE3OC4wLDQ4LjAgTDIxMC4wLDIwLjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzNzc2MiIgc3Ryb2tlLXdpZHRoPSIzIi8+PGxpbmUgeDE9IjEwIiB5MT0iNTUiIHgyPSIyMzUiIHkyPSI1NSIgc3Ryb2tlPSIjYjQ2NTQ3IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNCIvPjx0ZXh0IHg9IjIxNSIgeT0iNDgiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiNiNDY1NDciIHRleHQtYW5jaG9yPSJlbmQiPumYiOWAvDwvdGV4dD48L2c+PHBhdGggZD0iTTMxMC4wLDE3Ni4wIEwzMjguMCwxNzYuMCBMMzIyLjAsMTcwLjAgTDMyOC4wLDE3Ni4wIEwzMjIuMCwxODIuMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmMmY2ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTAzIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuaJvummluasoei2iui/h+mYiOWAvOeahOaXtuWIuzwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjAsMTQ2KSI+PGxpbmUgeDE9IjEwIiB5MT0iNSIgeDI9IjEwIiB5Mj0iMTIwIiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSIxMCIgeTE9IjEyMCIgeDI9IjIzNiIgeTI9IjEyMCIgc3Ryb2tlPSIjYjhjNmM5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMTIuMCw5Mi4wIEwyMC40LDc5LjAgTDI4LjgsNjguMSBMMzcuMiw2MS4wIEw0NS42LDU5LjAgTDU0LjAsNjIuMSBMNjIuNCw2OS43IEw3MC44LDgwLjQgTDc5LjIsOTIuMSBMODcuNiwxMDIuNyBMOTYuMCwxMTAuMSBMMTA0LjQsMTEzLjEgTDExMi44LDExMC44IEwxMjEuMiwxMDMuNiBMMTI5LjYsOTIuNiBMMTM4LjAsNzkuNSBMMTQ2LjQsNjYuNSBMMTU0LjgsNTUuNyBMMTYzLjIsNDguOSBMMTcxLjYsNDcuMCBMMTgwLjAsNTAuNCBMMTg4LjQsNTguMSBMMTk2LjgsNjguOSBMMjA1LjIsODAuNiBMMjEzLjYsOTEuMSBMMjIyLjAsOTguNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48bGluZSB4MT0iMTAiIHkxPSI1NyIgeDI9IjIzNSIgeTI9IjU3IiBzdHJva2U9IiNiNDY1NDciIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNSA0Ii8+PHRleHQgeD0iMjE1IiB5PSI0OCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9ImVuZCI+6ZiI5YC8PC90ZXh0PjwvZz48cGF0aCBkPSJNNjI4LjAsMTc2LjAgTDY0Ni4wLDE3Ni4wIEw2NDAuMCwxNzAuMCBMNjQ2LjAsMTc2LjAgTDY0MC4wLDE4Mi4wIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2ZhZjZmMCIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDMiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5oql6K2m5pe25Yi75Y+K5Y+C6ICD5ZCO55qE5bu26L+fPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY3OCwxNDYpIj48bGluZSB4MT0iMTAiIHkxPSI4IiB4Mj0iMTAiIHkyPSIxMjUiIHN0cm9rZT0iI2I4YzZjOSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjEwIiB5MT0iMTI1IiB4Mj0iMjM1IiB5Mj0iMTI1IiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0xNS4wLDExNS4wIEw1NS4wLDExMC4wIEw5MC4wLDExNi4wIEwxMjUuMCw5NC4wIEwxNTAuMCw3NS4wIEwxNzguMCw0OC4wIEwyMTAuMCwyMC4wIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzc3NjIiIHN0cm9rZS13aWR0aD0iMyIvPjxsaW5lIHgxPSIxMCIgeTE9IjU1IiB4Mj0iMjM1IiB5Mj0iNTUiIHN0cm9rZT0iI2I0NjU0NyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtZGFzaGFycmF5PSI1IDQiLz48dGV4dCB4PSIyMTUiIHk9IjQ4IiBmb250LXNpemU9IjEzIiBmaWxsPSIjYjQ2NTQ3IiB0ZXh0LWFuY2hvcj0iZW5kIj7pmIjlgLw8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzEiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2MTc3N2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5rWB56iL56S65oSPIMK3IOWbvuW9ouS4juekuuS+i+aVsOWAvOS4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtue7k+aenOivt+WcqOS6pOS6kuWunumqjOS4reafpeecizwvdGV4dD48L2c+PC9zdmc+",
+            "alt": "管道泄漏智能检测 阈值报警与延迟指导图",
+            "input": "CUSUM曲线与报警阈值",
+            "output": "报警时刻及参考后的延迟",
+            "observe": "提高阈值可能增加发现延迟，报警不是故障原因认定。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        },
+        {
+          "name": "独立情景误报复核",
+          "role": "评价",
+          "do": "关闭异常并改变噪声复核，得到误报、漏报与延迟统计。",
+          "effect": "读图后应能说明：正常情景同样要检查，传感漂移也可能触发教学报警。",
+          "trap": "只使用变化前50点标定背景，不读取泄漏时刻。报警为教学异常提示，传感漂移同样可能触发；无物理泄漏量与位置推断。",
+          "figure": {
+            "src": "demo/workflow/step-06.svg",
+            "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NjAgMzQwIiB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsbGVkYnk9Imd1aWRlLXRpdGxlIGd1aWRlLWRlc2MiPjx0aXRsZSBpZD0iZ3VpZGUtdGl0bGUiPueuoemBk+azhOa8j+aZuuiDveajgOa1iyDnrKw25q2lIOeLrOeri+aDheaZr+ivr+aKpeWkjeaguDwvdGl0bGU+PGRlc2MgaWQ9Imd1aWRlLWRlc2MiPui+k+WFpeeLrOeri+ato+W4uOWSjOW8guW4uOaDheaZr++8jOWFs+mXreW8guW4uOW5tuaUueWPmOWZquWjsOWkjeaguO+8jOW+l+WIsOivr+aKpeOAgea8j+aKpeS4juW7tui/n+e7n+iuoeOAgui/meaYr+a1geeoi+aMh+WvvOekuuaEj++8jOS4jeaYr+W9k+WJjeiuoeeul+e7k+aenOOAgjwvZGVzYz48cmVjdCB3aWR0aD0iOTYwIiBoZWlnaHQ9IjM0MCIgcng9IjEwIiBmaWxsPSIjZmZmIi8+PGcgZm9udC1mYW1pbHk9Ik1pY3Jvc29mdCBZYUhlaSxzeXN0ZW0tdWksc2Fucy1zZXJpZiI+PHRleHQgeD0iMjQiIHk9IjMyIiBmb250LXNpemU9IjIxIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGZvbnQtd2VpZ2h0PSI2MDAiPjA2ICDni6znq4vmg4Xmma/or6/miqXlpI3moLg8L3RleHQ+PHJlY3QgeD0iMTgiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmM2Y4ZjUiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM0IiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iIzIzNzc2MiIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7lh4blpIfovpPlhaU8L3RleHQ+PHRleHQgeD0iMzQiIHk9IjEwMyIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7ni6znq4vmraPluLjlkozlvILluLjmg4Xmma88L3RleHQ+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIsMTQ2KSI+PGxpbmUgeDE9IjEwIiB5MT0iNSIgeDI9IjEwIiB5Mj0iMTIwIiBzdHJva2U9IiNiOGM2YzkiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSIxMCIgeTE9IjEyMCIgeDI9IjIzNiIgeTI9IjEyMCIgc3Ryb2tlPSIjYjhjNmM5IiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMTIuMCw5Mi4wIEwyMC40LDc5LjAgTDI4LjgsNjguMSBMMzcuMiw2MS4wIEw0NS42LDU5LjAgTDU0LjAsNjIuMSBMNjIuNCw2OS43IEw3MC44LDgwLjQgTDc5LjIsOTIuMSBMODcuNiwxMDIuNyBMOTYuMCwxMTAuMSBMMTA0LjQsMTEzLjEgTDExMi44LDExMC44IEwxMjEuMiwxMDMuNiBMMTI5LjYsOTIuNiBMMTM4LjAsNzkuNSBMMTQ2LjQsNjYuNSBMMTU0LjgsNTUuNyBMMTYzLjIsNDguOSBMMTcxLjYsNDcuMCBMMTgwLjAsNTAuNCBMMTg4LjQsNTguMSBMMTk2LjgsNjguOSBMMjA1LjIsODAuNiBMMjEzLjYsOTEuMSBMMjIyLjAsOTguNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjM3NzYyIiBzdHJva2Utd2lkdGg9IjMiLz48L2c+PHBhdGggZD0iTTMxMC4wLDE3Ni4wIEwzMjguMCwxNzYuMCBMMzIyLjAsMTcwLjAgTDMyOC4wLDE3Ni4wIEwzMjIuMCwxODIuMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDI2N2E4IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMzYiIHk9IjUwIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjI2MCIgcng9IjgiIGZpbGw9IiNmMmY2ZmMiIHN0cm9rZT0iI2RjZTVlOCIvPjx0ZXh0IHg9IjM1MiIgeT0iNzciIGZvbnQtc2l6ZT0iMTciIGZpbGw9IiM0MjY3YTgiIHRleHQtYW5jaG9yPSJzdGFydCIgZm9udC13ZWlnaHQ9IjYwMCI+5omn6KGM5pys5q2lPC90ZXh0Pjx0ZXh0IHg9IjM1MiIgeT0iMTAzIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPuWFs+mXreW8guW4uOW5tuaUueWPmOWZquWjsOWkjeaguDwvdGV4dD48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjAsMTQ2KSI+PHJlY3QgeD0iNDAiIHk9IjYiIHdpZHRoPSI0MCIgaGVpZ2h0PSIzMyIgcng9IjUiIGZpbGw9IiMyMzc3NjIiLz48dGV4dCB4PSI2MCIgeT0iMjkiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKckzwvdGV4dD48cmVjdCB4PSI4NSIgeT0iNiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMzIiByeD0iNSIgZmlsbD0iI2Y3ZTVkYyIvPjx0ZXh0IHg9IjEwNSIgeT0iMjkiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNiNDY1NDciIHRleHQtYW5jaG9yPSJtaWRkbGUiPumUmTwvdGV4dD48cmVjdCB4PSIxMzAiIHk9IjYiIHdpZHRoPSI0MCIgaGVpZ2h0PSIzMyIgcng9IjUiIGZpbGw9IiNmN2U1ZGMiLz48dGV4dCB4PSIxNTAiIHk9IjI5IiBmb250LXNpemU9IjE1IiBmaWxsPSIjYjQ2NTQ3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7plJk8L3RleHQ+PHJlY3QgeD0iNDAiIHk9IjQ0IiB3aWR0aD0iNDAiIGhlaWdodD0iMzMiIHJ4PSI1IiBmaWxsPSIjZjdlNWRjIi8+PHRleHQgeD0iNjAiIHk9IjY3IiBmb250LXNpemU9IjE1IiBmaWxsPSIjYjQ2NTQ3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7plJk8L3RleHQ+PHJlY3QgeD0iODUiIHk9IjQ0IiB3aWR0aD0iNDAiIGhlaWdodD0iMzMiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMTA1IiB5PSI2NyIgZm9udC1zaXplPSIxNSIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pyTPC90ZXh0PjxyZWN0IHg9IjEzMCIgeT0iNDQiIHdpZHRoPSI0MCIgaGVpZ2h0PSIzMyIgcng9IjUiIGZpbGw9IiNmN2U1ZGMiLz48dGV4dCB4PSIxNTAiIHk9IjY3IiBmb250LXNpemU9IjE1IiBmaWxsPSIjYjQ2NTQ3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7plJk8L3RleHQ+PHJlY3QgeD0iNDAiIHk9IjgyIiB3aWR0aD0iNDAiIGhlaWdodD0iMzMiIHJ4PSI1IiBmaWxsPSIjZjdlNWRjIi8+PHRleHQgeD0iNjAiIHk9IjEwNSIgZm9udC1zaXplPSIxNSIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+6ZSZPC90ZXh0PjxyZWN0IHg9Ijg1IiB5PSI4MiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMzIiByeD0iNSIgZmlsbD0iI2Y3ZTVkYyIvPjx0ZXh0IHg9IjEwNSIgeT0iMTA1IiBmb250LXNpemU9IjE1IiBmaWxsPSIjYjQ2NTQ3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7plJk8L3RleHQ+PHJlY3QgeD0iMTMwIiB5PSI4MiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMzIiByeD0iNSIgZmlsbD0iIzIzNzc2MiIvPjx0ZXh0IHg9IjE1MCIgeT0iMTA1IiBmb250LXNpemU9IjE1IiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7inJM8L3RleHQ+PHRleHQgeD0iMTEwIiB5PSIxNDMiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM2MTc3N2IiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuWvueinkuato+ehriAg6Z2e5a+56KeS5re35reGPC90ZXh0PjwvZz48cGF0aCBkPSJNNjI4LjAsMTc2LjAgTDY0Ni4wLDE3Ni4wIEw2NDAuMCwxNzAuMCBMNjQ2LjAsMTc2LjAgTDY0MC4wLDE4Mi4wIiBmaWxsPSJub25lIiBzdHJva2U9IiM0MjY3YTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjY1NCIgeT0iNTAiIHdpZHRoPSIyODgiIGhlaWdodD0iMjYwIiByeD0iOCIgZmlsbD0iI2ZhZjZmMCIgc3Ryb2tlPSIjZGNlNWU4Ii8+PHRleHQgeD0iNjcwIiB5PSI3NyIgZm9udC1zaXplPSIxNyIgZmlsbD0iI2I0NjU0NyIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LXdlaWdodD0iNjAwIj7moLjlr7nkuqflh7o8L3RleHQ+PHRleHQgeD0iNjcwIiB5PSIxMDMiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+6K+v5oql44CB5ryP5oql5LiO5bu26L+f57uf6K6hPC90ZXh0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY3OCwxNDYpIj48dGV4dCB4PSIwIiB5PSIyNCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7mqKHlnos8L3RleHQ+PHJlY3QgeD0iNjQiIHk9IjkiIHdpZHRoPSIxMDIuMDAwMDAwMDAwMDAwMDEiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjMjM3NzYyIi8+PHRleHQgeD0iMjE4IiB5PSIyNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PHRleHQgeD0iMCIgeT0iNTkiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMyOTNiM2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5Z+657q/PC90ZXh0PjxyZWN0IHg9IjY0IiB5PSI0NCIgd2lkdGg9IjEyMi45OTk5OTk5OTk5OTk5OSIgaGVpZ2h0PSIxOCIgcng9IjUiIGZpbGw9IiM0MjY3YTgiLz48dGV4dCB4PSIyMTgiIHk9IjU5IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjkzYjNiIiB0ZXh0LWFuY2hvcj0ic3RhcnQiPjwvdGV4dD48dGV4dCB4PSIwIiB5PSI5NCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7lj4LogIM8L3RleHQ+PHJlY3QgeD0iNjQiIHk9Ijc5IiB3aWR0aD0iMTA1LjAiIGhlaWdodD0iMTgiIHJ4PSI1IiBmaWxsPSIjYjQ2NTQ3Ii8+PHRleHQgeD0iMjE4IiB5PSI5NCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzI5M2IzYiIgdGV4dC1hbmNob3I9InN0YXJ0Ij48L3RleHQ+PHRleHQgeD0iMTIiIHk9IjE0MyIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzYxNzc3YiIgdGV4dC1hbmNob3I9InN0YXJ0Ij7kv53mjIHnm7jlkIzor4Tku7fmoLfmnKw8L3RleHQ+PC9nPjx0ZXh0IHg9IjI0IiB5PSIzMzEiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2MTc3N2IiIHRleHQtYW5jaG9yPSJzdGFydCI+5rWB56iL56S65oSPIMK3IOWbvuW9ouS4juekuuS+i+aVsOWAvOS4jeS7o+ihqOW9k+WJjei/kOihjOe7k+aenO+8m+WunuaXtue7k+aenOivt+WcqOS6pOS6kuWunumqjOS4reafpeecizwvdGV4dD48L2c+PC9zdmc+",
+            "alt": "管道泄漏智能检测 独立情景误报复核指导图",
+            "input": "独立正常和异常情景",
+            "output": "误报、漏报与延迟统计",
+            "observe": "正常情景同样要检查，传感漂移也可能触发教学报警。",
+            "caption": "流程指导示意，不是当前计算结果。先按图梳理输入与产出，再在交互实验对应步骤核对真实计算。"
+          }
+        }
+      ],
+      "metrics": {
+        "title": "在同一实验中检查完整证据链",
+        "html": "<p>每一步的中间数值与图形位于演示页的“算法步骤”。参考标签、生成器与推断器分别说明。</p>"
+      },
+      "fails": [
+        {
+          "name": "外推与适用性",
+          "why": "只使用变化前50点标定背景，不读取泄漏时刻。报警为教学异常提示，传感漂移同样可能触发；无物理泄漏量与位置推断。"
+        }
+      ]
+    },
+    "demo": {
+      "label": "案例演示",
+      "mode": "page",
+      "html": "demo/index.html",
+      "height": 1600,
+      "intro": "阈值与噪声怎样改变泄漏示意信号的发现时刻？"
+    }
+  },
+  "aiGuide": {
+    "id": "edu08-t1-pipeline-leak",
+    "title": "管道泄漏智能检测",
+    "method": "前段正常标定＋单侧CUSUM",
+    "what": "从前段正常观测估计背景，递推累积持续偏离。",
+    "why": "弱小而持续的变化容易淹没在单点波动中，需要查看累积证据与报警延迟。",
+    "how": "背景残差经尺度变换后输入累计统计量，越阈值给出提示；正常期误报和事件后延迟在同一时间轴评价。",
+    "type": "anomaly",
+    "controls": [
+      "a",
+      "c"
+    ],
+    "views": [
+      {
+        "selector": "#main-chart",
+        "name": "管道信号与累积证据"
+      },
+      {
+        "selector": "#analysis-chart",
+        "name": "阈值如何触发"
+      },
+      {
+        "selector": "#evaluation-chart",
+        "name": "误报和发现延迟"
+      }
+    ],
+    "before": "逐点查看多路信号，持续的小偏离可能被波动掩盖。",
+    "benefit": "正常背景把量纲统一，异常分数或累计轨迹使偏离、阈值和发现时刻可追踪。",
+    "trial": "关闭异常并改变噪声复核，得到误报、漏报与延迟统计。",
+    "limit": "只使用变化前50点标定背景，不读取泄漏时刻。报警为教学异常提示，传感漂移同样可能触发；无物理泄漏量与位置推断。",
+    "steps": [
+      {
+        "name": "观测双端序列",
+        "do": "按相同时刻成对读取，得到双端观测及差值线索。",
+        "effect": "读图后应能说明：比较两条曲线的同步关系，差值变化不直接等于真实泄漏量。"
+      },
+      {
+        "name": "前段背景标定",
+        "do": "估计背景均值与标准差，得到固定背景尺度。",
+        "effect": "读图后应能说明：只用前50点标定，算法不读取参考泄漏时刻。"
+      },
+      {
+        "name": "标准化流量差",
+        "do": "计算标准化正向偏离，得到可比较的偏离序列。",
+        "effect": "读图后应能说明：区分随机噪声与持续偏离，观察标准化后的量级。"
+      },
+      {
+        "name": "累积正向偏离",
+        "do": "累积正向证据并允许归零，得到单侧CUSUM统计量。",
+        "effect": "读图后应能说明：跟踪证据怎样逐点累积，短暂回落会降低累积量。"
+      },
+      {
+        "name": "阈值报警与延迟",
+        "do": "找首次越过阈值的时刻，得到报警时刻及参考后的延迟。",
+        "effect": "读图后应能说明：提高阈值可能增加发现延迟，报警不是故障原因认定。"
+      },
+      {
+        "name": "独立情景误报复核",
+        "do": "关闭异常并改变噪声复核，得到误报、漏报与延迟统计。",
+        "effect": "读图后应能说明：正常情景同样要检查，传感漂移也可能触发教学报警。"
+      }
+    ]
+  }
+}
